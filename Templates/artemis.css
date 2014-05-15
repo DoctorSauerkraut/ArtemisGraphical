@@ -146,6 +146,9 @@ padding-top: 20px;
 	  box-shadow: 5px 5px 5px lightgray;
     }
 	
+
+
+	
 	#tableEdit {
 	margin:auto;
 	font-family: Verdana, Georgia, sans-serif;
@@ -155,9 +158,11 @@ padding-top: 20px;
 	padding-top: 5px;
 	border:none;
 	text-align: right;
-
 	}
 	
+	#tableEdit #liste{
+text-align:left;
+	}
 #saveButton, #cancelButton {
       border-style:solid;
       border-width:1px;

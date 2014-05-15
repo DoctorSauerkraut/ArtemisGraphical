@@ -13,9 +13,10 @@ private $_db;
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////
  
  public function addNode(Node $node){
- $q = $this->_db->prepare('INSERT INTO node SET name = :name, scheduling = :scheduling, criticality = :criticality')or die(print_r($_db->errorInfo()));
+ $q = $this->_db->prepare('INSERT INTO node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':name',$node->name());
+  $q->bindValue(':ip_address',$node->ipAddress());
  $q->bindValue(':scheduling', $node->scheduling());
  $q->bindValue(':criticality', $node->criticality(),PDO::PARAM_INT);
  
@@ -29,7 +30,7 @@ private $_db;
  public function displayNode($id){
  $id = (int) $id;
  
- $q= $this->_db->query('SELECT id, name, scheduling, criticality FROM node WHERE id = '.$id)or die(print_r($_db->errorInfo()));
+ $q= $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node WHERE id = '.$id)or die(print_r($_db->errorInfo()));
  $donnees = $q->fetch(PDO::FETCH_ASSOC);
  
  return new node($donnees);
@@ -38,7 +39,7 @@ private $_db;
  public function displayListNode(){
  $nodes = array();
  
- $q = $this->_db->query('SELECT id, name, scheduling, criticality FROM node')or die(print_r($_db->errorInfo()));
+ $q = $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node')or die(print_r($_db->errorInfo()));
  
  while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
  $tmp = new node();
@@ -49,14 +50,15 @@ private $_db;
  return $nodes;
  }
  
- public function updateNode(Node $node){
- $q->$this->_db->prepare('UPDATE node SET name = :name, scheduling = :scheduling, criticality = :criticality WHERE id = :id')or die(print_r($_db->errorInfo()));
+ public function updateNode($id, $name, $ip, $sched, $crit){
+ $q=$this->_db->prepare('UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality WHERE id = :id')or die(print_r($_db->errorInfo()));
  
- $q->bindValue(':name',$node->name());
- $q->bindValue(':scheduling', $node->scheduling());
- $q->bindValue(':criticality', $node->criticality(),PDO::PARAM_INT);
- $q->bindValue(':id', $node->id(), PDO::PARAM_INT);
- 
+ $q->bindValue(':name',$name);
+ $q->bindValue(':ip_address',$ip);
+ $q->bindValue(':scheduling', $sched);
+ $q->bindValue(':criticality', $crit,PDO::PARAM_INT);
+ $q->bindValue(':id', $id, PDO::PARAM_INT);
+ echo ("update: ".$id.$name.$ip.$sched.$crit);
  $q->execute();
  }
  
@@ -92,7 +94,7 @@ private $_db;
  }
  
   public function updateLink(Link $link){
- $q->$this->_db->prepare('UPDATE link SET node1 = :node1, node2 = :node2 WHERE id = :id')or die(print_r($_db->errorInfo()));
+ $q=$this->_db->prepare('UPDATE link SET node1 = :node1, node2 = :node2 WHERE id = :id')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':node1',$link->node1());
  $q->bindValue(':scheduling', $link->node2());
@@ -134,7 +136,7 @@ private $_db;
  }
  
   public function updateMessage(Message $message){
- $q->$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset, wcet = :wcet WHERE id = :id')or die(print_r($_db->errorInfo()));
+ $q=$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset, wcet = :wcet WHERE id = :id')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':path',$message->path());
  $q->bindValue(':period', $message->period());

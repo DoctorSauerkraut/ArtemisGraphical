@@ -1,4 +1,5 @@
-<?php
+		
+		<?php
 $dom = new DomDocument();
 //$xml = new DOMDocument('1.0', 'utf-8');
 //$dom->load('network.xml');
@@ -75,4 +76,5 @@ $dom->appendChild($network);
 
 $dom->save('network.xml');
  include_once('./Views/show.php'); 
+
 ?>

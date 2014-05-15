@@ -3,6 +3,8 @@
     <head>
         <title>ARTEMIS</title>
 		<link type="text/css" href="Templates/artemis.css" rel="stylesheet"/>
+		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="jquery.js" ></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
     </head>
 	
@@ -17,12 +19,13 @@
 		 
 		<nav>
 			<ul>
-				<li><a href="./Views/create.php"> Create your topology</a></li>
-				<li><a href="./Controller.php?action=view"> Details</a></li>
-				<li><a href="./Controller.php?action=results"> See the results</a></li>
+				<li><a href="#" onclick="loadCreate()"> Create your topology</a></li>
+				<li><a href="#" onclick="loadDetails()"> Details</a></li>
+				<li><a href="#" onclick="loadResults()"> See the results</a></li>
 			</ul>
 		</nav> 
 	</div>
 	</header>
+	<div id="corps"></div>
 
 	
