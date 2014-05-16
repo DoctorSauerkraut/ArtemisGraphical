@@ -54,10 +54,7 @@
 		//mutateur
 
 		public function setId($id){
-
-			//if (is_int($id)){
 			$this->_id=$id;
-			//}
 		}
 		
 		public function setPath($path){
@@ -67,21 +64,15 @@
 		}
 		
 		public function setPeriod($period){
-	//if (is_int($period)){
 			$this->_period=$period;
-			//}
 		}
 
 		public function setOffset($offset){
-		//if (is_int($offset)){
 			  $this->_offset = $offset;
-			 // }
 		}
 
 		public function setWcet($wcet){
-			//if(is_int($wcet)){
 				$this->_wcet=$wcet;
-			//}
 		}
 
 	}

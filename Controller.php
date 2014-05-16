@@ -10,7 +10,7 @@
 		
 				try
 				{
-					$bdd = new PDO('mysql:host=localhost;dbname=artemis', 'root', '');
+					$bdd = new PDO('mysql:host=localhost;dbname=artemis', 'root', '',array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 					$manager = new Manager($bdd);
 				}
 				catch (Exception $e)
@@ -19,40 +19,38 @@
 				}
 				
 		if (isset($_POST["action"]))
-		{
-		
+		{	
 			if ($_POST["action"]=="view"){
+			
 				$donnees1= $manager->displayListNode();	
 				$donnees2= $manager->displayListLink();	
 				$donnees3= $manager->displayListMessage();	
 				include(dirname(__FILE__).'./Views/show.php');
-			}
-			else if ($_POST['action']=="results"){
 				
+			}else if ($_POST['action']=="results"){
+			
+				// Pas utilisé pour le moment.
 				include(dirname(__FILE__).'Views/results.php');
 				
 			}else if ($_POST['action']=="deleteNode"){
-			
-			$id=$_POST['id'];
-			$manager->deleteNode($id);
+				$manager->deleteNode($_POST['id']);
+				$manager->verifyNodeDeletion($_POST['name']);
 				$donnees1= $manager->displayListNode();	
 				$donnees2= $manager->displayListLink();	
 				$donnees3= $manager->displayListMessage();	
 				include(dirname(__FILE__).'./Views/show.php');
 			
 			}else if($_POST['action']=="deleteLink"){
-			
-			$id=$_POST['id'];
-			$manager->deleteLink($id);
-			$donnees1= $manager->displayListNode();	
-			$donnees2= $manager->displayListLink();	
-			$donnees3= $manager->displayListMessage();	
-			include(dirname(__FILE__).'./Views/show.php');
+				$manager->deleteLink($_POST['id']);
+				$manager->verifyLinkDeletion($_POST['source'],$_POST['destination']);
+				$donnees1= $manager->displayListNode();	
+				$donnees2= $manager->displayListLink();	
+				$donnees3= $manager->displayListMessage();	
+				include(dirname(__FILE__).'./Views/show.php');
 				
 			}else if ($_POST['action']=="deleteMessage"){
-			
-			$id=$_POST['id'];
-			$manager->deleteMessage($id);	
+
+			$manager->deleteMessage($_POST['id']);	
 				$donnees1= $manager->displayListNode();	
 				$donnees2= $manager->displayListLink();	
 				$donnees3= $manager->displayListMessage();	
@@ -66,16 +64,29 @@
 				include(dirname(__FILE__).'./Templates/network.php');
 			
 			}else if($_POST['action']=="editNode"){
-				//echo ("Données :".$_POST['id'].$_POST['label'].$_POST['ipAddress'].$_POST['scheduling'].$_POST['criticality']);
+			
 				$manager->updateNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['criticality']);
 				$donnees1= $manager->displayListNode();	
 				$donnees2= $manager->displayListLink();	
 				$donnees3= $manager->displayListMessage();
-				include(dirname(__FILE__).'./Views/show.php');			
+				include(dirname(__FILE__).'./Views/show.php');
+				
 			}else if($_POST['action']=="editLink"){
-				include(dirname(__FILE__).'./Views/show.php');			
+			
+				$manager->updateLink($_POST['id'],$_POST['node1'],$_POST['node2']);
+				$donnees1= $manager->displayListNode();	
+				$donnees2= $manager->displayListLink();	
+				$donnees3= $manager->displayListMessage();
+				include(dirname(__FILE__).'./Views/show.php');
+				
 			}else if($_POST['action']=="editMessage"){
+			
+				$manager->updateMessage($_POST['id'],$_POST['path'],$_POST['period'],$_POST['offset'],$_POST['wcet']);
+				$donnees1= $manager->displayListNode();	
+				$donnees2= $manager->displayListLink();	
+				$donnees3= $manager->displayListMessage();
 				include(dirname(__FILE__).'./Views/show.php');			
+	
 			}else{
 					include(dirname(__FILE__).'./Views/accueil.php');
 			}

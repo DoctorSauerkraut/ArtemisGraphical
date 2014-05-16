@@ -30,6 +30,9 @@
   {
     // On récupère le nom du setter correspondant à l'attribut.
     $method = 'set'.ucfirst($key);
+	if( $key =="ip_address"){
+	$method = 'setIpAddress';
+	}
         
     // Si le setter correspondant existe.
     if (method_exists($this, $method))
@@ -58,23 +61,17 @@
 		}
 		//mutateur
 		public function setCriticality($crit){
-			if (is_int($crit)){
 			$this->_criticality=$crit;
-			}
 		}
 
 		public function setId($id){
-
-			//if (is_int($id)){
 			$this->_id=$id;
-			//}
 		}
 		
 		public function setIpAddress($ip){
 
-			if (is_int($ip)){
 			$this->_ipAddress=$ip;
-			}
+		
 		}
 
 		public function setScheduling($sched){

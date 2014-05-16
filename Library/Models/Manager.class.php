@@ -12,6 +12,14 @@ private $_db;
   
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////
  
+ public function nbNodes(){
+ $q= $this->_db->query('SELECT count(id) FROM node ')or die(print_r($_db->errorInfo()));
+ $donnees = $q->fetch(PDO::FETCH_ASSOC);
+return $donnees['count(id)'];
+
+ }
+ 
+ 
  public function addNode(Node $node){
  $q = $this->_db->prepare('INSERT INTO node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality')or die(print_r($_db->errorInfo()));
  
@@ -40,7 +48,6 @@ private $_db;
  $nodes = array();
  
  $q = $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node')or die(print_r($_db->errorInfo()));
- 
  while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
  $tmp = new node();
  $tmp->hydrate($donnees);
@@ -54,12 +61,30 @@ private $_db;
  $q=$this->_db->prepare('UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality WHERE id = :id')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':name',$name);
- $q->bindValue(':ip_address',$ip);
+ $q->bindValue(':ip_address', $ip, PDO::PARAM_INT);
  $q->bindValue(':scheduling', $sched);
- $q->bindValue(':criticality', $crit,PDO::PARAM_INT);
+ $q->bindValue(':criticality', $crit, PDO::PARAM_INT);
  $q->bindValue(':id', $id, PDO::PARAM_INT);
- echo ("update: ".$id.$name.$ip.$sched.$crit);
  $q->execute();
+ }
+ 
+ public function verifyNodeDeletion($name){
+ // We check in the link database if we need to delete some links 
+	$q=$this->_db->query('SELECT id FROM link WHERE node1 = "'.$name.'" OR node2 = "'.$name.'"');
+	while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
+			$this->deleteLink($donnees['id']);
+	}  
+// We now check in the Message database if some messages have to be deleted.
+	$donnees=$this->displayListMessage();
+	foreach($donnees as $element){
+		$path=explode(",", $element->path(), $this->nbNodes());
+		foreach($path as $apath){
+			if ($apath==$name){
+				$this->deleteMessage($element->id());
+				break;
+			}
+		}
+	}
  }
  
 ////////////////////////////////////////////////////////     PART LINK    /////////////////////////////////////////////////////////
@@ -93,13 +118,31 @@ private $_db;
 	return $links;
  }
  
-  public function updateLink(Link $link){
+  public function updateLink($id, $node1, $node2){
  $q=$this->_db->prepare('UPDATE link SET node1 = :node1, node2 = :node2 WHERE id = :id')or die(print_r($_db->errorInfo()));
  
- $q->bindValue(':node1',$link->node1());
- $q->bindValue(':scheduling', $link->node2());
- $q->bindValue(':id', $link->id(), PDO::PARAM_INT);
+ $q->bindValue(':node1',$node1);
+ $q->bindValue(':node2', $node2);
+ $q->bindValue(':id', $id, PDO::PARAM_INT);
  $q->execute();
+ }
+ 
+  public function verifyLinkDeletion($node1, $node2){
+  // We check in the Message database if some messages have to be deleted.
+	$donnees=$this->displayListMessage();
+	foreach($donnees as $element){
+		$path=explode(",", $element->path(), $this->nbNodes());
+		$prev="";
+		$next="";
+		foreach($path as $apath){
+		$prev=$next;
+		$next=$apath;
+			if (($prev==$node1 && $next==$node2)||($prev==$node2 && $next==$node1)){
+				$this->deleteMessage($element->id());
+				break;
+			}
+		}
+	}
  }
 ////////////////////////////////////////////////////////     PART MESSAGES   //////////////////////////////////////////////////////
 
@@ -135,13 +178,14 @@ private $_db;
 	return $messages;
  }
  
-  public function updateMessage(Message $message){
+  public function updateMessage($id, $path, $period, $offset, $wcet){
  $q=$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset, wcet = :wcet WHERE id = :id')or die(print_r($_db->errorInfo()));
  
- $q->bindValue(':path',$message->path());
- $q->bindValue(':period', $message->period());
- $q->bindValue(':offset',$message->offset());
- $q->bindValue(':wcet', $message->wcet());
+ $q->bindValue(':path',$path);
+ $q->bindValue(':period', $period);
+ $q->bindValue(':offset',$offset);
+ $q->bindValue(':wcet', $wcet);
+  $q->bindValue(':id', $id);
  $q->execute();
  }
 }
