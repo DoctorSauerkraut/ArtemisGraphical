@@ -27,6 +27,30 @@
 				$donnees3= $manager->displayListMessage();	
 				include(dirname(__FILE__).'./Views/show.php');
 				
+			}else if ($_POST["action"]=="create"){
+			
+				$donnees1= $manager->displayListNode();
+				$donnees2= $manager->displayListLink();	
+				
+				$info="";
+				foreach ($donnees1 as $element1) {
+					$info=$info.$element1->id().','.$element1->name().',';
+				}
+				$info=substr($info,0,-1);
+				$info=$info.";";
+
+				foreach ($donnees2 as $element2) {
+					$node1=$element2->node1();
+					$node1bla=$manager->displayNodeByName($node1);
+					$node2=$element2->node2();
+					$node2bla=$manager->displayNodeByName($node2);
+					$info=$info.$node1bla->id().','.$node2bla->id().','.$element2->id().',';
+				}
+				$info=substr($info,0,-1);
+				$info=$info.";";
+
+				echo ($info);
+							
 			}else if ($_POST['action']=="results"){
 			
 				// Pas utilisé pour le moment.

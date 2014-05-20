@@ -9,14 +9,12 @@
 		<script type="text/javascript" src="./Templates/script.js"></script>
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
 		<script type="text/javascript" src="./Templates/create.js"></script>
-
-
     </head>
 	
     <body>
 	<header>
 	<div id="header">
-	
+
 		<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
 		<div id="titre" >
 			<h3>"Another Real Time Entertainment for Message Issued Simulation"</h3> 
@@ -31,7 +29,8 @@
 		</nav> 
 	</div>
 	</header>
-	<body onload="draw();">
+	<!--<body onload="draw();"> -->
+	 <body onload="loadCreate();"> 
 	<div id="corps">
 		<?php
 			include('./Views/create.php');

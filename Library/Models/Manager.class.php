@@ -44,6 +44,15 @@ return $donnees['count(id)'];
  return new node($donnees);
  }
  
+  public function displayNodeByName($name){
+	//$request = 'SELECT id, name, ip_address, scheduling, criticality FROM node WHERE name = "'.$name.'"';
+	 $q= $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node WHERE name = "'.$name.'"')or die (print_r($_db->errorInfo()));
+	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
+	 $tmp =new node();
+	 $tmp->hydrate($donnees);
+	 return $tmp;
+ }
+ 
  public function displayListNode(){
  $nodes = array();
  

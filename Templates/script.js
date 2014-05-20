@@ -1,4 +1,4 @@
-
+//////////////////////////////////////////////////// Header links ///////////////////////////////////////////////////////////
 
 function loadCreate() {
 	$.ajax({
@@ -6,9 +6,20 @@ function loadCreate() {
 		type:"post",
 		data:"",
 		success:function(data){
-			//alert(data);
-			document.getElementById("corps").innerHTML = data;
-			draw();
+		document.getElementById("corps").innerHTML = data;	
+		recupDatabase();
+		//draw();
+		}
+	});
+}
+
+function recupDatabase(){
+	$.ajax({
+		url:"Controller.php",
+		type:"post",
+		data:"action=create",
+		success:function(data){
+			draw(data);
 		}
 	});
 }
@@ -34,6 +45,11 @@ function loadResults() {
 		}
 	});
 }
+
+//////////////////////////////////////////////////// Details Links ///////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////// Node table links
+
 
 function editNode() {
 	$.ajax({
@@ -71,6 +87,7 @@ function deleteNode($id, $name) {
 	});
 }
 
+//////////////////////////////////////////////////// Link table links
 function editLink($id) {
 	$.ajax({
 		url:"./Controller.php",
@@ -106,7 +123,7 @@ function deleteLink($id,$node1,$node2) {
 		}
 	});
 }
-
+//////////////////////////////////////////////////// Message table links
 function editMessage($id) {
 	$.ajax({
 		url:"./Controller.php",
@@ -142,7 +159,7 @@ function deleteMessage($id) {
 		}
 	});
 }
-
+//////////////////////////////////////////////////// Generate link
 function generate() {
 	$.ajax({
 		url:"./Controller.php",
@@ -152,4 +169,20 @@ function generate() {
 			document.getElementById("corps").innerHTML = data;
 		}
 	});
+}
+
+//////////////////////////////////////////////////// "Create your topology" links ///////////////////////////////////////////////////////////
+
+function addMessage() {
+	var span = document.getElementById('popUp-adds-title');
+	var id = document.getElementById('message-id');
+	var div = document.getElementById('graph-popUp-adds');
+	span.innerHTML = "Create a Message";
+	//id.value = $id;
+	div.style.display = 'block';
+}
+
+function hideGraphPopUpAdds(){
+	var div = document.getElementById('graph-popUp-adds');
+		div.style.display = 'none';
 }

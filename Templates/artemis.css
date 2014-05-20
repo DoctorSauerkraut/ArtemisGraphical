@@ -96,6 +96,7 @@ font-size: 13px;
 padding-top: 20px;
 }
 
+
     #mygraph {
       position:relative;
       width: 1200px;
@@ -124,10 +125,10 @@ padding-top: 20px;
       width:1200px;
     }
 
-    #operation {
+    #operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title {
       font-size:28px;
     }
-    #graph-popUp {
+    #graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit {
       display:none;
       position:absolute;
       top:40%;
@@ -146,21 +147,63 @@ padding-top: 20px;
 	  box-shadow: 5px 5px 5px lightgray;
     }
 	
+	#popup-node-edit{
+	height:215px;
+	}
+	
+	#popup-link-edit{
+	height:140px;
+	}
+	
+	#popup-message-edit{
+	height:215px;
+	}
+	
+	
+	
+	#graph-popUp-adds {
+      display:none;
+      position:absolute;
+      top:40%;
+      left:58%;
+      z-index:298;
+      width:250px;
+      height:250px;
+      background-color: #f9f9f9;
+      border-style:solid;
+      border-width:1px;
+      border-color: #d3d3d3;
+	  border-radius:0px 25px 25px 0px;
+      padding:10px;
+      text-align: center;
+	  font-family: Verdana, sans-serif;
+	  box-shadow: 5px 5px 5px lightgray;	
+	}
 
 
 	
-	#tableEdit {
+	#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message{
 	margin:auto;
 	font-family: Verdana, Georgia, sans-serif;
 	}
 
-	#tableEdit td{
+	#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td {
 	padding-top: 5px;
 	border:none;
 	text-align: right;
 	}
 	
-	#tableEdit #liste{
+	#popUp-adds-table td{
+	padding-top: 5px;
+	border:none;
+	text-align: right;
+	}
+	
+	#popUp-adds-table .label{
+	padding-left:25px;
+	}
+	
+	#tableEdit #liste, #table-edit-node  #liste{
 text-align:left;
 	}
 #saveButton, #cancelButton {
@@ -170,8 +213,14 @@ text-align:left;
 	  border-radius:10px;
 	font-family: Verdana, Georgia, sans-serif;
 	padding: 5px;
-	margin-top: 10px;
 	margin-left: 20px;
+
+}
+
+#addButton {
+position: absolute;
+right: 15%;
+bottom: 19%;
 
 }
 
