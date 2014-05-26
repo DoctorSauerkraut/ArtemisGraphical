@@ -22,9 +22,9 @@
 		 
 		<nav>
 			<ul>
-				<li><a href="#" onclick="loadCreate()"> Create your topology</a></li>
-				<li><a href="#" onclick="loadDetails()"> Details</a></li>
-				<li><a href="#" onclick="loadResults()"> See the results</a></li>
+				<li><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
+				<li><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
+				<li><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
 			</ul>
 		</nav> 
 	</div>

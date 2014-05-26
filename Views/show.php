@@ -21,8 +21,8 @@
 		<tr>
 		  <td>Criticality</td><td><input id="node-crit" type="number" value="1"> </td>
 		</tr></table>
-	  <input type="button" value="save" onclick="editNode();" id="saveButton"></button>
-	  <input type="button" value="cancel" onclick="hideNode();" id="cancelButton"></button>
+	  <input type="button" value="SAVE" onclick="editNode();" id="saveButton"></button>
+	  <input type="button" value="CANCEL" onclick="hideNode();" id="cancelButton"></button>
 	</div>
 	<!--------------------------------------- Edit Link PopUp which is normally not displayed ------------------------------------------------>
 	
@@ -39,8 +39,8 @@
 		  <td>Node 2</td><td><input id="node2-label" value="new value"> </td>
 		</tr>
 	</table>
-	  <input type="button" value="save" onclick="editLink();" id="saveButton"></button>
-	  <input type="button" value="cancel" onclick="hideLink();" id="cancelButton"></button>
+	  <input type="button" value="SAVE" onclick="editLink();" id="saveButton"></button>
+	  <input type="button" value="CANCEL" onclick="hideLink();" id="cancelButton"></button>
 	</div>
 	
 	<!--------------------------------------- Edit Message PopUp which is normally not displayed ------------------------------------------------>
@@ -64,8 +64,8 @@
 		  <td>Wcet</td><td><input id="wcet" value="0"> </td>
 		</tr>
 	</table>
-	  <input type="button" value="save" onclick="editMessage();" id="saveButton"></button>
-	  <input type="button" value="cancel" onclick="hideMessage();" id="cancelButton"></button>
+	  <input type="button" value="SAVE" onclick="editMessage();" id="saveButton"></button>
+	  <input type="button" value="CANCEL" onclick="hideMessage();" id="cancelButton"></button>
 	</div>
 	
 	<!------------------------------------- Tables containing information coming from the database ---------------------------------------------->
@@ -83,7 +83,7 @@
 		<td><?php echo $element->ipAddress(); ?> </td>
 		<td><?php echo $element->scheduling(); ?> </td>
 		<td><?php echo $element->criticality(); ?> </td>
-		<td style="text-align:center;"><a href="#" onclick="popupNode(<?php echo $element->id(); ?>)"><img src="Templates/edit.png"></a></td>
+		<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
 		<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>')"><img src="Templates/delete.png"></a></td></tr>		
 		<?php } ?>	 
 </table>	
@@ -99,7 +99,7 @@
 		<tr><td><?php echo $element->id(); ?> </td>
 		<td><?php echo $element->node1(); ?> </td>
 		<td><?php echo $element->node2(); ?> </td>
-		<td style="text-align:center;"><a href="#" onclick="popupLink(<?php echo $element->id(); ?>)"><img src="Templates/edit.png"></a></td>
+		<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $element->node1(); ?>','<?php echo $element->node2(); ?>')"><img src="Templates/edit.png"></a></td>
 		<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $element->node1(); ?>','<?php echo $element->node2(); ?>')"><img src="Templates/delete.png" ></a></td></tr>	
 		<?php } ?> 
 </table>	
@@ -117,12 +117,12 @@
 		<td><?php echo $element->period(); ?> </td>
 		<td><?php echo $element->offset(); ?> </td>
 		<td><?php echo $element->wcet(); ?> </td>
-		<td style="text-align:center;"><a href="#" onclick="popupMessage(<?php echo $element->id(); ?>)"><img src="Templates/edit.png"></a></td>
+		<td style="text-align:center;"><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
 		<td style="text-align:center;"><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td></tr>		
 				<?php } ?> 
 </table> 
 
 <!---------- Link for the simulation ---------->
 
-<p style="text-align:center;"><a href="#" onclick="generate()">Click here to simulate and generate an xml file.</a></p>
+<p style="text-align:center;"><a href="#" onclick="generate()" >Click here to simulate and generate the xml file</br>(You need to accept PopUps)</a></p>
 

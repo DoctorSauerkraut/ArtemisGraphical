@@ -13358,6 +13358,8 @@ var manipulationMixin = {
           this._unselectAll();
           this.moving = true;
           this.start();
+		  getInformationAndDeleteLink(selectedEdges);
+		  getInformationAndDeleteNode(selectedNodes);
         }
       }
       else {

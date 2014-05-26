@@ -20,13 +20,13 @@ return $donnees['count(id)'];
  }
  
  
- public function addNode(Node $node){
+ public function addNode($name, $ip, $sched, $crit){
  $q = $this->_db->prepare('INSERT INTO node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality')or die(print_r($_db->errorInfo()));
  
- $q->bindValue(':name',$node->name());
-  $q->bindValue(':ip_address',$node->ipAddress());
- $q->bindValue(':scheduling', $node->scheduling());
- $q->bindValue(':criticality', $node->criticality(),PDO::PARAM_INT);
+ $q->bindValue(':name',$name);
+  $q->bindValue(':ip_address',$ip);
+ $q->bindValue(':scheduling', $sched);
+ $q->bindValue(':criticality', $crit,PDO::PARAM_INT);
  
  $q->execute();
  }
@@ -36,12 +36,15 @@ return $donnees['count(id)'];
  }
  
  public function displayNode($id){
- $id = (int) $id;
- 
- $q= $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node WHERE id = '.$id)or die(print_r($_db->errorInfo()));
- $donnees = $q->fetch(PDO::FETCH_ASSOC);
- 
- return new node($donnees);
+	 $id = (int) $id;
+	 $request='SELECT id, name, ip_address, scheduling, criticality FROM node WHERE id = '.$id;
+	 //echo $request;
+	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
+	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
+	 //print_r($donnees);
+	 $tmp =new node();
+	 $tmp->hydrate($donnees);
+	 return $tmp;
  }
  
   public function displayNodeByName($name){
@@ -98,10 +101,11 @@ return $donnees['count(id)'];
  
 ////////////////////////////////////////////////////////     PART LINK    /////////////////////////////////////////////////////////
 
- public function addLink(Link $link){
+ public function addLink($node1, $node2){
+ echo ($node1.$node2);
  $q = $this->_db->prepare('INSERT INTO link SET node1 = :node1, node2 = :node2')or die(print_r($_db->errorInfo()));
- $q->bindValue(':node1',$link->node1());
- $q->bindValue(':node2', $node->node2());
+ $q->bindValue(':node1',$node1);
+ $q->bindValue(':node2', $node2);
  $q->execute();
  }
 
@@ -113,7 +117,9 @@ return $donnees['count(id)'];
  $id = (int) $id;
  $q= $this->_db->query('SELECT id, node1, node2 FROM link WHERE id = '.$id)or die(print_r($_db->errorInfo()));
  $donnees = $q->fetch(PDO::FETCH_ASSOC);
- return new link($donnees);
+ $tmp = new link();
+ $tmp->hydrate($donnees);
+ return $tmp;
  }
  
   public function displayListLink(){
@@ -155,12 +161,12 @@ return $donnees['count(id)'];
  }
 ////////////////////////////////////////////////////////     PART MESSAGES   //////////////////////////////////////////////////////
 
- public function addMessage(Message $message){
+ public function addMessage($path, $period, $offset, $wcet){
  $q = $this->_db->prepare('INSERT INTO message SET path = :path, period = :period , offset = :offset, wcet = :wcet')or die(print_r($_db->errorInfo()));
- $q->bindValue(':path',$link->path());
- $q->bindValue(':period', $node->period());
-  $q->bindValue(':offset',$link->offset());
- $q->bindValue(':wcet', $node->wcet());
+ $q->bindValue(':path',$path);
+ $q->bindValue(':period', $period);
+  $q->bindValue(':offset',$offset);
+ $q->bindValue(':wcet', $wcet);
  $q->execute();
  }
 

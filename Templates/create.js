@@ -2,7 +2,7 @@
 		var edges = null;
 		var graph = null;
 
-		function draw(info) {
+function draw(info) {
 		//function draw() {		
 		//alert(info);
 		infos=info.split(";");
@@ -59,8 +59,8 @@
 			},
 			stabilize: false,
 			dataManipulation: true,
-		   /* onAdd: function(data,callback) {
-			  var span = document.getElementById('operation');
+		    onAdd: function(data,callback) {
+			  /*var span = document.getElementById('operation');
 			  var idInput = document.getElementById('node-id');
 			  var labelInput = document.getElementById('node-label');
 			  var saveButton = document.getElementById('saveButton');
@@ -71,9 +71,13 @@
 			  labelInput.value = data.label;
 			  saveButton.onclick = saveData.bind(this,data,callback);
 			  cancelButton.onclick = clearPopUp.bind();
-			  div.style.display = 'block';
-			},*/
+			  div.style.display = 'block';*/
+			  addNode("new",0,"FIFO",0);
+			  saveData.bind(this,data,callback);
+			  
+			},
 			onEdit: function(data,callback) {
+			
 			  var span = document.getElementById('operation');
 			  var idInput = document.getElementById('node-id');
 			  var labelInput = document.getElementById('node-label');
@@ -83,9 +87,24 @@
 			  span.innerHTML = "Edit Node n°"+data.id;
 			  idInput.value = data.id;
 			  labelInput.value = data.label;
+
+			  var donnees = fillPopUp();
+			  
+			  donnees.success(function (data) {
+						  var output = data;
+						  outputs=output.split(",");
+						  var ip = document.getElementById('node-ip');
+						  ip.value=parseInt(outputs[0]);
+						  var sched = document.getElementById('node-sched');
+						  sched.value=outputs[1];
+						  var crit = document.getElementById('node-crit');
+						  crit.value=parseInt(outputs[2]);
+						});
+			 			  			  
 			  saveButton.onclick = saveData.bind(this,data,callback);
 			  cancelButton.onclick = clearPopUp.bind();
 			  div.style.display = 'block';
+			  
 			},
 			onConnect: function(data,callback) {
 			  if (data.from == data.to) {
@@ -95,9 +114,9 @@
 				}
 			  }
 			  else {
-
 				callback(data);
 			  }
+			  addLink(data.from, data.to);
 			}
 		  };
 		  graph = new vis.Graph(container, data, options);
@@ -117,17 +136,25 @@
 			cancelButton.onclick = null;
 			var div = document.getElementById('graph-popUp');
 			div.style.display = 'none';
+			var divAdd = document.getElementById('graph-popUp-adds');
+			divAdd.style.display = 'none';
 
 		  }
 
 		  function saveData(data,callback) {
 			var idInput = document.getElementById('node-id');
 			var labelInput = document.getElementById('node-label');
+			var ip = document.getElementById('node-ip');
+			var sched = document.getElementById('node-sched');
+			var crit = document.getElementById('node-crit');
 			var div = document.getElementById('graph-popUp');
 			data.id = idInput.value;
 			data.label = labelInput.value;
+			updateNode(idInput.value,labelInput.value,ip.value,sched.value,crit.value);
 			clearPopUp();
 			callback(data);
 
 		  }
 		}
+		
+		

@@ -7,8 +7,13 @@ function loadCreate() {
 		data:"",
 		success:function(data){
 		document.getElementById("corps").innerHTML = data;	
+		link1 = document.getElementById("link-create");
+		link2= document.getElementById("link-selected");
 		recupDatabase();
-		//draw();
+		link1.id='link-selected';
+			if( link2 !== null){
+			link2.id=link2.className;		
+			}
 		}
 	});
 }
@@ -30,7 +35,11 @@ function recupDatabase(){
 		type:"post",
 		data:"action=view",
 		success:function(data){
-			document.getElementById("corps").innerHTML = data;
+	 document.getElementById("corps").innerHTML = data;
+		link1 = document.getElementById("link-details");
+		link2= document.getElementById("link-selected");
+		link1.id='link-selected';
+		link2.id=link2.className;
 		}
 	});
 }
@@ -42,9 +51,14 @@ function loadResults() {
 		data:"",
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
+		link1 = document.getElementById("link-results");
+		link2= document.getElementById("link-selected");
+		link1.id='link-selected';
+		link2.id=link2.className;	
 		}
 	});
 }
+
 
 //////////////////////////////////////////////////// Details Links ///////////////////////////////////////////////////////////
 
@@ -67,12 +81,20 @@ function hideNode(){
 		div.style.display = 'none';
 }
 
-function popupNode($id) {
+function popupNode($id, $name, $ip, $sched, $crit) {
 	var span = document.getElementById('edit-node-title');
 	var id = document.getElementById('node-id');
+	var name = document.getElementById('node-label');
+	var ip = document.getElementById('node-ip');
+	var sched = document.getElementById('node-sched');
+	var crit = document.getElementById('node-crit');
 	var div = document.getElementById('popup-node-edit');
 	span.innerHTML = "Edit Node n."+$id;
 	id.value = $id;
+	name.value=$name;
+	ip.value=$ip;
+	sched.value=$sched;
+	crit.value=$crit;
 	div.style.display = 'block';
 }
 
@@ -104,12 +126,16 @@ function hideLink(){
 		div.style.display = 'none';
 }
 
-function popupLink($id) {
+function popupLink($id, $name1, $name2) {
 	var span = document.getElementById('edit-link-title');
 	var id = document.getElementById('link-id');
+	var node1 = document.getElementById('node1-label');
+	var node2 = document.getElementById('node2-label');
 	var div = document.getElementById('popup-link-edit');
 	span.innerHTML = "Edit Link n."+$id;
 	id.value = $id;
+	node1.value = $name1;
+	node2.value = $name2;
 	div.style.display = 'block';
 }
 
@@ -140,12 +166,20 @@ function hideMessage(){
 		div.style.display = 'none';
 }
 
-function popupMessage($id) {
+function popupMessage($id, $path, $period, $offset, $wcet) {
 	var span = document.getElementById('edit-message-title');
 	var id = document.getElementById('message-id');
+	var path = document.getElementById('path');
+	var period = document.getElementById('period');
+	var offset = document.getElementById('offset');	
+	var wcet = document.getElementById('wcet');
 	var div = document.getElementById('popup-message-edit');
 	span.innerHTML = "Edit Message n."+$id;
 	id.value = $id;
+	path.value = $path;
+	period.value = $period;
+	offset.value = $offset;
+	wcet.value = $wcet;
 	div.style.display = 'block';
 }
 
@@ -167,6 +201,7 @@ function generate() {
 		data:'action='+'generate',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
+			window.open("./network.xml");
 		}
 	});
 }
@@ -175,14 +210,93 @@ function generate() {
 
 function addMessage() {
 	var span = document.getElementById('popUp-adds-title');
-	var id = document.getElementById('message-id');
+	var label = document.getElementById('node-label');
+	var path = document.getElementById('path');
 	var div = document.getElementById('graph-popUp-adds');
 	span.innerHTML = "Create a Message";
-	//id.value = $id;
+	path.value=label.value+",Node X,Destination Node";
 	div.style.display = 'block';
 }
 
 function hideGraphPopUpAdds(){
 	var div = document.getElementById('graph-popUp-adds');
 		div.style.display = 'none';
+}
+
+function fillPopUp(){
+	 return $.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'fillPopUp'+'&id='+document.getElementById('node-id').value
+	});
+}
+
+function addLink(id1,id2){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'addLink'+'&id1='+id1+'&id2='+id2,
+		success:function(data){
+		//alert(data);
+			//document.getElementById("corps").innerHTML = data;
+		}
+	});
+
+
+}
+
+function addNode(name, ip, sched, crit){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'addNode'+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit,
+		success:function(data){
+		recupDatabase();
+		}
+	});
+}
+
+function updateNode(id,name, ip, sched, crit){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'updateNode'+'&id='+id+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit,
+		success:function(data){
+		}
+	});
+}
+
+function getInformationAndDeleteLink(id){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'recupInfoAndDeleteLink'+'&id='+id,
+		success:function(data){
+		}
+	});
+
+}
+
+function getInformationAndDeleteNode(id){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'recupInfoAndDeleteNode'+'&id='+id,
+		success:function(data){
+		}
+	});
+
+}
+function saveMessage(){
+
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcet='+document.getElementById('wcet').value,
+		success:function(data){
+		var divAdd = document.getElementById('graph-popUp-adds');
+		divAdd.style.display = 'none';
+		}
+	});
+
 }

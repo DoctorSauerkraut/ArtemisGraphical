@@ -75,6 +75,7 @@ $dom->appendChild($network);
 
 
 $dom->save('network.xml');
- include_once('./Views/show.php'); 
+include_once('./Views/show.php'); 
+
 
 ?>
