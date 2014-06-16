@@ -12978,7 +12978,7 @@ var manipulationMixin = {
       toolbar.style.display="block";
       closeDiv.style.display="none";
       editModeDiv.style.display="none";
-      closeDiv.onclick = this._toggleEditMode.bind(this);
+      //closeDiv.onclick = this._toggleEditMode.bind(this);
     }
     else {
       /*toolbar.style.display="none";
@@ -13050,6 +13050,7 @@ var manipulationMixin = {
       }
       var closeDiv = document.getElementById("graph-manipulation-closeDiv");
       closeDiv.onclick = this._toggleEditMode.bind(this);
+	  closeDiv.style.display="none";
 
       this.boundFunction = this._createManipulatorBar.bind(this);
       this.on('select', this.boundFunction);
@@ -16222,7 +16223,8 @@ function Graph (container, data, options) {
       }
     }
   };
-  this.editMode = this.constants.dataManipulation.initiallyVisible;
+  //this.editMode = this.constants.dataManipulation.initiallyVisible;
+  this.editMode = true;
 
   // Node variables
   var graph = this;

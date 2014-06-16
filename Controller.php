@@ -2,9 +2,11 @@
 	function chargerClasse($classe)
 		{
 		if ($classe == 'Manager' ){
-		  require 'Library/Models/'.str_replace('\\', '/', $classe).'.class.php'; }
-		  else{
-			require 'Library/Entities/'.str_replace('\\', '/', $classe).'.class.php';}
+		  require 'Library/Models/'.str_replace('\\', '/', $classe).'.class.php'; 
+		  require 'Library/Entities/Node.class.php';
+		  require 'Library/Entities/Link.class.php';
+		  require 'Library/Entities/Message.class.php';
+		  }
 		}
 		spl_autoload_register('chargerClasse');
 		
@@ -30,7 +32,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 				
 			}else if ($_POST["action"]=="recupInfoAndDeleteLink"){
 			
@@ -147,6 +149,12 @@
 					foreach ($donnees1 as $element1) {
 						$pathId[$element3->id()] = str_replace($element1->name(),$element1->id(),$pathId[$element3->id()]);
 					}
+				}
+								$tabNames =[];
+				foreach ($donnees2 as $element){
+				$name1 = $manager->displayNode($element->node1());
+				$name2 = $manager->displayNode($element->node2());				
+				array_push($tabNames,$name1->name(),$name2->name());
 				}
 				include(dirname(__FILE__).'./Templates/network.php');
 			

@@ -6,15 +6,18 @@ function loadCreate() {
 		type:"post",
 		data:"",
 		success:function(data){
-		document.getElementById("corps").innerHTML = data;	
+		document.getElementById("corps").innerHTML = data;
+		recupDatabase();	
+		
 		link1 = document.getElementById("link-create");
-		link2= document.getElementById("link-selected");
-		recupDatabase();
-		link1.id='link-selected';
-		link1.parentNode.style.backgroundColor="lightgray";
-			if( link2 !== null){
-			link2.id=link2.className;	
-			link2.parentNode.style.backgroundColor="#202030";			
+			if(link1!=null){
+			link2= document.getElementById("link-selected");
+			link1.id='link-selected';
+			link1.parentNode.style.backgroundColor="lightgray";
+				if( link2 !== null){
+				link2.id=link2.className;	
+				link2.parentNode.style.backgroundColor="#202030";
+				}			
 			}
 		}
 	});
@@ -39,11 +42,13 @@ function recupDatabase(){
 		success:function(data){
 	 document.getElementById("corps").innerHTML = data;
 		link1 = document.getElementById("link-details");
-		link2= document.getElementById("link-selected");
-		link1.id='link-selected';
-		link1.parentNode.style.backgroundColor="lightgray";
-		link2.id=link2.className;
-		link2.parentNode.style.backgroundColor="#202030";
+			if(link1!=null){
+			link2= document.getElementById("link-selected");
+			link1.id='link-selected';
+			link1.parentNode.style.backgroundColor="lightgray";
+			link2.id=link2.className;
+			link2.parentNode.style.backgroundColor="#202030";
+			}
 		}
 	});
 }
@@ -56,11 +61,13 @@ function loadResults() {
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 		link1 = document.getElementById("link-results");
-		link2= document.getElementById("link-selected");
-		link1.id='link-selected';
-		link1.parentNode.style.backgroundColor="lightgray";
-		link2.id=link2.className;
-		link2.parentNode.style.backgroundColor="#202030";		
+			if(link1!=null){
+			link2= document.getElementById("link-selected");
+			link1.id='link-selected';
+			link1.parentNode.style.backgroundColor="lightgray";
+			link2.id=link2.className;
+			link2.parentNode.style.backgroundColor="#202030";
+			}		
 		}
 	});
 }
