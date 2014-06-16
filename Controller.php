@@ -92,7 +92,7 @@
 				
 			}else if ($_POST['action']=="results"){
 				$donnees1= $manager->displayListNode();	
-				include(dirname(__FILE__).'/Views/results.php');
+				include('/Views/results.php');
 				
 			}else if ($_POST['action']=="deleteNode"){
 				$donnees=$manager->displayNode($_POST['id']);
@@ -107,7 +107,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 			
 			}else if($_POST['action']=="deleteLink"){
 				$manager->deleteLink($_POST['id']);
@@ -123,7 +123,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}				
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 				
 			}else if ($_POST['action']=="deleteMessage"){
 
@@ -137,7 +137,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 				
 			}else if ($_POST['action']=="generate"){
 				$pathId =[];
@@ -156,7 +156,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Templates/network.php');
+				include('./Templates/network.php');
 			
 			}else if($_POST['action']=="editNode"){
 			
@@ -170,7 +170,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 				
 			}else if($_POST['action']=="editLink"){
 				$id1=$manager->displayNodeByName($_POST['node1']);
@@ -189,7 +189,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');
+				include('./Views/show.php');
 				
 			}else if($_POST['action']=="editMessage"){
 			$newpath = $manager->verrifyPath($_POST["path"]);
@@ -209,7 +209,7 @@
 				$name2 = $manager->displayNode($element->node2());				
 				array_push($tabNames,$name1->name(),$name2->name());
 				}
-				include(dirname(__FILE__).'./Views/show.php');			
+				include('./Views/show.php');			
 	
 			}
 		}else {
