@@ -17,14 +17,14 @@
 
 		<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
 		<div id="titre" >
-			<h3>"Another Real Time Entertainment for Message Issued Simulation"</h3> 
+			<h3>"Another Real-Time Engine for Message-Issued Simulation"</h3> 
 		</div>
 		 
 		<nav>
 			<ul>
-				<li><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
-				<li><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
-				<li><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
+				<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
+				<li onclick="loadDetails()"><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
+				<li onclick="loadResults()"><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
 			</ul>
 		</nav> 
 	</div>

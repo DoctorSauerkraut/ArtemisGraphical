@@ -51,16 +51,12 @@
 			//}
 		}
 		
-		public function setNode1($name){
-			if (is_string($name)){
-			$this->_node1=$name;
-			}
+		public function setNode1($id){
+			$this->_node1=$id;
 		}
 
-		public function setNode2($name){
-			if (is_string($name)){
-			  $this->_node2 = $name;
-			  }
+		public function setNode2($id){
+			  $this->_node2 = $id;
 		}
 
 

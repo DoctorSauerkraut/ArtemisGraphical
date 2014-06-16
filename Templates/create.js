@@ -3,33 +3,36 @@
 		var graph = null;
 
 function draw(info) {
-		//function draw() {		
-		//alert(info);
-		infos=info.split(";");
-		infoNode= infos[0].split(",");
-		infoEdge= infos[1].split(",");
-		nodes=[];
-		edges=[];
-		countNode=0;
-		countEdge=0;
-		while (countNode < infoNode.length){
-		nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1]});
-		countNode=countNode+2;
-		}
-		/*  nodes = [{"id":parseInt(infoNode[0]),"label":infoNode[1]},
-				   {"id":parseInt(infoNode[2]),"label":infoNode[3]},
-				   {"id":parseInt(infoNode[4]),"label":infoNode[5]},
-				   {"id":parseInt(infoNode[6]),"label":infoNode[7]}];*/
-		 // edges = [{"from":2,"to":1,"id":"19313624-3af5-653d-90fd-d475f59346"}];
-		  
 
-		while (countEdge < infoEdge.length) {
-			edges.push({"from":parseInt(infoEdge[countEdge]),"to":parseInt(infoEdge[countEdge+1]),"id":parseInt(infoEdge[countEdge+2])});
-			countEdge=countEdge+3;
-		}
+	//alert("'"+info+"'");	
+		if(info != ""){
+		
+			infos=info.split(";");
+			infoNode= infos[0].split(",");
+			infoEdge= infos[1].split(",");
+			nodes=[];
+			edges=[];
+			countNode=0;
+			countEdge=0;
+			
+			while (countNode < infoNode.length){
+				nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1]});
+				countNode=countNode+2;
+			}
+			/*	nodes = [{"id":parseInt(infoNode[0]),"label":infoNode[1]},
+					   {"id":parseInt(infoNode[2]),"label":infoNode[3]},
+					   {"id":parseInt(infoNode[4]),"label":infoNode[5]},
+					   {"id":parseInt(infoNode[6]),"label":infoNode[7]}];
+				edges = [{"from":2,"to":1,"id":"19313624-3af5-653d-90fd-d475f59346"}]; */
+			  
+			if (infos[1] != ""){
+				while (countEdge < infoEdge.length) {
+					edges.push({"from":parseInt(infoEdge[countEdge]),"to":parseInt(infoEdge[countEdge+1]),"id":parseInt(infoEdge[countEdge+2])});
+					countEdge=countEdge+3;
+				}
+			}
 
-
-		  
+		 } 
 		  // create a graph
 		  var container = document.getElementById('mygraph');
 		  var data = {
@@ -72,7 +75,7 @@ function draw(info) {
 			  saveButton.onclick = saveData.bind(this,data,callback);
 			  cancelButton.onclick = clearPopUp.bind();
 			  div.style.display = 'block';*/
-			  addNode("new",0,"FIFO",0);
+			  addNode("",0,"FIFO",0);
 			  saveData.bind(this,data,callback);
 			  
 			},

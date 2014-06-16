@@ -84,7 +84,7 @@
 		<td><?php echo $element->scheduling(); ?> </td>
 		<td><?php echo $element->criticality(); ?> </td>
 		<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
-		<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>')"><img src="Templates/delete.png"></a></td></tr>		
+		<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td></tr>		
 		<?php } ?>	 
 </table>	
 
@@ -95,13 +95,18 @@
 <tr>
 <th> Link ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
 </tr>
-		<?php foreach($donnees2 as $element){ ?>	
+		<?php $i=0;
+		foreach($donnees2 as $element){ ?>	
 		<tr><td><?php echo $element->id(); ?> </td>
-		<td><?php echo $element->node1(); ?> </td>
-		<td><?php echo $element->node2(); ?> </td>
-		<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $element->node1(); ?>','<?php echo $element->node2(); ?>')"><img src="Templates/edit.png"></a></td>
-		<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $element->node1(); ?>','<?php echo $element->node2(); ?>')"><img src="Templates/delete.png" ></a></td></tr>	
-		<?php } ?> 
+		<!-- <td><?php //echo $element->node1(); ?> </td> 
+		<td><?php //echo $element->node2(); ?> </td> -->
+		<td><?php echo $tabNames[$i]; ?> </td> 
+		<td><?php echo $tabNames[$i+1]; ?> </td>
+		<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/edit.png"></a></td>
+		<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/delete.png" ></a></td></tr>	
+		<?php 
+		$i=$i+2;
+		} ?> 
 </table>	
 
 <!---------- Messages Table ---------->

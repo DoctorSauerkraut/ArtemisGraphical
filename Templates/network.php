@@ -27,7 +27,7 @@ foreach($donnees1 as $element1){
 				$criticality = $dom->createElement("criticality");
 				$criticality->setAttribute("level",$element1->criticality());
 					$path = $dom->createElement("path");
-					$path->appendChild($dom->createTextNode($element3->path()));
+					$path->appendChild($dom->createTextNode($pathId[$element3->id()]));
 					$priority = $dom->createElement("priority");
 					$priority->appendChild($dom->createTextNode("Non définie"));
 					$period = $dom->createElement("period");
@@ -52,13 +52,13 @@ foreach($donnees1 as $element1){
 			$links = $dom->createElement("Links");
 		foreach ($donnees2 as $element2){
 				
-			if($element2->node2() == $element1->name()){
+			if($element2->node2() == $element1->id()){
 			$machinel=$dom->createElement("machinel");
 			$machinel->setAttribute("id", $element2->id());
 			$machinel->appendChild($dom->createTextNode($element2->node1()));
 		$links->appendChild($machinel);
 	$machine->appendChild($links);
-			}else if($element2->node1() == $element1->name()){			
+			}else if($element2->node1() == $element1->id()){			
 			$machinel=$dom->createElement("machinel");
 			$machinel->setAttribute("id", $element2->id());
 			$machinel->appendChild($dom->createTextNode($element2->node2()));

@@ -12969,21 +12969,22 @@ var manipulationMixin = {
    * @private
    */
   _toggleEditMode : function() {
-    this.editMode = !this.editMode;
+    //this.editMode = !this.editMode;
+	this.editMode=true;
     var toolbar = document.getElementById("graph-manipulationDiv");
     var closeDiv = document.getElementById("graph-manipulation-closeDiv");
     var editModeDiv = document.getElementById("graph-manipulation-editMode");
     if (this.editMode == true) {
       toolbar.style.display="block";
-      closeDiv.style.display="block";
+      closeDiv.style.display="none";
       editModeDiv.style.display="none";
       closeDiv.onclick = this._toggleEditMode.bind(this);
     }
     else {
-      toolbar.style.display="none";
+      /*toolbar.style.display="none";
       closeDiv.style.display="none";
       editModeDiv.style.display="block";
-      closeDiv.onclick = null;
+      closeDiv.onclick = null;*/
     }
     this._createManipulatorBar()
   },

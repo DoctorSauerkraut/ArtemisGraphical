@@ -11,8 +11,10 @@ function loadCreate() {
 		link2= document.getElementById("link-selected");
 		recupDatabase();
 		link1.id='link-selected';
+		link1.parentNode.style.backgroundColor="lightgray";
 			if( link2 !== null){
-			link2.id=link2.className;		
+			link2.id=link2.className;	
+			link2.parentNode.style.backgroundColor="#202030";			
 			}
 		}
 	});
@@ -24,7 +26,7 @@ function recupDatabase(){
 		type:"post",
 		data:"action=create",
 		success:function(data){
-			draw(data);
+			draw(data.trim());
 		}
 	});
 }
@@ -39,22 +41,26 @@ function recupDatabase(){
 		link1 = document.getElementById("link-details");
 		link2= document.getElementById("link-selected");
 		link1.id='link-selected';
+		link1.parentNode.style.backgroundColor="lightgray";
 		link2.id=link2.className;
+		link2.parentNode.style.backgroundColor="#202030";
 		}
 	});
 }
 
 function loadResults() {
 	$.ajax({
-		url:"./Views/results.php",
+		url:"./Controller.php",
 		type:"post",
-		data:"",
+		data:'action='+'results',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 		link1 = document.getElementById("link-results");
 		link2= document.getElementById("link-selected");
 		link1.id='link-selected';
-		link2.id=link2.className;	
+		link1.parentNode.style.backgroundColor="lightgray";
+		link2.id=link2.className;
+		link2.parentNode.style.backgroundColor="#202030";		
 		}
 	});
 }
@@ -98,11 +104,11 @@ function popupNode($id, $name, $ip, $sched, $crit) {
 	div.style.display = 'block';
 }
 
-function deleteNode($id, $name) {
+function deleteNode($id) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'deleteNode'+'&id='+$id+'&name='+$name,
+		data:'action='+'deleteNode'+'&id='+$id,
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 		}
@@ -145,6 +151,7 @@ function deleteLink($id,$node1,$node2) {
 		type:"post",
 		data:'action='+'deleteLink'+'&id='+$id+'&source='+$node1+'&destination='+$node2,
 		success:function(data){
+				alert("id:"+$id+" node 1:"+$node1+" node 2:"+$node2);
 			document.getElementById("corps").innerHTML = data;
 		}
 	});
@@ -237,8 +244,6 @@ function addLink(id1,id2){
 		type:"post",
 		data:'action='+'addLink'+'&id1='+id1+'&id2='+id2,
 		success:function(data){
-		//alert(data);
-			//document.getElementById("corps").innerHTML = data;
 		}
 	});
 
@@ -283,6 +288,7 @@ function getInformationAndDeleteNode(id){
 		type:"post",
 		data:'action='+'recupInfoAndDeleteNode'+'&id='+id,
 		success:function(data){
+		//window.location.reload();
 		}
 	});
 
@@ -294,6 +300,10 @@ function saveMessage(){
 		type:"post",
 		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcet='+document.getElementById('wcet').value,
 		success:function(data){
+		data=data.trim();
+		if(data!=''){
+		alert(data);
+		}
 		var divAdd = document.getElementById('graph-popUp-adds');
 		divAdd.style.display = 'none';
 		}

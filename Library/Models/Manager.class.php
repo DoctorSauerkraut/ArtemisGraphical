@@ -2,7 +2,7 @@
 class Manager{
 
 private $_db;
-
+private $counter=0;
  public function __construct($db){
  $this->setDb($db);
  }
@@ -21,6 +21,10 @@ return $donnees['count(id)'];
  
  
  public function addNode($name, $ip, $sched, $crit){
+ if($name == ''){
+ $name = "Unnamed ".$counter;
+ $counter++;
+ }
  $q = $this->_db->prepare('INSERT INTO node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, criticality = :criticality')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':name',$name);
@@ -52,8 +56,13 @@ return $donnees['count(id)'];
 	 $q= $this->_db->query('SELECT id, name, ip_address, scheduling, criticality FROM node WHERE name = "'.$name.'"')or die (print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
 	 $tmp =new node();
+	 if($donnees != null){
 	 $tmp->hydrate($donnees);
-	 return $tmp;
+	return $tmp;
+	 }else {
+	 return null;
+	 }
+
  }
  
  public function displayListNode(){
@@ -80,18 +89,19 @@ return $donnees['count(id)'];
  $q->execute();
  }
  
- public function verifyNodeDeletion($name){
+ public function verifyNodeDeletion($idnode,$name){
  // We check in the link database if we need to delete some links 
-	$q=$this->_db->query('SELECT id FROM link WHERE node1 = "'.$name.'" OR node2 = "'.$name.'"');
+	$q=$this->_db->query('SELECT id FROM link WHERE node1 ='.$idnode.' OR node2 = '.$idnode);
 	while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
 			$this->deleteLink($donnees['id']);
 	}  
 // We now check in the Message database if some messages have to be deleted.
 	$donnees=$this->displayListMessage();
+	$nametested=trim($name);
 	foreach($donnees as $element){
 		$path=explode(",", $element->path(), $this->nbNodes());
 		foreach($path as $apath){
-			if ($apath==$name){
+			if ($apath==$nametested){
 				$this->deleteMessage($element->id());
 				break;
 			}
@@ -144,6 +154,7 @@ return $donnees['count(id)'];
  
   public function verifyLinkDeletion($node1, $node2){
   // We check in the Message database if some messages have to be deleted.
+  echo (":".$node1.$node2);
 	$donnees=$this->displayListMessage();
 	foreach($donnees as $element){
 		$path=explode(",", $element->path(), $this->nbNodes());
@@ -152,7 +163,7 @@ return $donnees['count(id)'];
 		foreach($path as $apath){
 		$prev=$next;
 		$next=$apath;
-			if (($prev==$node1 && $next==$node2)||($prev==$node2 && $next==$node1)){
+			if (($prev==trim($node1) && $next==trim($node2))||($prev==trim($node2) && $next==trim($node1))){
 				$this->deleteMessage($element->id());
 				break;
 			}
@@ -162,13 +173,15 @@ return $donnees['count(id)'];
 ////////////////////////////////////////////////////////     PART MESSAGES   //////////////////////////////////////////////////////
 
  public function addMessage($path, $period, $offset, $wcet){
- $q = $this->_db->prepare('INSERT INTO message SET path = :path, period = :period , offset = :offset, wcet = :wcet')or die(print_r($_db->errorInfo()));
- $q->bindValue(':path',$path);
- $q->bindValue(':period', $period);
-  $q->bindValue(':offset',$offset);
- $q->bindValue(':wcet', $wcet);
- $q->execute();
- }
+
+	 $q = $this->_db->prepare('INSERT INTO message SET path = :path, period = :period , offset = :offset, wcet = :wcet')or die(print_r($_db->errorInfo()));
+	 $q->bindValue(':path',$path);
+	 $q->bindValue(':period', $period);
+	  $q->bindValue(':offset',$offset);
+	 $q->bindValue(':wcet', $wcet);
+	 $q->execute();
+
+	 }
 
   public function deleteMessage($id){
  $this->_db->exec('DELETE FROM message WHERE id = '.$id);
@@ -194,16 +207,70 @@ return $donnees['count(id)'];
  }
  
   public function updateMessage($id, $path, $period, $offset, $wcet){
+  
+   $nodes = explode(",",$path);
+	$newpath="";
+	 foreach ($nodes as $element){
+	 $newpath = $newpath.trim($element).",";  
+	 }
+$newpath=substr($newpath,0,-1);
+  
  $q=$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset, wcet = :wcet WHERE id = :id')or die(print_r($_db->errorInfo()));
  
- $q->bindValue(':path',$path);
+ $q->bindValue(':path',$newpath);
  $q->bindValue(':period', $period);
  $q->bindValue(':offset',$offset);
  $q->bindValue(':wcet', $wcet);
   $q->bindValue(':id', $id);
  $q->execute();
  }
+ 
+ public function verrifyPath($path){
+ 
+  $nodes = explode(",",$path);
+ $newpath="";
+	 foreach ($nodes as $element){
+	 $newpath = $newpath.trim($element).",";  
+	 }
+$newpath=substr($newpath,0,-1);
+
+  $nodes = explode(",",$newpath);
+  $nodesid=[];
+  foreach ($nodes as $element ){
+  $tmp=$this->displayNodeByName($element);
+ 
+  if($tmp == null){
+ 
+  return "";
+  }
+  array_push($nodesid,$tmp->id());
+  }
+$donnees = $this->displayListLink();
+$counter = 0;
+	foreach ( $donnees as $element ){
+		for($i = 0, $size = count($nodesid)-1;$i<$size; $i++){
+			if ($nodesid[$i] == $element->node1() && $nodesid[$i+1] == $element->node2() || $nodesid[$i] == $element->node2() && $nodesid[$i+1] == $element->node1()){
+				//echo " if ".$nodesid[$i].$nodesid[$i+1].":".$element->node1().$element->node2();
+				$counter++;
+				break;
+			} 
+
+			/*if ($i==$size-1 && ( $nodesid[$size-1] != $element->node1() || $nodesid[$size] != $element->node2() || $nodesid[$size-1] != $element->node2() || $nodesid[$size] != $element->node1())){
+			echo " autre if ".$nodesid[$i].$nodesid[$i+1].":".$element->node1().$element->node2();
+			return "";
+			}*/
+		}
+	}
+	if($counter !=  count($nodesid)-1){
+	return '';
+	}
+	return $newpath;
+ }
+ 
+
 }
+
+
 
 ?>
 
