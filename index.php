@@ -10,34 +10,30 @@
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
 		<script type="text/javascript" src="./Templates/create.js"></script>
     </head>
-	
-    <body>
 	<header>
-	<div id="header">
-
-		<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
-		<div id="titre" >
-			<h3>"Another Real-Time Engine for Message-Issued Simulation"</h3> 
+		<div id="header">
+			<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
+			<div id="titre" >
+				<h3>"Another Real-Time Engine for Message-Issued Simulation"</h3> 
+			</div>
+			 
+			<nav>
+				<ul>
+					<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
+					<li onclick="loadDetails()"><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
+					<li onclick="loadResults()"><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
+				</ul>
+			</nav> 
 		</div>
-		 
-		<nav>
-			<ul>
-				<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
-				<li onclick="loadDetails()"><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
-				<li onclick="loadResults()"><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
-			</ul>
-		</nav> 
-	</div>
 	</header>
-	<!--<body onload="draw();"> -->
-	 <body onload="loadCreate();"> 
-	<div id="corps">
-		<?php
-			include('./Views/create.php');
+	<body onload="loadCreate();"> 
+		<div id="corps">
+			<?php
+				include('./Views/create.php');
+			?>
+		</div>
+		<?php  
+			include_once('./Templates/footer.php'); 
 		?>
-	</div>
-	<?php  
-		include_once('./Templates/footer.php'); 
-	?>
 	</body>
 </html>

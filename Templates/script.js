@@ -6,17 +6,17 @@ function loadCreate() {
 		type:"post",
 		data:"",
 		success:function(data){
-		document.getElementById("corps").innerHTML = data;
-		recupDatabase();	
-		
-		link1 = document.getElementById("link-create");
+			document.getElementById("corps").innerHTML = data;
+			recupDatabase();	
+			
+			link1 = document.getElementById("link-create");
 			if(link1!=null){
-			link2= document.getElementById("link-selected");
-			link1.id='link-selected';
-			link1.parentNode.style.backgroundColor="lightgray";
+				link2= document.getElementById("link-selected");
+				link1.id='link-selected';
+				link1.parentNode.style.backgroundColor="lightgray";
 				if( link2 !== null){
-				link2.id=link2.className;	
-				link2.parentNode.style.backgroundColor="#202030";
+					link2.id=link2.className;	
+					link2.parentNode.style.backgroundColor="#202030";
 				}			
 			}
 		}
@@ -40,14 +40,15 @@ function recupDatabase(){
 		type:"post",
 		data:"action=view",
 		success:function(data){
-	 document.getElementById("corps").innerHTML = data;
-		link1 = document.getElementById("link-details");
+			document.getElementById("corps").innerHTML = data;
+			
+			link1 = document.getElementById("link-details");
 			if(link1!=null){
-			link2= document.getElementById("link-selected");
-			link1.id='link-selected';
-			link1.parentNode.style.backgroundColor="lightgray";
-			link2.id=link2.className;
-			link2.parentNode.style.backgroundColor="#202030";
+				link2= document.getElementById("link-selected");
+				link1.id='link-selected';
+				link1.parentNode.style.backgroundColor="lightgray";
+				link2.id=link2.className;
+				link2.parentNode.style.backgroundColor="#202030";
 			}
 		}
 	});
@@ -60,13 +61,13 @@ function loadResults() {
 		data:'action='+'results',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
-		link1 = document.getElementById("link-results");
+			link1 = document.getElementById("link-results");
 			if(link1!=null){
-			link2= document.getElementById("link-selected");
-			link1.id='link-selected';
-			link1.parentNode.style.backgroundColor="lightgray";
-			link2.id=link2.className;
-			link2.parentNode.style.backgroundColor="#202030";
+				link2= document.getElementById("link-selected");
+				link1.id='link-selected';
+				link1.parentNode.style.backgroundColor="lightgray";
+				link2.id=link2.className;
+				link2.parentNode.style.backgroundColor="#202030";
 			}		
 		}
 	});
@@ -91,7 +92,7 @@ function editNode() {
 
 function hideNode(){
 	var div = document.getElementById('popup-node-edit');
-		div.style.display = 'none';
+	div.style.display = 'none';
 }
 
 function popupNode($id, $name, $ip, $sched, $crit) {
@@ -136,7 +137,7 @@ function editLink($id) {
 
 function hideLink(){
 	var div = document.getElementById('popup-link-edit');
-		div.style.display = 'none';
+	div.style.display = 'none';
 }
 
 function popupLink($id, $name1, $name2) {
@@ -158,11 +159,11 @@ function deleteLink($id,$node1,$node2) {
 		type:"post",
 		data:'action='+'deleteLink'+'&id='+$id+'&source='+$node1+'&destination='+$node2,
 		success:function(data){
-				alert("id:"+$id+" node 1:"+$node1+" node 2:"+$node2);
 			document.getElementById("corps").innerHTML = data;
 		}
 	});
 }
+
 //////////////////////////////////////////////////// Message table links
 function editMessage($id) {
 	$.ajax({
@@ -177,7 +178,7 @@ function editMessage($id) {
 
 function hideMessage(){
 	var div = document.getElementById('popup-message-edit');
-		div.style.display = 'none';
+	div.style.display = 'none';
 }
 
 function popupMessage($id, $path, $period, $offset, $wcet) {
@@ -234,7 +235,7 @@ function addMessage() {
 
 function hideGraphPopUpAdds(){
 	var div = document.getElementById('graph-popUp-adds');
-		div.style.display = 'none';
+	div.style.display = 'none';
 }
 
 function fillPopUp(){
@@ -249,9 +250,7 @@ function addLink(id1,id2){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'addLink'+'&id1='+id1+'&id2='+id2,
-		success:function(data){
-		}
+		data:'action='+'addLink'+'&id1='+id1+'&id2='+id2
 	});
 
 
@@ -263,7 +262,7 @@ function addNode(name, ip, sched, crit){
 		type:"post",
 		data:'action='+'addNode'+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit,
 		success:function(data){
-		recupDatabase();
+			recupDatabase();
 		}
 	});
 }
@@ -272,9 +271,7 @@ function updateNode(id,name, ip, sched, crit){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'updateNode'+'&id='+id+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit,
-		success:function(data){
-		}
+		data:'action='+'updateNode'+'&id='+id+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit
 	});
 }
 
@@ -282,9 +279,7 @@ function getInformationAndDeleteLink(id){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'recupInfoAndDeleteLink'+'&id='+id,
-		success:function(data){
-		}
+		data:'action='+'recupInfoAndDeleteLink'+'&id='+id
 	});
 
 }
@@ -293,10 +288,7 @@ function getInformationAndDeleteNode(id){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'recupInfoAndDeleteNode'+'&id='+id,
-		success:function(data){
-		//window.location.reload();
-		}
+		data:'action='+'recupInfoAndDeleteNode'+'&id='+id
 	});
 
 }
@@ -307,12 +299,12 @@ function saveMessage(){
 		type:"post",
 		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcet='+document.getElementById('wcet').value,
 		success:function(data){
-		data=data.trim();
-		if(data!=''){
-		alert(data);
-		}
-		var divAdd = document.getElementById('graph-popUp-adds');
-		divAdd.style.display = 'none';
+			data=data.trim();
+			if(data!=''){
+				alert(data);
+			}
+			var divAdd = document.getElementById('graph-popUp-adds');
+			divAdd.style.display = 'none';
 		}
 	});
 
