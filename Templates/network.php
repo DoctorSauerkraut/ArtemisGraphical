@@ -2,7 +2,9 @@
 <?php
 	$dom = new DomDocument();
 	$network=$dom->createElement("Network");
-
+	$timelimit=$dom->createElement("time-limit");
+	$timelimit->appendChild($dom->createTextNode("Undefined"));
+	$network->appendChild($timelimit);
 	foreach($donnees1 as $element1){
 
 		$machine=$dom->createElement("machine");
@@ -51,14 +53,12 @@
 					
 				if($element2->node2() == $element1->id()){
 				$machinel=$dom->createElement("machinel");
-				$machinel->setAttribute("id", $element2->id());
-				$machinel->appendChild($dom->createTextNode($element2->node1()));
+				$machinel->setAttribute("id", $element2->node1());
 			$links->appendChild($machinel);
 		$machine->appendChild($links);
 				}else if($element2->node1() == $element1->id()){			
 				$machinel=$dom->createElement("machinel");
-				$machinel->setAttribute("id", $element2->id());
-				$machinel->appendChild($dom->createTextNode($element2->node2()));
+				$machinel->setAttribute("id", $element2->node2());
 			$links->appendChild($machinel);
 		$machine->appendChild($links);	
 				}else{}
