@@ -6,6 +6,7 @@ function loadCreate() {
 		type:"post",
 		data:"",
 		success:function(data){
+//			alert(data);
 			document.getElementById("corps").innerHTML = data;
 			recupDatabase();	
 			
@@ -216,7 +217,8 @@ function generate() {
 		data:'action='+'generate',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
-			window.open("./network.xml");
+			alert("done");
+			//window.open("./gen/xml/network.xml");
 		}
 	});
 }
@@ -292,6 +294,8 @@ function getInformationAndDeleteNode(id){
 	});
 
 }
+
+
 function saveMessage(){
 
 	$.ajax({
@@ -308,4 +312,17 @@ function saveMessage(){
 		}
 	});
 
+}
+
+
+/* Call the server to launch java-simulation core */
+function launchSimulation() {
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=launchSimulation",
+		success:function(data){
+			alert("done:"+data);
+		}
+	});	
 }
