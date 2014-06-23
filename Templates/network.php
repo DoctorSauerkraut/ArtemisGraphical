@@ -71,9 +71,9 @@
 	$dom->appendChild($network);
 
 
-	$dom->save('gen/xml/network.xml');
+	$dom->save('input/network.xml');
 	$command = "/usr/bin/java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
-	//$command = "ls -la > gen/logs/weblog.txt";
+
 	exec($command, $output);
 	print_r($output);
 
