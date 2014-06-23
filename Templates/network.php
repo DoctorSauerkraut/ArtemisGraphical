@@ -28,7 +28,7 @@
 						$path = $dom->createElement("path");
 						$path->appendChild($dom->createTextNode($pathId[$element3->id()]));
 						$priority = $dom->createElement("priority");
-						$priority->appendChild($dom->createTextNode("Non définie"));
+						$priority->appendChild($dom->createTextNode("0"));
 						$period = $dom->createElement("period");
 						$period->appendChild($dom->createTextNode($element3->period()));
 						$offset = $dom->createElement("offset");
@@ -71,8 +71,13 @@
 	$dom->appendChild($network);
 
 
-	$dom->save('network.xml');
-	include_once('./Views/show.php'); 
+	$dom->save('input/network.xml');
+	$command = "/usr/bin/java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
 
+	exec($command, $output);
+	print_r($output);
+
+
+	include_once('./Views/show.php'); 
 
 ?>
