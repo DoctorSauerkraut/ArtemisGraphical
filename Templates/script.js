@@ -48,6 +48,21 @@ function recupDatabase(){
 	});
 }
 
+//////////////////////////////////////////////////// Generate link
+function generate() {
+	document.getElementById("link-results").innerHTML = "Waiting...";
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'generate',
+		success:function(data){
+			document.getElementById("corps").innerHTML = data;
+			document.getElementById("link-results").innerHTML = "Simulate";
+			loadResults();
+		}
+	});
+}
 
 
 //////////////////////////////////////////////////// Details Links ///////////////////////////////////////////////////////////
@@ -184,21 +199,7 @@ function deleteMessage($id) {
 		}
 	});
 }
-//////////////////////////////////////////////////// Generate link
-function generate() {
-	document.getElementById("link-results").innerHTML = "Waiting...";
-	
-	$.ajax({
-		url:"./Controller.php",
-		type:"post",
-		data:'action='+'generate',
-		success:function(data){
-			document.getElementById("corps").innerHTML = data;
-			document.getElementById("link-results").innerHTML = "Simulate";
-			loadResults();
-		}
-	});
-}
+
 
 //////////////////////////////////////////////////// "Create your topology" links ///////////////////////////////////////////////////////////
 
