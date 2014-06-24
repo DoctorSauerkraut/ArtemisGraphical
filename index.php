@@ -5,6 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
 		<link type="text/css" href="./Templates/artemis.css" rel="stylesheet"/>
 		<link type="text/css" rel="stylesheet" href="./vis/dist/vis.css"/>
+		
 		<script type="text/javascript" src="./Templates/jquery.js" ></script>
 		<script type="text/javascript" src="./Templates/script.js"></script>
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
@@ -19,12 +20,13 @@
 			 
 			<nav>
 				<ul>
-					<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()"> Create your topology</a></li>
+					<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()">Network</a></li>
 					<li onclick="loadDetails()"><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
-					<li onclick="loadResults()"><a id="link-results" class="link-results" href="#" onclick="loadResults()"> See the results</a></li>
+					<li id="liresults" onclick="generate()"><a id="link-results" class="link-results" href="#">Simulate</a></li>
 				</ul>
 			</nav> 
 		</div>
+		
 	</header>
 	<body onload="loadCreate();"> 
 		<div id="corps">

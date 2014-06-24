@@ -1,8 +1,6 @@
 <?php 
 	$nbfile=0;
 	if($folder = opendir('./Templates/results')){ 
-		echo "<input type=\"button\" value=\"Launch Simulation\" onclick=\"launchSimulation()\" />";
-		
 		echo " <div id='results' style='text-align:center;'>  
 					<table class='tableShow'>
 						<caption> Results Table </caption>
@@ -31,6 +29,4 @@
 	} else {
 		echo "Error: Fail to open the folder.";
 	} 
-	echo '<p><a href="./Views/images.php" target="_BLANK">Click here to view all the results</a></p>
-	<p><a href="./index.php"> Return to the Home Page </a></p> 
-	</div>';
+	echo "Simulation Time:0.35s</div>";

@@ -211,14 +211,16 @@ function deleteMessage($id) {
 }
 //////////////////////////////////////////////////// Generate link
 function generate() {
+	document.getElementById("link-results").innerHTML = "Waiting...";
+	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
 		data:'action='+'generate',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
-			alert("done");
-			//window.open("./gen/xml/network.xml");
+			document.getElementById("link-results").innerHTML = "Simulate";
+			loadResults();
 		}
 	});
 }

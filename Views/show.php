@@ -74,66 +74,64 @@
 	<!------------------------------------- Tables containing information coming from the database ---------------------------------------------->
 	
 	<!---------- Nodes Table ---------->
+	<div id="tabledetailsdiv">
+		<table class="tableShow">
+			<caption> Nodes Table </caption>
+			<tr>
+				<th> Node ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Criticality</th><th>Edit</th><th>Delete</th>
+			</tr>
+			<?php foreach($donnees1 as $element){ ?>
+				<tr>
+					<td><?php echo $element->id(); ?> </td>
+					<td><?php echo $element->name(); ?> </td>
+					<td><?php echo $element->ipAddress(); ?> </td>
+					<td><?php echo $element->scheduling(); ?> </td>
+					<td><?php echo $element->criticality(); ?> </td>
+					<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
+					<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td>
+				</tr>		
+			<?php } ?>	 
+		</table>	
 	
-	<table class="tableShow">
-		<caption> Nodes Table </caption>
-		<tr>
-			<th> Node ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Criticality</th><th>Edit</th><th>Delete</th>
-		</tr>
-		<?php foreach($donnees1 as $element){ ?>
+	<!---------- Links Table ---------->
+	
+		<table class="tableShow">
+		<caption> Links Table </caption>
 			<tr>
-				<td><?php echo $element->id(); ?> </td>
-				<td><?php echo $element->name(); ?> </td>
-				<td><?php echo $element->ipAddress(); ?> </td>
-				<td><?php echo $element->scheduling(); ?> </td>
-				<td><?php echo $element->criticality(); ?> </td>
-				<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
-				<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td>
-			</tr>		
-		<?php } ?>	 
-	</table>	
-
-<!---------- Links Table ---------->
-
-	<table class="tableShow">
-	<caption> Links Table </caption>
-		<tr>
-			<th> Link ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
-		</tr>
-		<?php $i=0;
-		foreach($donnees2 as $element){ ?>	
+				<th> Link ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
+			</tr>
+			<?php $i=0;
+			foreach($donnees2 as $element){ ?>	
+				<tr>
+					<td><?php echo $element->id(); ?> </td>
+					<td><?php echo $tabNames[$i]; ?> </td> 
+					<td><?php echo $tabNames[$i+1]; ?> </td>
+					<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/edit.png"></a></td>
+					<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/delete.png" ></a></td>
+				</tr>	
+				<?php $i=$i+2;
+			} ?> 
+		</table>	
+	
+	<!---------- Messages Table ---------->
+	
+		<table class="tableShow">
+			<caption> Messages Table </caption>
 			<tr>
-				<td><?php echo $element->id(); ?> </td>
-				<td><?php echo $tabNames[$i]; ?> </td> 
-				<td><?php echo $tabNames[$i+1]; ?> </td>
-				<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/edit.png"></a></td>
-				<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/delete.png" ></a></td>
-			</tr>	
-			<?php $i=$i+2;
-		} ?> 
-	</table>	
-
-<!---------- Messages Table ---------->
-
-	<table class="tableShow">
-		<caption> Messages Table </caption>
-		<tr>
-			<th> Message ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
-		</tr>
-		<?php foreach($donnees3 as $element){ ?>	
-			<tr>
-				<td><?php echo $element->id(); ?> </td>
-				<td><?php echo $element->path(); ?> </td>
-				<td><?php echo $element->period(); ?> </td>
-				<td><?php echo $element->offset(); ?> </td>
-				<td><?php echo $element->wcet(); ?> </td>
-				<td style="text-align:center;"><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
-				<td style="text-align:center;"><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
-			</tr>		
-		<?php } ?> 
-	</table> 
-
+				<th> Message ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
+			</tr>
+			<?php foreach($donnees3 as $element){ ?>	
+				<tr>
+					<td><?php echo $element->id(); ?> </td>
+					<td><?php echo $element->path(); ?> </td>
+					<td><?php echo $element->period(); ?> </td>
+					<td><?php echo $element->offset(); ?> </td>
+					<td><?php echo $element->wcet(); ?> </td>
+					<td style="text-align:center;"><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
+					<td style="text-align:center;"><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
+				</tr>		
+			<?php } ?> 
+		</table> 
+	</div>
 <!---------- Link for the simulation ---------->
-
-	<p style="text-align:center;"><a href="#" onclick="generate()" >Click here to simulate and generate the xml file</br>(You need to accept PopUps)</a></p>
 

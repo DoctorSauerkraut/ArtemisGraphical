@@ -35,6 +35,7 @@ function draw(info) {
 			fontColor: "rgb(255,255,255)",	
 			fontFace: "Verdana",
 			fontSize: 15,
+			shape:"box",
 			color: {		
 				background: "rgb(20,20,30)",
 				border: "rgb(210,210,230)",
@@ -43,7 +44,8 @@ function draw(info) {
 					font: "rgb(20,20,30)",
 					border: "rgb(20,20,30)"
 				}
-			}
+			},
+			allowedToMoveX:false,
 		},
 			
 		edges: {
@@ -51,7 +53,26 @@ function draw(info) {
 			length: 50
 		},
 			
-		stabilize: true,
+			
+		physics: {
+	        barnesHut: {
+	            enabled: false,
+	            gravitationalConstant: -2000,
+	            centralGravity: 1.0,
+	            springLength: 95,
+	            springConstant: 0.04,
+	            damping: 0.09
+	        },
+	        repulsion: {
+	            centralGravity: 1.0,
+	            springLength: 50,
+	            springConstant: 0.05,
+	            nodeDistance: 100,
+	            damping: 0.09
+	        },
+		},
+        
+		stabilize: false,
 		dataManipulation: true,
 		onAdd: function(data,callback) {
 			addNode("",0,"FIFO",0);
@@ -65,6 +86,7 @@ function draw(info) {
 			var saveButton = document.getElementById('saveButton');
 			var cancelButton = document.getElementById('cancelButton');
 			var div = document.getElementById('graph-popUp');
+			
 			span.innerHTML = "Edit Node n°"+data.id;
 			idInput.value = data.id;
 			labelInput.value = data.label;

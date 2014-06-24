@@ -6,6 +6,8 @@ body {
 	font-size: 13px;
 	background-attachment:fixed;
 	height: 100%;
+	padding: 0;
+	top: 0;
 }
 
 #header {
@@ -16,7 +18,7 @@ body {
 	padding-left:0px;
 	text-align: center;
 	color: #202030;
-	height: 150px;
+	height: 100px;
 	background: #FFF;
 	border-bottom: 3px solid #202030;
 }
@@ -25,12 +27,13 @@ h3{
 	font-style:italic;
 	font-family: times, Verdana, Georgia, sans-serif;
 	font-size: 19px;
-	padding-top: 30px;
+	/* padding-top: 30px; */
 }
 
 
 #logo {
 	float:left;
+	height: 100px;
 }
 
 #titre {
@@ -46,10 +49,10 @@ nav {
 	background-color:#202030;
 	display:inline-block;
 	margin: auto;
-	margin-top:10px;
+	/* margin-top:10px; */
 	margin-left:30px;
 	width:70%;
-	height:30%; 
+	/* height: 40%; */ 
 }
 
 nav ul
@@ -122,12 +125,16 @@ li:active{
 }
 
 #footer { 
-	margin-top:20px;
 	width: 100%;
+	margin-top:10px;
 	color: #202030;
 	background: #d3d3d3;
 	height: 53px;
 	text-align: center;
+	position:absolute;
+	left:0;
+	bottom: 0;
+	margin-top:10px;
 }
 
 #footer p {
@@ -135,11 +142,14 @@ li:active{
 }
 
 #mygraph {
-    position:relative;
-    width: 1200px;
-    height: 600px;
+    width: 100%;
+    /* min-height:500px; */
+	
+    height: 500px;
+    /* max-height: 500px; */
     border: 1px solid lightgray;
-	margin: 0 auto;
+	
+    margin: 0 auto;
 }
 	  
 table.legend_table {
@@ -272,6 +282,9 @@ div.table_description {
 
 .tableShow {
 	margin:auto;
+	float: left;
+	margin-left:10px;
+	width:22%;
 	margin-bottom: 50px;
 	margin-top:50px;
 	font-family: Verdana, Georgia, sans-serif;
@@ -298,5 +311,19 @@ caption {
 }
 
 
+#corps p {
+	width:100%;
+}
 
 
+#tabledetailsdiv {
+	width:100%;
+	min-height: 300px;
+	margin-bottom:50px;
+}
+
+
+
+#liresults {
+	background: linear-gradient(to left, #FF3030, #FF8585);
+}
