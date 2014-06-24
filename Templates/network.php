@@ -16,11 +16,10 @@
 			$config->appendChild($name);
 		$machine->appendChild($config);
 
-			$messages = $dom->createElement("Messages");
+			$messages = $dom->createElement("Messages");	
 			foreach($donnees3 as $element3){
-				$arr=explode(",", $element3->path(), 2);
-				if($arr[0] == $element1->name()) {
-
+			$arr=explode(",", $element3->path(), 2);										
+				if($arr[0] == trim($element1->name()) ){
 			$message = $dom->createElement("message");
 				$message->setAttribute("id", $element3->id());
 					$criticality = $dom->createElement("criticality");
@@ -42,6 +41,8 @@
 					$criticality->appendChild($wcet);
 				$message->appendChild($criticality);	
 			$messages->appendChild($message);
+
+
 		$machine->appendChild($messages);
 				}
 			}
