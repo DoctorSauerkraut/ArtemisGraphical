@@ -1,25 +1,38 @@
 //////////////////////////////////////////////////// Header links ///////////////////////////////////////////////////////////
 
+/* Change the style of the menu items on click */
+function updateMenuStyle(id) {
+	var menuitems = document.getElementsByClassName('menuitem');
+	
+	for(var cpt = 0; cpt < menuitems.length; cpt++) {
+		menuitems[cpt].className = "menuitem";
+	}
+	
+	document.getElementById(id).className += " linkselected";
+}
+
+/* Load different pages linked to the menu */
+function loadContent(action) {
+	$.ajax({
+		url:"Controller.php",
+		type:"post",
+		data:"action="+action,
+		success:function(data){
+			document.getElementById("corps").innerHTML = data;
+			updateMenuStyle("link-"+action);
+		}
+	});
+}
+
 function loadCreate() {
 	$.ajax({
 		url:"./Views/create.php",
 		type:"post",
 		data:"",
 		success:function(data){
-//			alert(data);
 			document.getElementById("corps").innerHTML = data;
 			recupDatabase();	
-			
-			link1 = document.getElementById("link-create");
-			if(link1!=null){
-				link2= document.getElementById("link-selected");
-				link1.id='link-selected';
-				link1.parentNode.style.backgroundColor="lightgray";
-				if( link2 !== null){
-					link2.id=link2.className;	
-					link2.parentNode.style.backgroundColor="#202030";
-				}			
-			}
+			updateMenuStyle("link-create");
 		}
 	});
 }
@@ -34,42 +47,19 @@ function recupDatabase(){
 		}
 	});
 }
- 
- function loadDetails() {
-	$.ajax({
-		url:"Controller.php",
-		type:"post",
-		data:"action=view",
-		success:function(data){
-			document.getElementById("corps").innerHTML = data;
-			
-			link1 = document.getElementById("link-details");
-			if(link1!=null){
-				link2= document.getElementById("link-selected");
-				link1.id='link-selected';
-				link1.parentNode.style.backgroundColor="lightgray";
-				link2.id=link2.className;
-				link2.parentNode.style.backgroundColor="#202030";
-			}
-		}
-	});
-}
 
-function loadResults() {
+//////////////////////////////////////////////////// Generate link
+function generate() {
+	document.getElementById("link-results").innerHTML = "Waiting...";
+	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'results',
+		data:'action='+'generate',
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
-			link1 = document.getElementById("link-results");
-			if(link1!=null){
-				link2= document.getElementById("link-selected");
-				link1.id='link-selected';
-				link1.parentNode.style.backgroundColor="lightgray";
-				link2.id=link2.className;
-				link2.parentNode.style.backgroundColor="#202030";
-			}		
+			document.getElementById("link-results").innerHTML = "Simulate";
+			loadResults();
 		}
 	});
 }
@@ -209,21 +199,7 @@ function deleteMessage($id) {
 		}
 	});
 }
-//////////////////////////////////////////////////// Generate link
-function generate() {
-	document.getElementById("link-results").innerHTML = "Waiting...";
-	
-	$.ajax({
-		url:"./Controller.php",
-		type:"post",
-		data:'action='+'generate',
-		success:function(data){
-			document.getElementById("corps").innerHTML = data;
-			document.getElementById("link-results").innerHTML = "Simulate";
-			loadResults();
-		}
-	});
-}
+
 
 //////////////////////////////////////////////////// "Create your topology" links ///////////////////////////////////////////////////////////
 

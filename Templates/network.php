@@ -76,9 +76,7 @@
 	$command = "/usr/bin/java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
 
 	exec($command, $output);
-	print_r($output);
 
-
-	include_once('./Views/show.php'); 
+	include_once('./Views/results.php'); 
 
 ?>

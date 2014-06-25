@@ -4,6 +4,7 @@
         <title>ARTEMIS</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
 		<link type="text/css" href="./Templates/artemis.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/menu.css" rel="stylesheet"/>
 		<link type="text/css" rel="stylesheet" href="./vis/dist/vis.css"/>
 		
 		<script type="text/javascript" src="./Templates/jquery.js" ></script>
@@ -20,19 +21,25 @@
 			 
 			<nav>
 				<ul>
-					<li onclick="loadCreate()"><a id="link-create" class="link-create" href="#" onclick="loadCreate()">Network</a></li>
-					<li onclick="loadDetails()"><a id="link-details" class="link-details" href="#" onclick="loadDetails()"> Details</a></li>
-					<li id="liresults" onclick="generate()"><a id="link-results" class="link-results" href="#">Simulate</a></li>
+					<li id="link-create" class="menuitem" onclick="loadCreate()">
+						Network
+					</li>
+					<li id="link-details" class="menuitem" onclick="loadContent('details')">
+						Details
+					</li>
+					<li id="link-settings" class="menuitem" onclick="loadContent('settings')">
+						Settings
+					</li>
+					<li id="link-results" class="menuitem" onclick="generate()">
+						Simulate
+					</li>
 				</ul>
 			</nav> 
 		</div>
 		
 	</header>
-	<body onload="loadCreate();"> 
+	<body onload="loadCreate()"> 
 		<div id="corps">
-			<?php
-				include('./Views/create.php');
-			?>
 		</div>
 		<?php  
 			include_once('./Templates/footer.php'); 

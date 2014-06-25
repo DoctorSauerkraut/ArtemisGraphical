@@ -30,8 +30,9 @@
 	if($action_server == "") {
 		return;	
 	}
-				
-	if ($action_server=="view"){		
+	
+	/* content load */		
+	if ($action_server=="details"){		
 	
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
@@ -44,7 +45,33 @@
 		}
 		include('./Views/show.php');
 			
-	}else if ($action_server=="recupInfoAndDeleteLink"){
+	}else if($action_server=="create") {
+		$donnees1= $manager->displayListNode();
+		$donnees2= $manager->displayListLink();	
+		
+		if ($donnees1 != null){
+			$info="";			
+			foreach ($donnees1 as $element1) {
+				$info=$info.$element1->id().','.$element1->name().',';
+			}
+			$info=substr($info,0,-1);
+			$info=$info.";";
+			foreach ($donnees2 as $element2) {
+				$info=$info.$element2->node1().','.$element2->node2().','.$element2->id().',';
+			}
+			$info=substr($info,0,-1);
+			$info=$info.";";	
+			echo ($info);			
+		}
+
+	}else if ($action_server=="results"){
+		$donnees1= $manager->displayListNode();	
+		include('./Views/results.php');
+			
+	}else if($action_server=="settings") {
+		include("./Views/settings.php");
+	} /* DB Actions */
+	else if ($action_server=="recupInfoAndDeleteLink"){
 		
 		$donnees= $manager->displayLink($_POST["id"]);
 		$manager->deleteLink($_POST['id']);
@@ -81,30 +108,6 @@
 		}else {
 			echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
 		}
-			
-	}else if ($action_server=="create"){
-		
-		$donnees1= $manager->displayListNode();
-		$donnees2= $manager->displayListLink();	
-		
-		if ($donnees1 != null){
-			$info="";			
-			foreach ($donnees1 as $element1) {
-				$info=$info.$element1->id().','.$element1->name().',';
-			}
-			$info=substr($info,0,-1);
-			$info=$info.";";
-			foreach ($donnees2 as $element2) {
-				$info=$info.$element2->node1().','.$element2->node2().','.$element2->id().',';
-			}
-			$info=substr($info,0,-1);
-			$info=$info.";";				
-			echo ($info);
-		}
-			
-	}else if ($action_server=="results"){
-		$donnees1= $manager->displayListNode();	
-		include('./Views/results.php');
 			
 	}else if ($action_server=="deleteNode"){
 	
