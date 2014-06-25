@@ -99,8 +99,9 @@ return $donnees['count(id)'];
 	$donnees=$this->displayListMessage();
 	$nametested=trim($name);
 	foreach($donnees as $element){
-		$path=explode(",", $element->path(), $this->nbNodes());
+		$path=explode(",", $element->path(), 100);
 		foreach($path as $apath){
+				print_r (" actual name ".$apath);
 			if ($apath==$nametested){
 				$this->deleteMessage($element->id());
 				break;

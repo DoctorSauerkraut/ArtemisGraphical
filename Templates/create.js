@@ -72,7 +72,7 @@ function draw(info) {
 	        },
 		},
         
-		stabilize: false,
+		stabilize: true,
 		dataManipulation: true,
 		onAdd: function(data,callback) {
 			addNode("",0,"FIFO",0);
