@@ -375,6 +375,10 @@ span.graph-manipulationUI.edit {
     background-image: url("img/graph/editIcon.png");
 }
 
+span.graph-manipulationUI.del {
+	background-image: url("img/graph/deleteIcon.png");
+}
+
 span.graph-manipulationUI.edit.editmode {
     background-color: #fcfcfc;
     border-style:solid;

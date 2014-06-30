@@ -273,6 +273,16 @@ function getInformationAndDeleteNode(id){
 
 }
 
+function clearGraph(name){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'clearGraph',
+				success:function(data){
+				recupDatabase();
+				}
+	});
+}
 
 function saveMessage(){
 

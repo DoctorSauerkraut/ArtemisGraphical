@@ -1,8 +1,8 @@
+
+function draw(info) {
 var nodes = null;
 var edges = null;
 var graph = null;
-
-function draw(info) {
 
 	if(info != ""){
 		infos=info.split(";");
@@ -153,6 +153,8 @@ function draw(info) {
 		callback(data);
 
 	}
+	
+
 }
 		
 		

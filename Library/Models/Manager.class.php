@@ -10,6 +10,13 @@ private $counter=0;
  $this->_db = $db;
  }
   
+  
+  public function clearAll(){
+   $this->_db->exec('TRUNCATE TABLE message');
+   $this->_db->exec('TRUNCATE TABLE link');
+   $this->_db->exec('TRUNCATE TABLE node');  
+  }
+  
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////
  
  public function nbNodes(){
@@ -251,15 +258,9 @@ $counter = 0;
 	foreach ( $donnees as $element ){
 		for($i = 0, $size = count($nodesid)-1;$i<$size; $i++){
 			if ($nodesid[$i] == $element->node1() && $nodesid[$i+1] == $element->node2() || $nodesid[$i] == $element->node2() && $nodesid[$i+1] == $element->node1()){
-				//echo " if ".$nodesid[$i].$nodesid[$i+1].":".$element->node1().$element->node2();
 				$counter++;
 				break;
 			} 
-
-			/*if ($i==$size-1 && ( $nodesid[$size-1] != $element->node1() || $nodesid[$size] != $element->node2() || $nodesid[$size-1] != $element->node2() || $nodesid[$size] != $element->node1())){
-			echo " autre if ".$nodesid[$i].$nodesid[$i+1].":".$element->node1().$element->node2();
-			return "";
-			}*/
 		}
 	}
 	if($counter !=  count($nodesid)-1){
