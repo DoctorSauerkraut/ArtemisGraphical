@@ -13020,7 +13020,11 @@ var manipulationMixin = {
           "<span class='graph-manipulationLabel'>"+this.constants.labels['add'] +"</span></span>" +
         "<div class='graph-seperatorLine'></div>" +
         "<span class='graph-manipulationUI connect' id='graph-manipulate-connectNode'>" +
-          "<span class='graph-manipulationLabel'>"+this.constants.labels['link'] +"</span></span>";
+          "<span class='graph-manipulationLabel'>"+this.constants.labels['link'] +"</span></span>" + 
+		  "<div class='graph-seperatorLine'></div>"+ 
+		  "<span class='graph-manipulationUI del' id='graph-manipulate-deleteall' >" +
+          "<span class='graph-manipulationLabel' >"+this.constants.labels['deleteall'] +"</span></span>" ;
+		  
       if (this._getSelectedNodeCount() == 1 && this.triggerFunctions.edit) {
         this.manipulationDiv.innerHTML += "" +
           "<div class='graph-seperatorLine'></div>" +
@@ -13037,9 +13041,11 @@ var manipulationMixin = {
 
       // bind the icons
       var addNodeButton = document.getElementById("graph-manipulate-addNode");
-      addNodeButton.onclick = this._createAddNodeToolbar.bind(this);
+	  addNodeButton.onclick = this._createAddNodeToolbar.bind(this);
       var addEdgeButton = document.getElementById("graph-manipulate-connectNode");
       addEdgeButton.onclick = this._createAddEdgeToolbar.bind(this);
+	  var addDeleteAllButton = document.getElementById("graph-manipulate-deleteall");
+	 addDeleteAllButton.onclick = this._deleteAll.bind(this);
       if (this._getSelectedNodeCount() == 1 && this.triggerFunctions.edit) {
         var editButton = document.getElementById("graph-manipulate-editNode");
         editButton.onclick = this._editNode.bind(this);
@@ -13095,7 +13101,16 @@ var manipulationMixin = {
     this.on('select', this.boundFunction);
   },
 
-
+  
+  /**
+   * delete all
+   *
+   * @private
+   */
+  _deleteAll : function() {
+clearGraph("cleared");
+  },
+  
   /**
    * create the toolbar to connect nodes
    *
@@ -13370,6 +13385,8 @@ var manipulationMixin = {
     }
   }
 };
+
+
 /**
  * Creation of the SectorMixin var.
  *
@@ -16200,6 +16217,7 @@ function Graph (container, data, options) {
       add:"Add Node",
       edit:"Edit",
       link:"Add Link",
+	  deleteall:"Clear All",
       del:"Delete selected",
       editNode:"Edit Node",
       back:"Back",
@@ -22734,7 +22752,7 @@ var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? 
               // keep a list of which sequences were matches for later
               do_not_reset[callbacks[i].seq] = 1;
               _fireCallback(callbacks[i].callback, e);
-              continue;
+              continue; 
           }
 
           // if there were no sequence matches but we are still here

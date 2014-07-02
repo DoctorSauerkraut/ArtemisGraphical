@@ -1,8 +1,8 @@
+
+function draw(info) {
 var nodes = null;
 var edges = null;
 var graph = null;
-
-function draw(info) {
 
 	if(info != ""){
 		infos=info.split(";");
@@ -72,7 +72,7 @@ function draw(info) {
 	        },
 		},
         
-		stabilize: false,
+		stabilize: true,
 		dataManipulation: true,
 		onAdd: function(data,callback) {
 			addNode("",0,"FIFO",0);
@@ -153,6 +153,8 @@ function draw(info) {
 		callback(data);
 
 	}
+	
+
 }
 		
 		
