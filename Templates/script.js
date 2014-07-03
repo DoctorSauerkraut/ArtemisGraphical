@@ -59,7 +59,6 @@ function generate() {
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 			document.getElementById("link-results").innerHTML = "Simulate";
-			//loadResults();
 		}
 	});
 }

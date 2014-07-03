@@ -73,8 +73,8 @@
 
 
 	$dom->save('input/network.xml');
-	$command = "/usr/bin/java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
-
+	//$command = "/usr/bin/java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
+	$command = "java -jar artemis_launcher.jar 2>&1 > gen/logs/weblog.txt";
 	exec($command, $output);
 
 	include_once('./Views/results.php'); 

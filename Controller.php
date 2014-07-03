@@ -231,6 +231,6 @@
 	else if($action_server == "launchSimulation") {
 			echo "toto";
 	}else if($action_server == "clearGraph"){
-	$manager->clearAll();
+		$manager->clearAll();
 	}
 ?>		

@@ -254,5 +254,6 @@ caption {
 }
 
 #results img {
+	margin-top: 10px;
 	width:90%;
 }
