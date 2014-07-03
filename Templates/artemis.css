@@ -208,13 +208,15 @@ div.table_description {
 }
 
 .tableShow {
-	float:left;
+	display:inline-block; 
+	vertical-align: top;
+	float:center;
 	font-family: Verdana, Georgia, sans-serif;
 	border-collapse: collapse;
 	font-size: 12px;
-	margin-right:5px;
+	width:auto;
 }
-
+ 
 .tableShow td{
 	text-align: center;
 	border: 2px solid white;
@@ -251,9 +253,11 @@ caption {
 	height: auto;
 	margin-bottom:50px;
 	padding-top: 50px;
+	text-align:center;
 }
 
 #results img {
 	margin-top: 10px;
+	margin-bottom:20px;
 	width:90%;
 }
