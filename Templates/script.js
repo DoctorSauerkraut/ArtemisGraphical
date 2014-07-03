@@ -53,7 +53,7 @@ function generate() {
 	document.getElementById("link-results").innerHTML = "Waiting...";
 	
 	$.ajax({
-		url:"./Controller.php",
+		url:"Controller.php",
 		type:"post",
 		data:'action='+'generate',
 		success:function(data){
