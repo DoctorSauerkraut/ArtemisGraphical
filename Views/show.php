@@ -49,7 +49,7 @@
 	<!--------------------------------------- Edit Message PopUp which is normally not displayed ------------------------------------------------>
 	
 	<div style="display:none" id="popup-message-edit">
-		<span id="edit-message-title">link</span> <br>
+		<span id="edit-message-title">Message</span> <br>
 		<table id="table-edit-message" >
 			<tr style="display:none;">
 				<td>ID</td><td><input id="message-id"> </td>
@@ -78,7 +78,7 @@
 		<table class="tableShow">
 			<caption> Nodes Table </caption>
 			<tr>
-				<th> Node ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Criticality</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Criticality</th><th>Edit</th><th>Delete</th>
 			</tr>
 			<?php foreach($donnees1 as $element){ ?>
 				<tr>
@@ -98,7 +98,7 @@
 		<table class="tableShow">
 		<caption> Links Table </caption>
 			<tr>
-				<th> Link ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
 			</tr>
 			<?php $i=0;
 			foreach($donnees2 as $element){ ?>	
@@ -118,7 +118,7 @@
 		<table class="tableShow">
 			<caption> Messages Table </caption>
 			<tr>
-				<th> Message ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
 			</tr>
 			<?php foreach($donnees3 as $element){ ?>	
 				<tr>
@@ -127,11 +127,9 @@
 					<td><?php echo $element->period(); ?> </td>
 					<td><?php echo $element->offset(); ?> </td>
 					<td><?php echo $element->wcet(); ?> </td>
-					<td style="text-align:center;"><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
-					<td style="text-align:center;"><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
+					<td><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
+					<td><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
 				</tr>		
 			<?php } ?> 
 		</table> 
 	</div>
-<!---------- Link for the simulation ---------->
-

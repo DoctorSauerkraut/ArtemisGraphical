@@ -180,7 +180,7 @@ function popupMessage($id, $path, $period, $offset, $wcet) {
 	var offset = document.getElementById('offset');	
 	var wcet = document.getElementById('wcet');
 	var div = document.getElementById('popup-message-edit');
-	span.innerHTML = "Edit Message n."+$id;
+	span.innerHTML = "Edit Msg n."+$id;
 	id.value = $id;
 	path.value = $path;
 	period.value = $period;
