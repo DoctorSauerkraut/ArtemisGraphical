@@ -164,7 +164,6 @@
 			$pathId[$element3->id()]=$element3->path();
 			foreach ($donnees1 as $element1) {
 				$pathId[$element3->id()] = str_replace(trim($element1->name()),$element1->id(),$pathId[$element3->id()]);
-				//print_r ("III".$pathId[$element3->id()]."::".trim($element1->name())."::".$element1->id()."III");
 			}
 		}
 		$tabNames =[];

@@ -3,6 +3,6 @@
 	
 	echo "<img src=\"gen/histos/histogram_network.PNG\" />";
 	
-	echo "Simulation Time:0.35s";
+	echo "</br>Simulation Time: 0.35s";
 	echo "</div>";
 ?>
