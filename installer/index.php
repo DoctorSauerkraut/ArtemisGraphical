@@ -6,8 +6,10 @@
 	<input type="text" name="user"/></p>
 	<p><label>Password:</label>
 	<input type="password" name="pass"/></p>
-	<input type="hidden" name="userinit" value="root"/>
-	<input type="hidden" name="passinit" value=""/>
+	<p><label>Root Username:</label>
+	<input type="text" name="userinit" value="root"/></p>
+	<p><label>Root Password:</label>
+	<input type="text" name="passinit" value=""/></p>
 	<input type="hidden" name="db" value="artemis"/>
 	<p><input type="submit" value="Submit" /></p>
 </form>
