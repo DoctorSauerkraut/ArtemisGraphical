@@ -1,6 +1,6 @@
 <?php
-	if(file_exists("installer/")) {
-		header("Location: installer/");
+	if(file_exists("installer/index.php")) {
+		header("Location: installer/index.php");
 	}
 ?>
 
