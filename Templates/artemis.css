@@ -30,7 +30,6 @@ h3{
 	/* padding-top: 30px; */
 }
 
-
 #logo {
 	float:left;
 	height: 100px;
@@ -224,6 +223,10 @@ div.table_description {
 	max-width:100px;
 	word-wrap : break-word;
 }
+.redcase {
+	background: red !important;	
+}
+
 .tableShow th{
 
 	text-align: center;

@@ -105,11 +105,10 @@
 					<td><?php echo $element->name(); ?> </td>
 					<td><?php echo $element->ipAddress(); ?> </td>
 					<td><?php echo $element->scheduling(); ?> </td>
-					<td><?php 
+					<?php 
 						$name = trim($element->name());
-						$load = $loadArray[$name];
-						echo number_format($loadArray[$name], 4); ?>
-					</td>
+						$load = $loadArray[$name];?>
+					<td <?php if($loadArray[$name] > 1.0) {echo "class=\"redcase\"";}?>><?php echo number_format($loadArray[$name], 4); ?></td>
 					<!-- <td><?php echo $element->criticality(); ?> </td> -->
 					<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
 					<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td>
