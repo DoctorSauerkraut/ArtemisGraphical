@@ -37,6 +37,7 @@
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();
+		
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());

@@ -20,7 +20,7 @@
 				<option value="RM">RM</option></select></td>
 			</tr>
 			<tr>
-				<td>Criticality</td><td><input id="node-crit" type="number" value="1"> </td>
+				<td>Load</td><td><input id="node-crit" type="number" value="1"> </td>
 			</tr>
 		</table>
 		<input type="button" value="SAVE" onclick="editNode();" id="saveButton"></button>
@@ -74,19 +74,43 @@
 	<!------------------------------------- Tables containing information coming from the database ---------------------------------------------->
 	
 	<!---------- Nodes Table ---------->
+	<?php
+		/* Load computation */
+		//$loadArray = new Array();
+		foreach($donnees3 as $message) {
+			$path = explode(",", $message->path());
+			
+			foreach($path as $machineName) {
+				$tempPeriod = $message->period();
+				if($tempPeriod == 0) {
+					$tempPeriod = 80;
+				}
+				$currentLoad = $message->wcet()/$tempPeriod;
+				
+				$machineName = trim($machineName);
+				$loadArray[$machineName] += $currentLoad;	
+			}
+		}
+	?>
 	<div id="tabledetailsdiv">
 		<table class="tableShow">
 			<caption> Nodes Table </caption>
 			<tr>
-				<th>ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Criticality</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Load</th><th>Edit</th><th>Delete</th>
 			</tr>
+			
 			<?php foreach($donnees1 as $element){ ?>
 				<tr>
 					<td><?php echo $element->id(); ?> </td>
 					<td><?php echo $element->name(); ?> </td>
 					<td><?php echo $element->ipAddress(); ?> </td>
 					<td><?php echo $element->scheduling(); ?> </td>
-					<td><?php echo $element->criticality(); ?> </td>
+					<td><?php 
+						$name = trim($element->name());
+						$load = $loadArray[$name];
+						echo number_format($loadArray[$name], 4); ?>
+					</td>
+					<!-- <td><?php echo $element->criticality(); ?> </td> -->
 					<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
 					<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td>
 				</tr>		
