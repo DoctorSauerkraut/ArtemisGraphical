@@ -1,4 +1,4 @@
-		<!------------------------ GRAPH POP UP  ------------------------->
+	<!------------------------ GRAPH POP UP  ------------------------->
 	<div id="graph-popUp">
 		<span id="operation">node</span> <br>
 		<table id="tableEdit" >

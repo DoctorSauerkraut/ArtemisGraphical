@@ -9,10 +9,10 @@
 
 		$machine=$dom->createElement("machine");
 		$machine->setAttribute("id",$element1->id());
+		$machine->setAttribute("name",$element1->name());
 		
 			$config = $dom->createElement("Config");
 				$name = $dom->createElement("name");
-				$name->appendChild($dom->createTextNode($element1->name()));
 			$config->appendChild($name);
 		$machine->appendChild($config);
 
