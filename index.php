@@ -13,10 +13,11 @@
 		<link type="text/css" href="styles/menu.css" rel="stylesheet"/>
 		<link type="text/css" rel="stylesheet" href="./vis/dist/vis.css"/>
 		
-		<script type="text/javascript" src="./Templates/jquery.js" ></script>
-		<script type="text/javascript" src="./Templates/script.js"></script>
+		<script type="text/javascript" src="./scripts/jquery.js" ></script>
+		<script type="text/javascript" src="./scripts/script.js"></script>
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
-		<script type="text/javascript" src="./Templates/create.js"></script>
+		<script type="text/javascript" src="./scripts/create.js"></script>
+		<script type="text/javascript" src="./scripts/edit.js"></script>
     </head>
 	<header>
 		<div id="header">
@@ -33,10 +34,10 @@
 						<li id="link-details" class="menuitem" onclick="loadContent('details')">
 							Nodes
 						</li>
-						<li id="link-links" class="menuitem" onclick="">
+						<li id="link-links" class="menuitem" onclick="loadContent('links')">
 							Links
 						</li>
-						<li id="link-messages" class="menuitem" onclick="">
+						<li id="link-messages" class="menuitem" onclick="loadContent('messages')">
 							Messages
 						</li>
 						<li id="link-settings" class="menuitem" onclick="loadContent('settings')">

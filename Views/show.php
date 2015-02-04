@@ -116,43 +116,6 @@
 			<?php } ?>	 
 		</table>	
 	
-	<!---------- Links Table ---------->
 	
-		<table class="tableShow">
-		<caption> Links Table </caption>
-			<tr>
-				<th>ID</th><th>Node 1</th><th>Node 2</th><th>Edit</th><th>Delete</th>
-			</tr>
-			<?php $i=0;
-			foreach($donnees2 as $element){ ?>	
-				<tr>
-					<td><?php echo $element->id(); ?> </td>
-					<td><?php echo $tabNames[$i]; ?> </td> 
-					<td><?php echo $tabNames[$i+1]; ?> </td>
-					<td style="text-align:center;"><a href="#" onclick="popupLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/edit.png"></a></td>
-					<td style="text-align:center;"><a href="#" onclick="deleteLink('<?php echo $element->id(); ?>','<?php echo $tabNames[$i]; ?>','<?php echo $tabNames[$i+1]; ?>')"><img src="Templates/delete.png" ></a></td>
-				</tr>	
-				<?php $i=$i+2;
-			} ?> 
-		</table>	
-	
-	<!---------- Messages Table ---------->
-	
-		<table class="tableShow">
-			<caption> Messages Table </caption>
-			<tr>
-				<th>ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
-			</tr>
-			<?php foreach($donnees3 as $element){ ?>	
-				<tr>
-					<td><?php echo $element->id(); ?> </td>
-					<td><?php echo $element->path(); ?> </td>
-					<td><?php echo $element->period(); ?> </td>
-					<td><?php echo $element->offset(); ?> </td>
-					<td><?php echo $element->wcet(); ?> </td>
-					<td><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
-					<td><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
-				</tr>		
-			<?php } ?> 
-		</table> 
+
 	</div>

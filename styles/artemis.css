@@ -223,6 +223,10 @@ div.table_description {
 	max-width:100px;
 	word-wrap : break-word;
 }
+
+.tableShow td input[type="text"]{
+	width: 15px;
+}
 .redcase {
 	background: red !important;	
 }
