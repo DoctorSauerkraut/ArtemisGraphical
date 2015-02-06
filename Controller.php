@@ -2,36 +2,20 @@
 		
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
-	
-	include('config.php');
-	
-	function chargerClasse($classe)
-		{
-		if ($classe == 'Manager' ){
-		  require 'Library/Models/'.str_replace('\\', '/', $classe).'.class.php'; 
-		  require 'Library/Entities/Node.class.php';
-		  require 'Library/Entities/Link.class.php';
-		  require 'Library/Entities/Message.class.php';
-		  }
-		}
+
+	include('functions.php');
 		
 	spl_autoload_register('chargerClasse');
-		
-	try
-	{
-		$bdd = new PDO("mysql:host=$db_host;dbname=$db_name", "$db_user", "$db_pass",array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-		$manager = new Manager($bdd);
-	}
-	catch (Exception $e)
-	{
-		die('Erreur : ' . $e->getMessage());
-	}
+	
+	$manager = initManager();
 	
 	if($action_server == "") {
 		return;	
 	}
 	
-			
+	else if($action_server=="displayCritTable"){
+		include("./Views/criticalityTable.php");
+	}		
 	else if($action_server=="create") {
 		$donnees1= $manager->displayListNode();
 		$donnees2= $manager->displayListLink();	
@@ -183,6 +167,7 @@
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();	
+		
 		foreach ($donnees3 as $element3) {
 			$pathId[$element3->id()]=$element3->path();
 			foreach ($donnees1 as $element1) {
@@ -195,6 +180,7 @@
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
+		
 		include('./Templates/network.php');
 		
 	}else if($action_server=="editNode"){
@@ -250,9 +236,6 @@
 		}
 		include('./Views/show.php');			
 
-	}
-	else if($action_server == "launchSimulation") {
-			echo "toto";
 	}else if($action_server == "clearGraph"){
 		$manager->clearAll();
 	}

@@ -1,20 +1,22 @@
 <?php
 class Manager{
 
-private $_db;
-private $counter=0;
- public function __construct($db){
- $this->setDb($db);
- }
- public function setDb(PDO $db){
- $this->_db = $db;
- }
+	private $_db;
+	private $counter=0;
+
+	 public function __construct($db){
+		 $this->setDb($db);
+	 }
+	 public function setDb(PDO $db){
+		 $this->_db = $db;
+	 }
   
   
   public function clearAll(){
    $this->_db->exec('TRUNCATE TABLE message');
    $this->_db->exec('TRUNCATE TABLE link');
    $this->_db->exec('TRUNCATE TABLE node');  
+   $this->_db->exec('TRUNCATE TABLE critswitches');  
   }
   
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////

@@ -1,10 +1,37 @@
 		
 <?php
+	//require '../Library/Entities/CriticalitySwitch.class.php';
+	
 	$dom = new DomDocument();
+	
 	$network=$dom->createElement("Network");
+	
+	/* General configuration */
 	$timelimit=$dom->createElement("time-limit");
 	$timelimit->appendChild($dom->createTextNode("Undefined"));
 	$network->appendChild($timelimit);
+	
+	/* MC management */
+	$critSwitches = $dom->createElement("CritSwitches");
+	$network->appendChild($critSwitches);
+	
+	$req = CriticalitySwitch::load();
+
+	
+	while($switches = $req->fetch()) {
+		$critSwitch = $dom->createElement("critswitch");
+		$critSwitch->setAttribute("time", $switches["time"]);
+		$critSwitch->appendChild($dom->createTextNode($switches["level"]));
+		
+		$critSwitches->appendChild($critSwitch);
+		
+	//	
+	}
+
+	
+	
+	
+	
 	foreach($donnees1 as $element1){
 
 		$machine=$dom->createElement("machine");

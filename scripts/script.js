@@ -207,6 +207,7 @@ function addMessage() {
 	var label = document.getElementById('node-label');
 	var path = document.getElementById('path');
 	var div = document.getElementById('graph-popUp-adds');
+	
 	span.innerHTML = "Create a Message";
 	path.value=label.value+",Node X,Destination Node";
 	div.style.display = 'block';
@@ -283,7 +284,32 @@ function clearGraph(name){
 	});
 }
 
-function saveMessage(){
+function saveMessage() {
+	ajaxSaveMessage();
+	
+	var divAdd = document.getElementById('graph-popUp-adds');
+	divAdd.style.display = 'none';
+}
+
+function addMessageTable() {
+	ajaxSaveMessage();
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcet='+document.getElementById('wcet').value,
+		success:function(data){
+			data=data.trim();
+			if(data!=''){
+				alert(data);
+			}
+			
+			/* Reload page */
+			loadContent('messages');
+		}
+	});
+}
+function ajaxSaveMessage(){
 
 	$.ajax({
 		url:"./Controller.php",
@@ -294,13 +320,22 @@ function saveMessage(){
 			if(data!=''){
 				alert(data);
 			}
-			var divAdd = document.getElementById('graph-popUp-adds');
-			divAdd.style.display = 'none';
 		}
 	});
-
 }
 
+
+function displayCriticalityTable() {
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'displayCritTable',
+		success:function(data){
+			document.getElementById("critTableDiv").innerHTML = data;
+		}
+	});	
+}
 
 /* Call the server to launch java-simulation core */
 function launchSimulation() {

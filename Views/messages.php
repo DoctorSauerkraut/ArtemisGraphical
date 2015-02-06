@@ -8,21 +8,40 @@
 		<table class="tableShow">
 			<caption> Messages Table </caption>
 			<tr>
-				<th>ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Path</th><th>Period</th><th>Offset</th><th>WCET</th><th>Edit</th><th>Add</th><th>Delete</th>
 			</tr>
-			<?php foreach($donnees3 as $element){ ?>	
-				<tr>
-					<td><?php echo $element->id(); ?> </td>
-					<td><?php echo $element->path(); ?> </td>
-					<td onclick="editValue(this)"><?php echo $element->period(); ?> </td>
-					<td onclick="editValue(this)"><?php echo $element->offset(); ?> </td>
-					<td onclick="editValue(this)"><?php echo $element->wcet(); ?> </td>
-					<td><a href="#" onclick="popupMessage('<?php echo $element->id(); ?>','<?php echo $element->path(); ?>','<?php echo $element->period(); ?>','<?php echo $element->offset(); ?>','<?php echo $element->wcet(); ?>')"><img src="Templates/edit.png"></a></td>
-					<td><a href="#" onclick="deleteMessage(<?php echo $element->id(); ?>)"><img src="Templates/delete.png"></a></td>
-				</tr>		
-			<?php } ?> 
+			<?php foreach($donnees3 as $element){ 	
+				echo "<tr>";
+					echo "<td>".$element->id()."</td>";
+					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
+					echo "<td id=\"peri_".$element->id()."\" onclick=\"editValue(this)\">".$element->period()."</td>";
+					echo "<td id=\"offs_".$element->id()."\" onclick=\"editValue(this)\">".$element->offset()."</td>";
+					echo "<td id=\"wcet_".$element->id()."\" onclick=\"editValue(this)\">".$element->wcet()."</td>";
+					
+					echo "<td>";
+					echo "<img src=\"Templates/edit.png\" onclick=\"saveEditedMessage('".$element->id()."')\" />";
+					echo "</td>";
+			
+			
+					echo "<td>-</td>";
+					echo "<td><img src=\"Templates/delete.png\" /></td>";
+				echo "</tr>";		
+			 } 
+			
+				echo "<tr>";
+				echo "<td>-</td>";
+				echo "<td><input type=\"text\" id=\"path\" /></td>";
+				echo "<td><input type=\"text\" id=\"period\" /></td>";
+				echo "<td><input type=\"text\" id=\"offset\" /></td>";
+				echo "<td><input type=\"text\" id=\"wcet\" /></td>";
+				echo "<td>-</td>";
+				echo "<td><img src=\"Templates/add.png\" onclick=\"addMessageTable()\" /></td>";
+				echo "<td><img src=\"Templates/delete.png\" /></td>";
+				echo "</tr>";
+			
+			
+			?> 
+				
 		</table> 
 		
-		
-		<input type="button" value="Add a criticality level" />
 		</div>
