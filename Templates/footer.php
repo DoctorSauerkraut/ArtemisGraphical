@@ -1,3 +1,3 @@
 <div id="footer">
-	<p>Artemis v1.1 - by Olivier Cros & Lucie Teilhac at ECE Paris</p>
+	<p>Artemis v1.2 - by Olivier Cros & Lucie Teilhac at ECE Paris</p>
 </div>

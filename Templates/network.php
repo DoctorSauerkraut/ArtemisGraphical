@@ -8,7 +8,7 @@
 	
 	/* General configuration */
 	$timelimit=$dom->createElement("time-limit");
-	$timelimit->appendChild($dom->createTextNode("Undefined"));
+	$timelimit->appendChild($dom->createTextNode($timeLimit));
 	$network->appendChild($timelimit);
 	
 	/* MC management */

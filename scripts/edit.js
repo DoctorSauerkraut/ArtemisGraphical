@@ -43,3 +43,16 @@ function saveEditedMessage(id) {
 		}
 	});
 }
+
+function saveSettings() {	
+	var time =$("#timelimit")[0].value;
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'saveSettings'+'&time='+time,
+		success:function(data){
+			loadContent('settings');
+		}
+	});
+}

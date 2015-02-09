@@ -22,6 +22,7 @@
 		  require 'Library/Entities/Link.class.php';
 		  require 'Library/Entities/Message.class.php';
 		  require 'Library/Entities/CriticalitySwitch.class.php';
+		  require 'Library/Entities/Settings.class.php';
 		  }
 		}
 		

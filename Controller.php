@@ -35,6 +35,12 @@
 			echo ($info);			
 		}
 
+	}else if($action_server=="saveSettings") {
+		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
+		
+		Settings::save("timelimit", $timeLimit);
+		echo "toto";
+		
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -180,6 +186,8 @@
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
+		
+		$timeLimit = Settings::getParameter("timelimit");
 		
 		include('./Templates/network.php');
 		
