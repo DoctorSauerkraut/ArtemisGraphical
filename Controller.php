@@ -37,9 +37,10 @@
 
 	}else if($action_server=="saveSettings") {
 		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
+		$eLatency = isset($_POST["elatency"]) ? $_POST["elatency"]:"";
 		
 		Settings::save("timelimit", $timeLimit);
-		echo "toto";
+		Settings::save("elatency", $eLatency);
 		
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
@@ -188,6 +189,7 @@
 		}
 		
 		$timeLimit = Settings::getParameter("timelimit");
+		$eLatency = Settings::getParameter("elatency");
 		
 		include('./Templates/network.php');
 		

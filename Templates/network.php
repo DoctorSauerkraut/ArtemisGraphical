@@ -7,9 +7,13 @@
 	$network=$dom->createElement("Network");
 	
 	/* General configuration */
-	$timelimit=$dom->createElement("time-limit");
-	$timelimit->appendChild($dom->createTextNode($timeLimit));
-	$network->appendChild($timelimit);
+	$timeLimitTag=$dom->createElement("time-limit");
+	$timeLimitTag->appendChild($dom->createTextNode($timeLimit));
+	$network->appendChild($timeLimitTag);
+	
+	$eLatencyTag=$dom->createElement("elatency");
+	$eLatencyTag->appendChild($dom->createTextNode($eLatency));
+	$network->appendChild($eLatencyTag);
 	
 	/* MC management */
 	$critSwitches = $dom->createElement("CritSwitches");

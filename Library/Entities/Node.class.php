@@ -51,7 +51,7 @@
 		return $this->_criticality;
 		}
 		public function name(){
-		return $this->_name;
+		return $this->_name.trim();
 		}
 		public function scheduling(){
 		return $this->_scheduling;

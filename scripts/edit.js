@@ -45,12 +45,13 @@ function saveEditedMessage(id) {
 }
 
 function saveSettings() {	
-	var time =$("#timelimit")[0].value;
+	var time 	= $("#timelimit")[0].value;
+	var latency = $("#elatency")[0].value;
 	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'saveSettings'+'&time='+time,
+		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency,
 		success:function(data){
 			loadContent('settings');
 		}
