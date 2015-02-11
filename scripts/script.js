@@ -33,24 +33,65 @@ function loadCreate() {
 			document.getElementById("corps").innerHTML = data;
 			recupDatabase();	
 			updateMenuStyle("link-create");
+			
 		}
 	});
 }
 
 function recupDatabase(){
 	$.ajax({
-		url:"Controller.php",
+		url:"./Controller.php",
 		type:"post",
 		data:"action=create",
 		success:function(data){
 			draw(data.trim());
+			
 		}
 	});
 }
 
+function popup(popupFunction) {
+		closePopup();
+		
+		$.ajax({
+			url:"popup.php",
+			type:"post",
+			data:'popupFunction='+popupFunction,
+			success:function(data){
+				if(data == 'ok') generate();
+				else {
+					openPopup();
+					document.getElementById("popup").innerHTML = data;
+				}
+			}
+		});
+}
+
+function showSimulationResults() {
+		$.ajax({
+		url:"Controller.php",
+		type:"post",
+		data:"action=generateSimu",
+		success:function(data){
+			document.getElementById("corps").innerHTML = data;
+			closePopup();
+		}
+	});
+}
+
+function openPopup() {
+	document.getElementById("grayer").style.visibility = 'visible';
+	document.getElementById("popup").style.visibility = 'visible';
+}
+
+function closePopup() {
+	document.getElementById("grayer").style.visibility = 'hidden';
+	document.getElementById("popup").style.visibility = 'hidden';
+}
+
 //////////////////////////////////////////////////// Generate link
 function generate() {
-	document.getElementById("link-results").innerHTML = "Waiting...";
+	popup('loadingSimu');
 	
 	$.ajax({
 		url:"Controller.php",
@@ -59,6 +100,7 @@ function generate() {
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 			document.getElementById("link-results").innerHTML = "Simulate";
+			closePopup();
 		}
 	});
 }
@@ -194,7 +236,9 @@ function deleteMessage($id) {
 		type:"post",
 		data:'action='+'deleteMessage'+'&id='+$id,
 		success:function(data){
-			document.getElementById("corps").innerHTML = data;
+			//document.getElementById("corps").innerHTML = data;
+			
+			loadContent('messages');
 		}
 	});
 }
@@ -292,7 +336,6 @@ function saveMessage() {
 }
 
 function addMessageTable() {
-	ajaxSaveMessage();
 	
 	$.ajax({
 		url:"./Controller.php",
@@ -310,7 +353,6 @@ function addMessageTable() {
 	});
 }
 function ajaxSaveMessage(){
-
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
@@ -348,3 +390,4 @@ function launchSimulation() {
 		}
 	});	
 }
+

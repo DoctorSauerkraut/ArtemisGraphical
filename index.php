@@ -18,8 +18,9 @@
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
 		<script type="text/javascript" src="./scripts/create.js"></script>
 		<script type="text/javascript" src="./scripts/edit.js"></script>
+		<script type="text/javascript" src="./scripts/settings.js"></script>
     </head>
-	<header>
+    <body onload="loadCreate()"> 
 		<div id="header">
 			<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
 			<div id="titre" >
@@ -43,15 +44,15 @@
 						<li id="link-settings" class="menuitem" onclick="loadContent('settings')">
 							Settings
 						</li>
-						<li id="link-results" class="menuitem" onclick="generate()">
+						<li id="link-results" class="menuitem" onclick="popup('popupConfirmSimu')">
 							Simulate
 						</li>
 					</ul>
 			</div>
 		</div>
-		
-	</header>
-	<body onload="loadCreate()"> 
+		<div id="grayer"></div>
+		<div id="popup"></div>
+	
 		<div id="corps">
 		</div>
 		<?php  

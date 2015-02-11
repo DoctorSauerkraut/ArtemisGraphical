@@ -1,5 +1,6 @@
 <?php
-		
+	include("../../functions.php");
+	
 	// classe message
 	class Message{
 
@@ -47,8 +48,37 @@
 		public function offset(){
 			return $this->_offset;
 		}
-		public function wcet(){
-			return $this->_wcet;
+		
+		public function wcet() {	
+			return $this->wcet_("NC");
+		}
+		
+		public function wcet_($critLvl){
+			
+			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);	
+			
+			$sql = "SELECT value FROM wcets WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
+	
+			$bdd = connectBDD();
+			$req = $bdd->query($sql);
+			
+			if($rst = $req->fetch()){
+				return $rst["value"];	
+			}
+			
+			return 0;
+		}
+		
+		public function setWcet($wcet) {
+			$this->_setWcet($wcet, CriticalityLevel::getIdFromLevel("NC"));
+		}
+		
+		public function _setWcet($wcet, $critLvl){
+			$sql = "UPDATE wcets SET value=\"$wcet\" WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
+			echo "::".$sql;
+			
+			$bdd = connectBDD();
+			$bdd->query($sql);
 		}
 		
 		//mutateur
@@ -71,9 +101,7 @@
 			$this->_offset = $offset;
 		}
 
-		public function setWcet($wcet){
-			$this->_wcet=$wcet;
-		}
+		
 
 	}
 

@@ -1,21 +1,16 @@
-<?php	
-		
+<?php		
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
-
+	
 	include('functions.php');
 		
 	spl_autoload_register('chargerClasse');
 	
 	$manager = initManager();
-	
+		
 	if($action_server == "") {
 		return;	
 	}
-	
-	else if($action_server=="displayCritTable"){
-		include("./Views/criticalityTable.php");
-	}		
 	else if($action_server=="create") {
 		$donnees1= $manager->displayListNode();
 		$donnees2= $manager->displayListLink();	
@@ -34,8 +29,27 @@
 			$info=$info.";";	
 			echo ($info);			
 		}
-
-	}else if($action_server=="saveSettings") {
+	}
+	else if($action_server=="displayCritTable"){
+		include("./Views/criticalityTable.php");
+	}		
+	else if($action_server=="addCritLevel") {
+		$critTime 	= $_POST["critTime"];
+		$critLvl	= $_POST["critLvl"];
+		
+		$critSwitch = new CriticalitySwitch($critTime, $critLvl);
+		$res = $critSwitch->save();	
+	}
+	else if($action_server == "addCritState") {
+		$critName 	= $_POST["critName"];
+		$critCode	= $_POST["critCode"];
+		
+		echo "::".$critName."::".$critCode;
+		
+		$critState = new CriticalityLevel($critName, $critCode);
+		$res = $critState->save();
+	}
+	else if($action_server=="saveSettings") {
 		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
 		$eLatency = isset($_POST["elatency"]) ? $_POST["elatency"]:"";
 		
@@ -61,7 +75,7 @@
 			array_push($tabNames,$name1->name(),$name2->name());
 		}	
 		
-				foreach($donnees3 as $message) {
+		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			
 			foreach($path as $machineName) {
@@ -193,6 +207,8 @@
 		
 		include('./Templates/network.php');
 		
+	}else if ($action_server=="generateSimu"){
+		include('./Views/results.php');
 	}else if($action_server=="editNode"){
 		
 		$manager->updateNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['criticality']);

@@ -5,6 +5,11 @@ class CriticalitySwitch {
 	private $time;
 	private $level;
 	
+	public function __construct($time_, $lvl_) {
+		$this->time = $time_;
+		$this->level = $lvl_;		
+	}
+	
 	public function setTime($time_) {
 		$this->time = $time_;	
 	}
@@ -23,7 +28,7 @@ class CriticalitySwitch {
 	
 	public function save() {
 		$sql = 	"INSERT INTO critswitches(time, level)";
-		$sql .= "VALUE('$time', \"$level\")";
+		$sql .= "VALUES(\"".$this->time."\", \"".$this->level."\")";
 		
 		$bdd = connectBDD();
 		$bdd->query($sql);

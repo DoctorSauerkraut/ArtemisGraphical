@@ -76,7 +76,7 @@
 	<!---------- Nodes Table ---------->
 	<?php
 		/* Load computation */
-		//$loadArray = new Array();
+
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			

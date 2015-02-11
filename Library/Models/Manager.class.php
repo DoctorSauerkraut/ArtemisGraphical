@@ -184,7 +184,7 @@ return $donnees['count(id)'];
 
  public function addMessage($path, $period, $offset, $wcet){
 
-	 $q = $this->_db->prepare('INSERT INTO message SET path = :path, period = :period , offset = :offset, wcet = :wcet')or die(print_r($_db->errorInfo()));
+	 $q = $this->_db->prepare('INSERT INTO message SET path = :path, period = :period , offset = :offset')or die(print_r($_db->errorInfo()));
 	 $q->bindValue(':path',$path);
 	 $q->bindValue(':period', $period);
 	  $q->bindValue(':offset',$offset);
@@ -199,14 +199,14 @@ return $donnees['count(id)'];
  
   public function displayMessage($id){
  $id = (int) $id;
- $q= $this->_db->query('SELECT id, path, period, offset, wcet FROM message WHERE id = '.$id)or die(print_r($_db->errorInfo()));
+ $q= $this->_db->query('SELECT id, path, period, offset FROM message WHERE id = '.$id)or die(print_r($_db->errorInfo()));
  $donnees = $q->fetch(PDO::FETCH_ASSOC);
  return new message($donnees);
  }
  
   public function displayListMessage(){
 	$messages = array();
-	$q = $this->_db->query('SELECT id, path, period, offset, wcet FROM message')or die(print_r($_db->errorInfo()));
+	$q = $this->_db->query('SELECT id, path, period, offset FROM message')or die(print_r($_db->errorInfo()));
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
 
 		 $tmp = new message();
@@ -225,7 +225,7 @@ return $donnees['count(id)'];
 	 }
 $newpath=substr($newpath,0,-1);
   
- $q=$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset, wcet = :wcet WHERE id = :id')or die(print_r($_db->errorInfo()));
+ $q=$this->_db->prepare('UPDATE message SET path = :path , period = :period, offset = :offset WHERE id = :id')or die(print_r($_db->errorInfo()));
  
  $q->bindValue(':path',$newpath);
  $q->bindValue(':period', $period);

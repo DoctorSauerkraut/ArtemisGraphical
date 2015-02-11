@@ -22,16 +22,26 @@
 		  require 'Library/Entities/Link.class.php';
 		  require 'Library/Entities/Message.class.php';
 		  require 'Library/Entities/CriticalitySwitch.class.php';
+		  require 'Library/Entities/CriticalityLevel.class.php';
 		  require 'Library/Entities/Settings.class.php';
 		  }
 		}
 		
 	function initManager() {
-		$bdd = connectBDD();	
-
+		$bdd = connectBDD();
 		$manager = new Manager($bdd);
-		
+			
 		return $manager;
 	}
  
+ 	function is_dir_empty($dir) {
+	  if (!is_readable($dir)) return NULL; 
+	  $handle = opendir($dir);
+	  while (false !== ($entry = readdir($handle))) {
+	    if ($entry != "." && $entry != "..") {
+	      return FALSE;
+	    }
+	  }
+	  return TRUE;
+	}
 ?>
