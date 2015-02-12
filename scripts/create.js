@@ -100,8 +100,6 @@ var graph = null;
 				ip.value=parseInt(outputs[0]);
 				var sched = document.getElementById('node-sched');
 				sched.value=outputs[1];
-				var crit = document.getElementById('node-crit');
-				crit.value=parseInt(outputs[2]);
 			});
 			 			  			  
 			saveButton.onclick = saveData.bind(this,data,callback);
@@ -135,8 +133,6 @@ var graph = null;
 		cancelButton.onclick = null;
 		var div = document.getElementById('graph-popUp');
 		div.style.display = 'none';
-		var divAdd = document.getElementById('graph-popUp-adds');
-		divAdd.style.display = 'none';
 	}
 
 	function saveData(data,callback) {
@@ -144,14 +140,13 @@ var graph = null;
 		var labelInput = document.getElementById('node-label');
 		var ip = document.getElementById('node-ip');
 		var sched = document.getElementById('node-sched');
-		var crit = document.getElementById('node-crit');
 		var div = document.getElementById('graph-popUp');
 		data.id = idInput.value;
 		data.label = labelInput.value;
-		updateNode(idInput.value,labelInput.value,ip.value,sched.value,crit.value);
+		updateNode(idInput.value,labelInput.value,ip.value,sched.value);
+		
 		clearPopUp();
 		callback(data);
-
 	}
 	
 

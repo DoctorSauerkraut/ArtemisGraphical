@@ -291,11 +291,11 @@ function addNode(name, ip, sched, crit){
 	});
 }
 
-function updateNode(id,name, ip, sched, crit){
+function updateNode(id,name, ip, sched){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'updateNode'+'&id='+id+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit
+		data:'action='+'updateNode'+'&id='+id+'&name='+name+'&ip='+ip+'&sched='+sched
 	});
 }
 
@@ -335,23 +335,36 @@ function saveMessage() {
 	divAdd.style.display = 'none';
 }
 
-function addMessageTable() {
+function addMessageTable(idArray) {
+	/* Building wcet list */
+	var wcetStr = "";
+	
+	var cptId = 0;
+	
+	/* Computing all the WCET values */
+	while(idArray[cptId] != undefined) {
+		var wcetElt = "wcet_"+idArray[cptId];
+		
+		var valueWcet =  document.getElementById(wcetElt).value;	
+
+		wcetStr += idArray[cptId]+"="+valueWcet+":";
+		
+		cptId++;
+	}
 	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcet='+document.getElementById('wcet').value,
+		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr,
 		success:function(data){
 			data=data.trim();
-			if(data!=''){
-				alert(data);
-			}
-			
+
 			/* Reload page */
 			loadContent('messages');
 		}
 	});
 }
+
 function ajaxSaveMessage(){
 	$.ajax({
 		url:"./Controller.php",

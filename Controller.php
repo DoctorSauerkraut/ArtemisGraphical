@@ -1,4 +1,5 @@
 <?php		
+	
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
 	
@@ -122,18 +123,43 @@
 		
 	}else if ($action_server=="addNode"){
 		
-		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"],$_POST["crit"]);
+		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
 			
 	}else if ($action_server=="updateNode"){
 		
-		$manager->updateNode($_POST["id"],$_POST["name"],$_POST["ip"],$_POST["sched"],$_POST["crit"]);
+		$manager->updateNode($_POST["id"],$_POST["name"],$_POST["ip"],$_POST["sched"]);
 			
 	}else if ($action_server=="addMessage"){
-	
-		$newpath = $manager->verrifyPath($_POST["path"]);
+		$path 	= $_POST["path"];
+		$offset = $_POST["offset"];
+		$period = $_POST["period"];
+		
+		$wcetStr= $_POST["wcetStr"];
+		 
+		$message = new Message();
+		
+		$newpath = $manager->verrifyPath($path);
 		if ($newpath != ""){
-			$manager->addMessage($newpath,$_POST["period"],$_POST["offset"],$_POST["wcet"]);
-		}else {
+			$insertedId = $manager->addMessage($newpath,$period,$offset);
+			
+			if($insertedId != "") {
+				$msg = new Message();
+				$msg->setId($insertedId);
+				
+				/* Getting all the wctts sent by the server */
+				$critLvls = split(":", $wcetStr);
+				$cptStr = 0;
+				
+				while($critLvls[$cptStr] != "") {
+					$critLvl	= split("=", $critLvls[$cptStr])[0]; 
+					$wcet 		= split("=", $critLvls[$cptStr])[1]; 	
+					
+					$msg->_setWcet($wcet, $critLvl);
+					$cptStr++;
+				}
+
+			}
+					}else {
 			echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
 		}
 			
@@ -169,8 +195,10 @@
 		include('./Views/show.php');
 			
 	}else if ($action_server=="deleteMessage"){
-
-		$manager->deleteMessage($_POST['id']);	
+		$idMsg = $_POST['id'];
+		$manager->deleteMessage($idMsg);	
+		Message::deleteMessage($idMsg);
+		
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();
@@ -189,11 +217,28 @@
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();	
 		
+		/* Parsing the path string */
 		foreach ($donnees3 as $element3) {
 			$pathId[$element3->id()]=$element3->path();
-			foreach ($donnees1 as $element1) {
-				$pathId[$element3->id()] = str_replace(trim($element1->name()),$element1->id(),$pathId[$element3->id()]);
+			
+			$path = split(",", $pathId[$element3->id()]);
+			
+			foreach ($donnees1 as $element1) {				
+				$cptPath = 0;
+				$strPath = "";
+				
+				while($path[$cptPath] != "") {
+					$currentPath = trim($path[$cptPath]);
+					if($currentPath == trim($element1->name())) {
+							$path[$cptPath] = $element1->id();
+					}
+					$strPath .= $path[$cptPath].",";
+					$cptPath++;
+				}
+				
+				$pathId[$element3->id()] = $strPath;
 			}
+			$pathId[$element3->id()] = trim($pathId[$element3->id()], ",");
 		}
 		$tabNames =[];
 		foreach ($donnees2 as $element){
@@ -243,24 +288,51 @@
 		include('./Views/show.php');
 			
 	}else if($action_server=="editMessage"){
-	
-		$newpath = $manager->verrifyPath($_POST["path"]);
+		/* Get infos from AJAX request */
+		$id 		= $_POST["id"];
+		$period 	= $_POST["period"];
+		$offset		= $_POST["offset"];
+		$wcetStr	= $_POST["wcetStr"];
+		$path		= $_POST["path"];
+		
+		/* Verify network path */
+		$newpath = $manager->verrifyPath($path);	
+		
+		
 		if ($newpath != ""){
-			$manager->updateMessage($_POST['id'],$newpath,$_POST['period'],$_POST['offset'],$_POST['wcet']);	
+			$manager->updateMessage($id,$newpath,$period,$offset);	
+			echo "::".$id;
+			
+			$msg = new Message();
+			$msg->setId($id);
+			
+			/* Getting all the wctts sent by the server */
+			$critLvls = split(":", $wcetStr);
+			$cptStr = 0;
+			
+			while($critLvls[$cptStr] != "") {
+				$critLvl	= split("=", $critLvls[$cptStr])[0]; 
+				$wcet 		= split("=", $critLvls[$cptStr])[1]; 	
+				
+				$msg->_setWcet($wcet, $critLvl);
+				$cptStr++;
+			}			
 		}else {
 			echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
 		}
-
+		
+		/* Reload page content */
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();
 		$tabNames =[];
+		
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-		include('./Views/show.php');			
+		include('./Views/show.php');		
 
 	}else if($action_server == "clearGraph"){
 		$manager->clearAll();

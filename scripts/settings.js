@@ -13,6 +13,7 @@ function addCritLevel() {
 	});
 }
 
+
 function addCriticalityState() {
 	var critName = document.getElementById("nameNCL").value;
 	var critCode = document.getElementById("codeNCL").value;

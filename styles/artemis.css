@@ -65,6 +65,10 @@ a{
 	height: 53px;
 	text-align: center;
 	margin-top:10px;
+	position:absolute;
+	bottom:0;
+	left:0;
+	z-index:100;
 }
 
 #footer p {
@@ -220,7 +224,7 @@ div.table_description {
 	text-align: center;
 	border: 2px solid white;
 	background: lightgray;
-	max-width:100px;
+	max-width:130px;
 	word-wrap : break-word;
 }
 

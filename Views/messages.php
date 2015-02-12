@@ -1,19 +1,27 @@
 	<!---------- Messages Table ---------->
 	<?php
 		/* Get criticality levels and corresponding WCETS */
-		$levels = CriticalityLevel::load();
 		$cptLevels = 0;
-		
-		while($rst = $levels->fetch()) {
-			$levelsTab[$cptLevels] = new CriticalityLevel($rst["name"], $rst["code"]);
-			$cptLevels++;
-		}
-		
-		if ($cptLevels == 0) {
-			$newCritLvl = new CriticalityLevel("Non critical", "NC");
-			$newCritLvl->save();
-		}
-		
+			$levels = CriticalityLevel::load();	
+			
+			while($rst = $levels->fetch()) {
+				$levelsTab[$cptLevels] = new CriticalityLevel($rst["name"], $rst["code"]);
+				$cptLevels++;
+			}
+			
+			if ($cptLevels == 0) {
+				$newCritLvl = new CriticalityLevel("Non critical", "NC");
+				$newCritLvl->save();
+				
+				$levels = CriticalityLevel::load();	
+			
+				while($rst = $levels->fetch()) {
+					$levelsTab[$cptLevels] = new CriticalityLevel($rst["name"], $rst["code"]);
+					$cptLevels++;
+				}
+			}
+			
+					
 	?>
 	
 		<div id="tabledetailsmessages">
@@ -28,24 +36,34 @@
 				?>
 				<th>Edit</th><th>Add</th><th>Delete</th>
 			</tr>
-			<?php foreach($donnees3 as $element){ 	
+			<?php 
+			$codeStr = "";
+			
+			foreach($donnees3 as $element){ 	
 				echo "<tr>";
 					echo "<td>".$element->id()."</td>";
 					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
-					echo "<td id=\"peri_".$element->id()."\" onclick=\"editValue(this)\">".$element->period()."</td>";
-					echo "<td id=\"offs_".$element->id()."\" onclick=\"editValue(this)\">".$element->offset()."</td>";
+					echo "<td id=\"peri_".$element->id()."\" onclick=\"editValue(this)\" >".$element->period()."</td>";
+					echo "<td id=\"offs_".$element->id()."\" onclick=\"editValue(this)\" >".$element->offset()."</td>";
 					
 					/* Criticality levels */
-					
+					$codeStr ="";
 					for($cptTd=0;$cptTd<$cptLevels;$cptTd++) {	
 						$code = $levelsTab[$cptTd]->getCode();
-						$wcet = ($element->wcet_($code) != "") ? $element->wcet_($code):"-";
+						$wcet = ($element->wcet_($code) != "") ? $element->wcet_($code):"0";
 						
-						echo "<td id=\"wcet_$code_".$element->id()."\" >".$wcet."</td>";
+						echo "<td id=\"wcet_".$code."_".$element->id()."\" onclick=\"editWcet(this, '$code')\" >".$wcet."</td>";
+						
+						$codeStr .= "'".$code."'";
+						if($cptTd<$cptLevels-1)
+							$codeStr .= ",";
 					}
 					
 					echo "<td>";
-					echo "<img src=\"Templates/edit.png\" onclick=\"saveEditedMessage('".$element->id()."')\" />";
+					
+					/* Building js table containing all wcet-critical codes */
+					echo "<img src=\"Templates/edit.png\" onclick=\"saveEditedMessage('".$element->id()."', new Array(".$codeStr;
+					echo "))\" />";
 					echo "</td>";
 			
 			
@@ -59,16 +77,24 @@
 				echo "<td><input type=\"text\" id=\"path\" /></td>";
 				echo "<td><input type=\"text\" id=\"period\" /></td>";
 				echo "<td><input type=\"text\" id=\"offset\" /></td>";
+				
+				$codeStr ="";
 				for($cptTd=0;$cptTd<$cptLevels;$cptTd++) {	
-					echo "<td><input type=\"text\" id=\"wcet_$cptTd\" /></td>";
+					$critLvl = $levelsTab[$cptTd]->getCode();
+					
+					echo "<td><input type=\"text\" id=\"wcet_".$critLvl."\" /></td>";
+					
+					$codeStr .= "'".$critLvl."'";
+					if($cptTd<$cptLevels-1)
+							$codeStr .= ",";
 				}
+				
 				echo "<td>-</td>";
-				echo "<td><img src=\"Templates/add.png\" onclick=\"addMessageTable()\" /></td>";
-				echo "<td><img src=\"Templates/delete.png\" onclick=\"deleteMessage(".$element->id().")\" /></td>";
-				echo "</tr>";
+				echo "<td><img src=\"Templates/add.png\" onclick=\"addMessageTable(new Array($codeStr))\" /></td>";
+				echo "<td>-</td>";
+				echo "</tr></table> ";
 			?> 
 				
-		</table> 
 		
 		<input type="button" value="Add a criticality level" onclick="popup('critButton')" />
 		

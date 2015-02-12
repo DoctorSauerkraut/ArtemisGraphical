@@ -36,12 +36,9 @@ class CriticalityLevel {
 		return $result["id"];
 	}
 	
-	
 	public function save() {
 		$sql = 	"INSERT INTO critlevels(code, name)";
 		$sql .= "VALUES(\"".$this->code."\", \"".$this->name."\")";
-		
-		echo "::".$sql;
 		
 		$bdd = connectBDD();
 		$bdd->query($sql);
@@ -56,6 +53,7 @@ class CriticalityLevel {
 
 		return $req;
 	}
+
 }
 
 ?>

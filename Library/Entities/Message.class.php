@@ -66,23 +66,57 @@
 				return $rst["value"];	
 			}
 			
-			return 0;
+			return -1;
 		}
 		
 		public function setWcet($wcet) {
-			$this->_setWcet($wcet, CriticalityLevel::getIdFromLevel("NC"));
+			$this->_setWcet($wcet, "NC");
 		}
 		
 		public function _setWcet($wcet, $critLvl){
-			$sql = "UPDATE wcets SET value=\"$wcet\" WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
-			echo "::".$sql;
+			/* Selecting existing message */
+			$wcetBDD = $this->wcet_($critLvl);
+			
+			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);
+			
+			
+			
+			if($wcet == -1 && $wcetBDD == -1) {
+				// No message previously created, and no message to create;
+				return;	
+			}
+			
+			if($wcet == -1 && $wcetBDD != -1) {
+				// Message previously created, to delete
+				$sql = "DELETE FROM wcets WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
+			}
+			
+			if($wcet != - 1 && $wcetBDD == -1) {
+				// No message previously created, to create
+				$sql 	= "INSERT INTO wcets(id_msg, id_clvl, value)";
+				$sql 	.= "VALUES(".$this->_id.",".$critLvl.",".$wcet.")";
+			}
+			
+			if($wcet != -1 && $wcetBDD != -1) {
+				// Message previously created, to update
+				$sql = "UPDATE wcets SET value=\"$wcet\" WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
+			}
+			echo "/".$wcetBDD."::".$sql;
 			
 			$bdd = connectBDD();
 			$bdd->query($sql);
 		}
 		
 		//mutateur
-
+		
+		public static function deleteMessage($id) {
+			$sql 	= "DELETE FROM wcets ";
+			$sql 	.= "WHERE id_msg=\"$id\"";
+			
+			$bdd = connectBDD();
+			$bdd->query($sql);
+		}
+		
 		public function setId($id){
 			$this->_id=$id;
 		}

@@ -20,7 +20,6 @@
 	$network->appendChild($critSwitches);
 	
 	$req = CriticalitySwitch::load();
-
 	
 	while($switches = $req->fetch()) {
 		$critSwitch = $dom->createElement("critswitch");
@@ -49,22 +48,25 @@
 
 			$messages = $dom->createElement("Messages");	
 			foreach($donnees3 as $element3){
-			$arr=explode(",", $element3->path(), 2);										
+				$arr=explode(",", $element3->path(), 2);										
+				
 				if($arr[0] == trim($element1->name()) ){
-			$message = $dom->createElement("message");
-				$message->setAttribute("id", $element3->id());
+					$message = $dom->createElement("message");
+					$message->setAttribute("id", $element3->id());
 					$criticality = $dom->createElement("criticality");
 					$criticality->setAttribute("level",$element1->criticality());
-						$path = $dom->createElement("path");
-						$path->appendChild($dom->createTextNode($pathId[$element3->id()]));
-						$priority = $dom->createElement("priority");
-						$priority->appendChild($dom->createTextNode("0"));
-						$period = $dom->createElement("period");
-						$period->appendChild($dom->createTextNode($element3->period()));
-						$offset = $dom->createElement("offset");
-						$offset->appendChild($dom->createTextNode($element3->offset()));
-						$wcet = $dom->createElement("wcet");
-						$wcet->appendChild($dom->createTextNode($element3->wcet()));
+					
+					$path = $dom->createElement("path");
+					$path->appendChild($dom->createTextNode($pathId[$element3->id()]));
+					$priority = $dom->createElement("priority");
+					$priority->appendChild($dom->createTextNode("0"));
+					$period = $dom->createElement("period");
+					$period->appendChild($dom->createTextNode($element3->period()));
+					$offset = $dom->createElement("offset");
+					$offset->appendChild($dom->createTextNode($element3->offset()));
+					$wcet = $dom->createElement("wcet");
+					$wcet->appendChild($dom->createTextNode($element3->wcet()));
+					
 					$criticality->appendChild($path);
 					$criticality->appendChild($priority);
 					$criticality->appendChild($period);
