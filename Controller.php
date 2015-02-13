@@ -215,13 +215,13 @@
 		$pathId =[];
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();	
+		$listMessages= $manager->displayListMessage();	
 		
 		/* Parsing the path string */
-		foreach ($donnees3 as $element3) {
-			$pathId[$element3->id()]=$element3->path();
+		foreach ($listMessages as $singleMessage) {
+			$pathId[$singleMessage->id()]=$singleMessage->path();
 			
-			$path = split(",", $pathId[$element3->id()]);
+			$path = split(",", $pathId[$singleMessage->id()]);
 			
 			foreach ($donnees1 as $element1) {				
 				$cptPath = 0;
@@ -236,9 +236,9 @@
 					$cptPath++;
 				}
 				
-				$pathId[$element3->id()] = $strPath;
+				$pathId[$singleMessage->id()] = $strPath;
 			}
-			$pathId[$element3->id()] = trim($pathId[$element3->id()], ",");
+			$pathId[$singleMessage->id()] = trim($pathId[$singleMessage->id()], ",");
 		}
 		$tabNames =[];
 		foreach ($donnees2 as $element){

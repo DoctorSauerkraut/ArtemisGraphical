@@ -73,6 +73,16 @@
 			$this->_setWcet($wcet, "NC");
 		}
 		
+		public function getAllWcet() {
+			$sql 	= "SELECT wcets.value, critlevels.code FROM wcets, critlevels ";
+			$sql   .= "WHERE id_msg=\"".$this->_id."\" AND critlevels.id = wcets.id_clvl";
+
+			$bdd = connectBDD();
+			$req = $bdd->query($sql);
+			
+			return $req;
+		}
+		
 		public function _setWcet($wcet, $critLvl){
 			/* Selecting existing message */
 			$wcetBDD = $this->wcet_($critLvl);
