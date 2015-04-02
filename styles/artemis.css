@@ -291,22 +291,55 @@ caption {
 #popup {
 	position:absolute;
 	background-color:#D0D0D0;
-	opacity:0.8;
+	opacity:0.9;
 	left:0;
-	margin-left:25%;
-	width:50%;
+	margin-left:35%;
+	margin-top:15%;
+	width:30%;
 	border:1px solid black;
-	height:200px;
+	min-height:150px;
 	visibility:hidden;
 	z-index:900;
-	padding:20px;
+	border-radius:2em;
 }
 
-#popup input {
-	width:50px;
-	margin-top:10px;
-	margin-left:5px;
+#popupHead{
+	height:40px;
+	border-bottom:2px solid black;
 }
+
+#popupTitle{
+	width:70%;
+	float:left;
+	padding-left:20px;
+	padding-top:5px;
+	text-align:center;
+	font-size:14pt;
+}
+
+#closePopup{
+	height:100%;
+	float:right;
+	width:60px;
+	border-radius:0em 2em 0em 0em;
+	border-left:2px solid black;
+		background: -webkit-linear-gradient(#FF3333, #FF3300); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#FF3333, #FF3300); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#FF3333, #FF3300); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#FF3333, #FF3300); /* Standard syntax */
+
+}
+
+#popupBody {
+		padding:20px;
+}
+
+#popupBodyText {
+	width:100%;
+	height:100px;
+}
+
+
 
 #buttonAddCriticality {
 	margin-top: 25px;
@@ -317,6 +350,7 @@ caption {
 	padding:5px 10px 5px 10px;
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
 	font-weight:bold;
+	margin-left:10px;
 }
 
 .blue {

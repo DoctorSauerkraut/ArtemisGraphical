@@ -22,9 +22,9 @@
     </head>
     <body onload="loadCreate()"> 
 		<div id="header">
-			<a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a>
+			<!-- <a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a> -->
 			<div id="titre" >
-				<h3>"Another Real-Time Engine for Message-Issued Simulation"</h3> 
+				<h3>ARTEMIS</h3> 
 			</div>
 			 
 			<div id="menu"> 
@@ -50,7 +50,7 @@
 					</ul>
 			</div>
 		</div>
-		<div id="grayer"></div>
+		<div id="grayer" onclick="closePopup()"></div>
 		<div id="popup"></div>
 	
 		<div id="corps">
