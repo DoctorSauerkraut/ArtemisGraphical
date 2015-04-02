@@ -1,5 +1,6 @@
 <?php 
 
+echo "<div class=\"tabledetailsdiv\" >";
 echo "Welcome to ARTEMIS settings";
 
 echo "<form method=\"post\" action=\"#\">";
@@ -49,7 +50,7 @@ else {
 
 
 
-echo "<input type=\"button\" value=\"save\" onclick=\"saveSettings()\" />";
-
+echo "<a class=\"button blue\" onclick=\"saveSettings()\">Save</a>";
+echo "</div>";
 
 ?>

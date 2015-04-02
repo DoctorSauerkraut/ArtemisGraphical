@@ -24,7 +24,7 @@
 					
 	?>
 	
-		<div id="tabledetailsmessages">
+		<div class="tabledetailsdiv" id="tabledetailsmessages">
 		<table class="tableShow">
 			<caption> Messages Table </caption>
 			<tr>
@@ -62,13 +62,13 @@
 					echo "<td>";
 					
 					/* Building js table containing all wcet-critical codes */
-					echo "<img src=\"Templates/edit.png\" onclick=\"saveEditedMessage('".$element->id()."', new Array(".$codeStr;
-					echo "))\" />";
+					echo "<a class=\"button green\" onclick=\"saveEditedMessage('".$element->id()."', new Array(".$codeStr;
+					echo "))\" />Edit</a>";
 					echo "</td>";
 			
 			
 					echo "<td>-</td>";
-					echo "<td><img src=\"Templates/delete.png\" onclick=\"deleteMessage(".$element->id().")\"/></td>";
+					echo "<td><a class=\"button red\" onclick=\"deleteMessage(".$element->id().")\"/>Delete</a></td>";
 				echo "</tr>";		
 			 } 
 			
@@ -90,12 +90,12 @@
 				}
 				
 				echo "<td>-</td>";
-				echo "<td><img src=\"Templates/add.png\" onclick=\"addMessageTable(new Array($codeStr))\" /></td>";
+				echo "<td><a class=\"button blue\" onclick=\"addMessageTable(new Array($codeStr))\" />Add</a></td>";
 				echo "<td>-</td>";
 				echo "</tr></table> ";
 			?> 
 				
 		
-		<input type="button" value="Add a criticality level" onclick="popup('critButton')" />
+	<br />	<a class="button blue" id="buttonAddCriticality" onclick="popup('critButton')">Add a criticality level</a>
 		
 		</div>

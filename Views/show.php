@@ -1,4 +1,4 @@
-<!--------------------------------------- Edit node PopUp which is normally not displayed ------------------------------------------------>
+ <!--------------------------------------- Edit node PopUp which is normally not displayed ------------------------------------------------>
 
 	<div style="display:none" id="popup-node-edit">
 		<span id="edit-node-title">node</span> <br>
@@ -92,7 +92,7 @@
 			}
 		}
 	?>
-	<div id="tabledetailsdiv">
+	<div class="tabledetailsdiv">
 		<table class="tableShow">
 			<caption> Nodes Table </caption>
 			<tr>
@@ -110,8 +110,8 @@
 						$load = $loadArray[$name];?>
 					<td <?php if($loadArray[$name] > 1.0) {echo "class=\"redcase\"";}?>><?php echo number_format($loadArray[$name], 4); ?></td>
 					<!-- <td><?php echo $element->criticality(); ?> </td> -->
-					<td style="text-align:center;"><a href="#" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')"><img src="Templates/edit.png"></a></td>
-					<td style="text-align:center;"><a href="#" onclick="deleteNode('<?php echo $element->id(); ?>')"><img src="Templates/delete.png"></a></td>
+					<td style="text-align:center;"><a href="#" class="button green" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')">Edit</a></td>
+					<td style="text-align:center;"><a href="#" class="button red" onclick="deleteNode('<?php echo $element->id(); ?>')">Delete</a></td>
 				</tr>		
 			<?php } ?>	 
 		</table>	

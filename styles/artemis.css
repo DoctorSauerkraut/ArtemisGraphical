@@ -18,7 +18,7 @@ body {
 	padding-left:0px;
 	text-align: center;
 	color: #202030;
-	height: 100px;
+	height: 30px;
 	background: #FFF;
 	border-bottom: 3px solid #202030;
 }
@@ -38,7 +38,7 @@ h3{
 #titre {
 	padding-left:200px;
 	width: 60%;
-	margin: auto;
+	/* margin: auto; */
 	text-align: center;
 	height:40%;
 }
@@ -218,14 +218,17 @@ div.table_description {
 	border-collapse: collapse;
 	font-size: 12px;
 	width:auto;
+	margin-bottom: 50px;
 }
  
 .tableShow td{
 	text-align: center;
 	border: 2px solid white;
 	background: lightgray;
-	max-width:130px;
+	max-width: 150px;
 	word-wrap : break-word;
+	padding: 15px;
+	/* min-height: 71px; */
 }
 
 .tableShow td input[type="text"]{
@@ -257,7 +260,7 @@ caption {
 }
 
 
-#tabledetailsdiv {
+.tabledetailsdiv {
 	width:100%;
 	max-width: 1200px;
 	min-height: 300px;
@@ -303,4 +306,39 @@ caption {
 	width:50px;
 	margin-top:10px;
 	margin-left:5px;
+}
+
+#buttonAddCriticality {
+	margin-top: 25px;
+}
+
+.button {
+	border:1px solid #;
+	padding:5px 10px 5px 10px;
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
+	font-weight:bold;
+}
+
+.blue {
+	background: -webkit-linear-gradient(#66CCFF, #99EEFF); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#66CCFF, #99EEFF); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#66CCFF, #99EEFF); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#66CCFF, #99EEFF); /* Standard syntax */
+}
+.green {
+	background: -webkit-linear-gradient(#33CC33, #33FF66); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#33CC33, #33FF66); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#33CC33, #33FF66); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#33CC33, #33FF66); /* Standard syntax */
+}
+.red {
+	background: -webkit-linear-gradient(#FF3333, #FF3300); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#FF3333, #FF3300); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#FF3333, #FF3300); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#FF3333, #FF3300); /* Standard syntax */
+}
+
+.button:hover {
+	box-shadow: -1px 3px 5px 1px rgba(0, 0, 0, 0.7); 
+	opacity:0.9;
 }
