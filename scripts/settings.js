@@ -17,6 +17,7 @@ function addCritLevel() {
 function addCriticalityState() {
 	var critName = document.getElementById("nameNCL").value;
 	var critCode = document.getElementById("codeNCL").value;
+	alert(critName+","+critCode);
 	
 	$.ajax({
 		url:"./Controller.php",
@@ -25,6 +26,18 @@ function addCriticalityState() {
 		success:function(data){
 			closePopup();
 			loadContent('messages');
+		}
+	});
+}
+
+function deleteCritLevel(time) {
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action=delCritSwitch'+"&time="+time,
+		success:function(data){
+			closePopup();
+			loadContent('settings');
 		}
 	});
 }

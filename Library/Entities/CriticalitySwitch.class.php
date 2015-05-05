@@ -43,6 +43,16 @@ class CriticalitySwitch {
 			
 		return $req;
 	}
+	
+		public static function delete($time) {
+		$sql = 	"DELETE FROM critswitches WHERE time=\"$time\" ";
+		
+		$bdd = connectBDD();
+
+		$req = $bdd->query($sql) or die(print_r($bdd->errorInfo()));
+
+		return $req;
+	}
 }
 
 ?>

@@ -17,7 +17,8 @@ echo "<table class=\"tableShow\">";
 echo "<tr><th>Time</th><th>Level</th><th>Add</th></tr>";
 
 while($switches = $req->fetch()) {
-	echo "<tr><td>".$switches["time"]."</td><td>".$switches["level"]."</td><td><img src=\"Templates/delete.png\" /></td></tr>";	
+	echo "<tr><td>".$switches["time"]."</td><td>".$switches["level"]."</td>";
+	echo "<td><a class=\"button red\" onclick=\"deleteCritLevel('".$switches["time"]."')\">Delete</a></td></tr>";	
 }
 
 echo "<tr><td><input type=\"text\" id=\"critTimeText\"/></td>";
@@ -26,6 +27,6 @@ for($cptOptions=0;$cptOptions<$cptLevel;$cptOptions++) {
 	echo "<option value=\"".$levelsTab[$cptOptions]->getCode()."\">".$levelsTab[$cptOptions]->getName()."</option>";
 }
 echo "</select></td>";
-echo "<td><img src=\"Templates/add.png\" onclick=\"addCritLevel()\"/></td></tr>";
+echo "<td><a class=\"button green\" onclick=\"addCritLevel()\"/>Add</a></td></tr>";
 echo "</table>";
 ?>

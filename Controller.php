@@ -41,14 +41,13 @@
 		$critSwitch = new CriticalitySwitch($critTime, $critLvl);
 		$res = $critSwitch->save();	
 	}
+	else if($action_server == "delCritSwitch") {
+		$time 	= $_POST["time"];
+
+		CriticalitySwitch::delete($time);
+	}
 	else if($action_server == "addCritState") {
-		$critName 	= $_POST["critName"];
-		$critCode	= $_POST["critCode"];
 		
-		echo "::".$critName."::".$critCode;
-		
-		$critState = new CriticalityLevel($critName, $critCode);
-		$res = $critState->save();
 	}
 	else if($action_server=="saveSettings") {
 		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
