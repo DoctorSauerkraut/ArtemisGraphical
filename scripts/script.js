@@ -178,6 +178,7 @@ function popupLink($id, $name1, $name2) {
 	var node1 = document.getElementById('node1-label');
 	var node2 = document.getElementById('node2-label');
 	var div = document.getElementById('popup-link-edit');
+	
 	span.innerHTML = "Edit Link n."+$id;
 	id.value = $id;
 	node1.value = $name1;

@@ -41,7 +41,7 @@
 						<li id="link-messages" class="menuitem" onclick="loadContent('messages')">
 							Messages
 						</li>
-						<li id="link-mcrit" class="menuitem" onclick="loadContent('mixedc')">
+						<li id="link-mixedc" class="menuitem" onclick="loadContent('mixedc')">
 							Criticality
 						</li>
 						<li id="link-settings" class="menuitem" onclick="loadContent('settings')">
