@@ -14,7 +14,7 @@ function updateMenuStyle(id) {
 /* Load different pages linked to the menu */
 function loadContent(action) {
 	$.ajax({
-		url:"Controller.php",
+		url:"menu.php",
 		type:"post",
 		data:"action="+action,
 		success:function(data){
