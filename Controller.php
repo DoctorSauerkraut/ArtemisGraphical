@@ -52,10 +52,15 @@
 	else if($action_server=="saveSettings") {
 		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
 		$eLatency = isset($_POST["elatency"]) ? $_POST["elatency"]:"";
+		$tasks = isset($_POST["autotasks"]) ? $_POST["autotasks"]:"";
+		$hWcet = isset($_POST["highestwcet"]) ? $_POST["highestwcet"]:"";
 		
 		Settings::save("timelimit", $timeLimit);
 		Settings::save("elatency", $eLatency);
+		Settings::save("autotasks", $tasks);
+		Settings::save("highestwcet", $hWcet);
 		
+
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
