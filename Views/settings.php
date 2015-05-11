@@ -16,7 +16,7 @@ echo "General Settings<br />";
 echo "</form>";*/
 
 echo "<table class=\"tableShow\">";
-echo "<tr><td>Parameter</td><td>Value</td></tr>";
+echo "<tr><th>Parameter</th><th>Value</th></tr>";
 
 echo "<tr><td>Simulation Time</td>";
 echo "<td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit")."\"/> ms</td></tr>";

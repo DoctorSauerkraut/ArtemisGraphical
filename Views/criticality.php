@@ -29,9 +29,6 @@ else {
 	echo "<div id=\"critTableDiv\"></div>";
 }
 
-
-
-echo "<a class=\"button blue\" onclick=\"saveSettings()\">Save</a>";
 echo "</div>";
 
 ?>

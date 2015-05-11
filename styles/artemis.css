@@ -231,7 +231,9 @@ div.table_description {
 }
 
 .tableShow td input[type="text"]{
-	width: 15px;
+	min-width: 15px;
+	max-width:40px;
+	text-align:left;
 }
 .redcase {
 	background: red !important;	

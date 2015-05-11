@@ -8,7 +8,7 @@ function addCritLevel() {
 		type:"post",
 		data:'action=addCritLevel'+"&critTime="+critTime+"&critLvl="+critLvl,
 		success:function(data){
-			loadContent('settings');
+			loadContent('mixedc');
 		}
 	});
 }
@@ -37,7 +37,7 @@ function deleteCritLevel(time) {
 		data:'action=delCritSwitch'+"&time="+time,
 		success:function(data){
 			closePopup();
-			loadContent('settings');
+			loadContent('mixedc');
 		}
 	});
 }
