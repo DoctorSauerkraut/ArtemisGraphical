@@ -50,17 +50,21 @@
 		
 	}
 	else if($action_server=="saveSettings") {
-		$timeLimit = isset($_POST["time"]) ? $_POST["time"]:"";
-		$eLatency = isset($_POST["elatency"]) ? $_POST["elatency"]:"";
-		$tasks = isset($_POST["autotasks"]) ? $_POST["autotasks"]:"";
-		$hWcet = isset($_POST["highestwcet"]) ? $_POST["highestwcet"]:"";
+		/* Getting general settings */
+		$timeLimit	= isset($_POST["time"]) ? $_POST["time"]:"";
+		$eLatency 	= isset($_POST["elatency"]) ? $_POST["elatency"]:"";
+		$tasks 		= isset($_POST["autotasks"]) ? $_POST["autotasks"]:"";
+		$hWcet 		= isset($_POST["highestwcet"]) ? $_POST["highestwcet"]:"";
+		$autogen 	= isset($_POST["autogen"]) && ($_POST["autogen"] == "y")? "0":"1";
+		$autoload 	= isset($_POST["autoload"]) ? $_POST["autoload"]:"";
 		
 		Settings::save("timelimit", $timeLimit);
 		Settings::save("elatency", $eLatency);
 		Settings::save("autotasks", $tasks);
 		Settings::save("highestwcet", $hWcet);
+		Settings::save("autogen", $autogen);
+		Settings::save("autoload", $autoload);
 		
-
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -214,9 +218,16 @@
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
 		
-		$timeLimit = Settings::getParameter("timelimit");
-		$eLatency = Settings::getParameter("elatency");
+		/* Get general settings */
+		$timeLimit 	= Settings::getParameter("timelimit");
+		$eLatency 	= Settings::getParameter("elatency");
+		$autogen 	= Settings::getParameter("autogen");
 		
+		if($autogen == 0) {
+			$highestwcet	= Settings::getParameter("highestwcet");
+			$autotasks 		= Settings::getParameter("autotasks");
+			$autoload		= Settings::getParameter("autoload");
+		}
 		include('./Templates/network.php');
 		
 	}else if ($action_server=="generateSimu"){

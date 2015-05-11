@@ -61,11 +61,14 @@ function saveSettings() {
 	var latency = $("#elatency")[0].value;
 	var tasks 	= $("#autotasks")[0].value;
 	var hwcet	= $("#highestwcet")[0].value;
+	var autogen = $("input[name=radiotask]:checked")[0].value;
+	var autoload= $("#autoload")[0].value;
 	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&autotasks="+tasks+"&highestwcet="+hwcet,
+		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&autotasks="+tasks+"&highestwcet="+hwcet+"&autogen="+autogen+
+		"&autoload="+autoload,
 		success:function(data){
 			loadContent('settings');
 		},

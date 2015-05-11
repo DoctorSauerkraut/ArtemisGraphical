@@ -1,7 +1,7 @@
 <?php 
 
 echo "<div class=\"tabledetailsdiv\" >";
-echo "Welcome to ARTEMIS settings<br />";
+echo "General Settings<br />";
 
 /*echo "<form method=\"post\" action=\"#\">";
 	echo "Global scheduling policy:";
@@ -24,14 +24,27 @@ echo "<td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter
 echo "<tr><td>Electronical latency</td>";
 echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency")."\"/> ms</td></tr>";
 
-echo "<tr><td>Automatic task generation</td>";
-echo "<td><input type=\"radio\" name=\"radiotask\" checked/> ";
-echo "No <input type=\"radio\" name=\"radiotask\" /> Yes</td></tr>";
+/* Task autogeneration radiobox */
+echo "<tr><td>Automatic task generation</td><td>";
+$autogen = Settings::getParameter("autogen");
+
+echo "<input type=\"radio\" value=\"n\" name=\"radiotask\"";
+if ($autogen == "1") echo "checked";
+echo "/> No";
+
+echo "<input type=\"radio\" value=\"y\" name=\"radiotask\"";
+if ($autogen == "0") echo "checked";
+echo "/> Yes</td></tr>";
+		
 echo "<tr><td>Tasks</td>";
 echo "<td><input type=\"text\" id=\"autotasks\" value=\"".Settings::getParameter("autotasks")."\"/> tasks</td></td></tr>";
 
 echo "<tr><td>Highest WCET</td>";
 echo "<td><input type=\"text\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet")."\"/> ms</td></td></tr>";
+
+echo "<tr><td>Load</td>";
+echo "<td><input type=\"text\" id=\"autoload\" value=\"".Settings::getParameter("autoload")."\"/> < 1.0</td></td></tr>";
+
 echo "</table>";
 
 echo "<br /><a class=\"button blue\" onclick=\"saveSettings()\">Save</a>";

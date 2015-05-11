@@ -22,6 +22,24 @@
 	$eLatencyTag->appendChild($dom->createTextNode($eLatency));
 	$network->appendChild($eLatencyTag);
 	
+	$eAutogenTag=$dom->createElement("autogen");
+	$eAutogenTag->appendChild($dom->createTextNode($autogen));
+	$network->appendChild($eAutogenTag);
+	
+	if($autogen==0) {
+		$eHWcetTag=$dom->createElement("highestwctt");
+		$eHWcetTag->appendChild($dom->createTextNode($highestwcet));
+		$network->appendChild($eHWcetTag);
+		
+		$eAutoTasksTag=$dom->createElement("autotasks");
+		$eAutoTasksTag->appendChild($dom->createTextNode($autotasks));
+		$network->appendChild($eAutoTasksTag);
+		
+		$eAutoLoadTag=$dom->createElement("autoload");
+		$eAutoLoadTag->appendChild($dom->createTextNode($autoload));
+		$network->appendChild($eAutoLoadTag);
+	}
+	
 	/* MC management */
 	$critSwitches = $dom->createElement("CritSwitches");
 	$network->appendChild($critSwitches);
