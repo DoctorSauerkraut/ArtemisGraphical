@@ -405,3 +405,19 @@ function launchSimulation() {
 	});	
 }
 
+function reloadGraph() {
+	var startTimeGraph = $("#starttimegraph")[0].value;
+	var endTimeGraph = $("#endtimegraph")[0].value;
+	popup('loadingSimu');
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=reloadGraph"+"&starttimegraph="+startTimeGraph+"&endtimegraph="+endTimeGraph,
+		success:function(data){
+			showSimulationResults();
+			closePopup();
+		}
+	});	
+}
+

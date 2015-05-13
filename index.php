@@ -22,12 +22,11 @@
     </head>
     <body onload="loadCreate()"> 
 		<div id="header">
-			<!-- <a href="./index.php"><img id="logo" src="./Templates/artemis.png" alt="logo artemis"/></a> -->
 			<div id="titre" >
 				<h3>ARTEMIS</h3> 
 			</div>
-			 
-			<div id="menu"> 
+		</div>
+		<div id="menu"> 
 					<ul id="menuitems">
 						<li id="link-create" class="menuitem" onclick="loadCreate()">
 							Network
@@ -52,7 +51,6 @@
 						</li>
 					</ul>
 			</div>
-		</div>
 		<div id="grayer" onclick="closePopup()"></div>
 		<div id="popup"></div>
 	

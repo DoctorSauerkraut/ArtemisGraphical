@@ -228,6 +228,11 @@
 			$autotasks 		= Settings::getParameter("autotasks");
 			$autoload		= Settings::getParameter("autoload");
 		}
+		
+		Settings::save("startgraphtime", 0);
+		Settings::save("endgraphtime", $timeLimit);
+		
+		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
 		
 	}else if ($action_server=="generateSimu"){
@@ -314,5 +319,19 @@
 
 	}else if($action_server == "clearGraph"){
 		$manager->clearAll();
+	}else if($action_server == "reloadGraph"){
+		$startTimeGraph = isset($_POST["starttimegraph"]) ? $_POST["starttimegraph"]	: "";
+		$endTimeGraph	= isset($_POST["endtimegraph"]) ? $_POST["endtimegraph"]	: "";
+		
+		Settings::save("startgraphtime", $startTimeGraph);
+		Settings::save("endgraphtime", $endTimeGraph);
+		
+		include('./Templates/graphconfig.php');
+		
+		//$command = "java -jar artemis_grapher.jar 2>&1 > gen/logs/weblog.txt";
+		$command = "java -jar artemis_grapher.jar";
+		exec($command, $output);
+		
+		//Execute grapher to reload the new graph
 	}
 ?>		

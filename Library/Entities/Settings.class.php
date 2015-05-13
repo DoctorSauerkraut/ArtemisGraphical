@@ -4,6 +4,7 @@ include("../../functions.php");
 
 class Settings {
 	
+	/* Save a config parameter */
 	public static function save($key, $value) {
 		//Unicity check
 		$sql = "SELECT * FROM config where config.key = \"$key\"";
@@ -12,8 +13,6 @@ class Settings {
 		
 		$bdd = connectBDD();
 		$result = $bdd->query($sql);
-
-		echo "::".$sql;
 		
 		while($query=$result->fetch()) {$cptRst++;}
 
@@ -26,8 +25,6 @@ class Settings {
 			$sql 	.= " SET value = \"$value\"";
 			$sql 	.= " WHERE config.key = \"$key\"";
 		}
-		
-		echo "::".$sql;
 		
 		$bdd = connectBDD();
 		$result = $bdd->query($sql);

@@ -32,10 +32,10 @@ var graph = null;
 	};
 	var options = {	  
 		nodes: {
-			fontColor: "rgb(255,255,255)",	
+			fontColor: "rgb(0,0,0)",	
 			fontFace: "Verdana",
 			fontSize: 15,
-			shape:"box",
+			shape:"square",
 			color: {		
 				background: "rgb(20,20,30)",
 				border: "rgb(210,210,230)",
@@ -60,7 +60,7 @@ var graph = null;
 	            gravitationalConstant: -2000,
 	            centralGravity: 1.0,
 	            springLength: 95,
-	            springConstant: 0.04,
+	            springConstant: 0.50,
 	            damping: 0.09
 	        },
 	        repulsion: {
