@@ -30,20 +30,20 @@ $autogen = Settings::getParameter("autogen");
 
 echo "<input type=\"radio\" value=\"n\" name=\"radiotask\"";
 if ($autogen == "1") echo "checked";
-echo "/> No";
+echo "  onclick=\"desactivateGenerateTextFields()\" /> No";
 
 echo "<input type=\"radio\" value=\"y\" name=\"radiotask\"";
 if ($autogen == "0") echo "checked";
-echo "/> Yes</td></tr>";
+echo " onclick=\"activateGenerateTextFields()\" /> Yes</td></tr>";
 		
 echo "<tr><td>Tasks</td>";
-echo "<td><input type=\"text\" id=\"autotasks\" value=\"".Settings::getParameter("autotasks")."\"/> tasks</td></td></tr>";
+echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autotasks\" value=\"".Settings::getParameter("autotasks")."\"/> tasks</td></td></tr>";
 
 echo "<tr><td>Highest WCET</td>";
-echo "<td><input type=\"text\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet")."\"/> ms</td></td></tr>";
+echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet")."\"/> ms</td></td></tr>";
 
 echo "<tr><td>Load</td>";
-echo "<td><input type=\"text\" id=\"autoload\" value=\"".Settings::getParameter("autoload")."\"/> < 1.0</td></td></tr>";
+echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autoload\" value=\"".Settings::getParameter("autoload")."\"/> < 1.0</td></td></tr>";
 
 echo "</table>";
 

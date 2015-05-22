@@ -421,3 +421,19 @@ function reloadGraph() {
 	});	
 }
 
+/* Auto-activate/desactivate text fields for tasks autogeneration on click */
+function activateGenerateTextFields() {
+	switchStateTextField(false);
+}
+
+function desactivateGenerateTextFields() {
+	switchStateTextField(true);
+}
+
+function switchStateTextField(state) {
+	var textFields = document.getElementsByClassName("autogenTextField");
+	var i;
+	for (i = 0; i < textFields.length; i++) {
+		textFields[i].disabled = state;
+	}
+}
