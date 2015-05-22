@@ -324,6 +324,13 @@
 		$endTimeGraph	= isset($_POST["endtimegraph"]) ? $_POST["endtimegraph"]	: "";
 		
 		Settings::save("startgraphtime", $startTimeGraph);
+		$timeLimit = Settings::getParameter("timelimit");
+		if($endTimeGraph > $timeLimit ) {
+			
+			$endTimeGraph = $timeLimit;
+		}
+		
+		
 		Settings::save("endgraphtime", $endTimeGraph);
 		
 		include('./Templates/graphconfig.php');
@@ -331,6 +338,8 @@
 		//$command = "java -jar artemis_grapher.jar 2>&1 > gen/logs/weblog.txt";
 		$command = "java -jar artemis_grapher.jar";
 		exec($command, $output);
+		
+		echo "::$timeLimit";
 		
 		//Execute grapher to reload the new graph
 	}
