@@ -76,20 +76,32 @@
 	<!---------- Nodes Table ---------->
 	<?php
 		/* Load computation */
-
+		$loadArray = array();
+		
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			
+			/* Dynamic load computation */
 			foreach($path as $machineName) {
-				$tempPeriod = $message->period();
-				if($tempPeriod == 0) {
-					$tempPeriod = 80;
-				}
-				$currentLoad = $message->wcet()/$tempPeriod;
-				
 				$machineName = trim($machineName);
-				$loadArray[$machineName] += $currentLoad;	
+				$tempPeriod = $message->period();
+				
+				if($tempPeriod == 0) {
+					$tempPeriod = Settings::getParameter("timelimit");
+				}
+				
+				$currentLoad = $message->wcet() / $tempPeriod;
+				
+				if($loadArray[$machineName] == "") {
+					$loadArray[$machineName] = $currentLoad;
+				}
+				else {
+					$loadArray[$machineName] += $currentLoad;
+				}
+					
+				//
 			}
+			 
 		}
 	?>
 	<div class="tabledetailsdiv">

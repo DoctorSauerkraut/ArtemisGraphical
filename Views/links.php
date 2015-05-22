@@ -1,23 +1,4 @@
 <!---------- Links Table ---------->
-	<?php
-		/* Load computation */
-		//$loadArray = new Array();
-		foreach($donnees3 as $message) {
-			$path = explode(",", $message->path());
-			
-			foreach($path as $machineName) {
-				$tempPeriod = $message->period();
-				if($tempPeriod == 0) {
-					$tempPeriod = 80;
-				}
-				$currentLoad = $message->wcet()/$tempPeriod;
-				
-				$machineName = trim($machineName);
-				$loadArray[$machineName] += $currentLoad;	
-			}
-		}
-	?>
-	
 		<div class="tabledetailsdiv" id="tabledetailslinks">
 		<table class="tableShow">
 		<caption> Links Table </caption>
