@@ -142,6 +142,7 @@
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();	
+		
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
@@ -236,6 +237,7 @@
 		include('./Templates/network.php');
 		
 	}else if ($action_server=="generateSimu"){
+		$list_nodes= $manager->displayListNode();
 		include('./Views/results.php');
 	}else if($action_server=="editNode"){
 		
@@ -329,7 +331,7 @@
 			
 			$endTimeGraph = $timeLimit;
 		}
-		
+		$list_nodes= $manager->displayListNode();
 		
 		Settings::save("endgraphtime", $endTimeGraph);
 		

@@ -9,8 +9,11 @@
 	echo "Start time :<input type=\"text\" id=\"starttimegraph\" value=\"$startTime\" />";
 	echo "End time :<input type=\"text\" id=\"endtimegraph\" value=\"$endTime\" />";
 	
-	echo "<a class=\"button green\" onclick=\"reloadGraph()\">Reload graph</a>";
+	echo "<a class=\"button green\" onclick=\"reloadGraph()\">Reload graph</a><br /><br />";
 	
+	foreach($list_nodes as $node) {
+		echo "<input type=\"checkbox\" checked/>".$node->name();
+	}
 	echo "</div>";
 	
 	echo "<img src=\"gen/histos/".Settings::getParameter("graphname").".PNG\" />";

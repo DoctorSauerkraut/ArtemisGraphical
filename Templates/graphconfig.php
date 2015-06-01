@@ -23,5 +23,15 @@ $graphConfig->appendChild($nameTag);
 
 $dom->appendChild($graphConfig);
 
+$nodesTag=$dom->createElement("nodes");
+
+foreach($list_nodes as $node) {
+	$string .= trim($node->name()).",";
+	echo "::".$string;
+}
+$nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
+$graphConfig->appendChild($nodesTag);
+
+
 $dom->save('input/graphconfig.xml');
 ?>
