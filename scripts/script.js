@@ -438,3 +438,17 @@ function switchStateTextField(state) {
 		textFields[i].disabled = state;
 	}
 }
+
+/* Sets / Unsets a node for graph displaying */
+function loadNodeOnCheck(nodeId, checked) {
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=loadNodeForGraph"+"&nodeId="+nodeId+"&checked="+checked,
+		success:function(data){
+			showSimulationResults();
+			//alert(data.trim());
+		}
+	});	
+}

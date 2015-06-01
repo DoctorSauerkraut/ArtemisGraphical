@@ -26,8 +26,9 @@ $dom->appendChild($graphConfig);
 $nodesTag=$dom->createElement("nodes");
 
 foreach($list_nodes as $node) {
-	$string .= trim($node->name()).",";
-	echo "::".$string;
+	if($node->isDisplayed() == 0) {
+		$string .= trim($node->name()).",";
+	}
 }
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);

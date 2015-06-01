@@ -11,7 +11,8 @@
 		private $_scheduling = 'FIFO';
 		private $_criticality= 0;
 		private $_links;
-
+		private $_displayed;
+		
 		const SCHEDULING_FIFO = 'FIFO';
 		const SCHEDULING_FP = 'FP';
 		const SCHEDULING_EDF = 'EDF';
@@ -45,19 +46,22 @@
 
 		//accesseur 
 		public function id(){
-		return $this->_id;
+			return $this->_id;
 		}
+		
 		public function criticality(){
-		return $this->_criticality;
+			return $this->_criticality;
 		}
+		
 		public function name(){
-		return $this->_name.trim();
+			return $this->_name.trim();
 		}
 		public function scheduling(){
-		return $this->_scheduling;
+			return $this->_scheduling;
 		}
-				public function ipAddress(){
-		return $this->_ipAddress;
+		
+		public function ipAddress(){
+			return $this->_ipAddress;
 		}
 		//mutateur
 		public function setCriticality($crit){
@@ -71,7 +75,6 @@
 		public function setIpAddress($ip){
 
 			$this->_ipAddress=$ip;
-		
 		}
 
 		public function setScheduling($sched){
@@ -88,7 +91,14 @@
 				$this->_name=$name;
 			}
 		}
+		
+		public function setDisplayed($displayed) {
+			$this->_displayed = $displayed;
+		}
 
+		public function isDisplayed() {
+			return $this->_displayed;
+		}
 	}
 
 ?>

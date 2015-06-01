@@ -56,7 +56,7 @@
 	//	
 	}
 	
-	foreach($donnees1 as $element1){
+	foreach($list_nodes as $element1){
 
 		$machine=$dom->createElement("machine");
 		$machine->setAttribute("id",$element1->id());

@@ -185,7 +185,7 @@
 	}else if ($action_server=="generate"){
 		
 		$pathId =[];
-		$donnees1= $manager->displayListNode();	
+		$list_nodes= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$listMessages= $manager->displayListMessage();	
 		
@@ -195,7 +195,7 @@
 			
 			$path = split(",", $pathId[$singleMessage->id()]);
 			
-			foreach ($donnees1 as $element1) {				
+			foreach ($list_nodes as $element1) {				
 				$cptPath = 0;
 				$strPath = "";
 				
@@ -238,7 +238,9 @@
 		
 	}else if ($action_server=="generateSimu"){
 		$list_nodes= $manager->displayListNode();
+
 		include('./Views/results.php');
+		
 	}else if($action_server=="editNode"){
 		
 		$manager->updateNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['criticality']);
@@ -341,8 +343,23 @@
 		$command = "java -jar artemis_grapher.jar";
 		exec($command, $output);
 		
-		echo "::$timeLimit";
-		
 		//Execute grapher to reload the new graph
+	}else if($action_server == "loadNodeForGraph") {
+		$nodeId = isset($_POST["nodeId"]) ? $_POST["nodeId"] : "";
+		$checked = isset($_POST["checked"]) ? $_POST["checked"] : "";
+		
+		if($checked==0){
+			$checked=1;
+		}
+		else{
+			$checked=0;
+		}
+		
+		$node = $manager->displayNode($nodeId);
+		$manager->updateNodeC($node->id(), $node->name(), $node->ipAddress(), $node->scheduling(), $checked);
+		
+	/*	$list_nodes= $manager->displayListNode();
+		
+		include('./Views/results.php');*/
 	}
 ?>		
