@@ -100,7 +100,7 @@ public function updateNodeC($id, $name, $ip, $sched, $disp) {
 }
 
  public function updateNode($id, $name, $ip, $sched){
-	$this->updateNode($id, $name, $ip, $sched, 0);
+	$this->updateNodeC($id, $name, $ip, $sched, 0);
  }
  
  public function verifyNodeDeletion($idnode,$name){

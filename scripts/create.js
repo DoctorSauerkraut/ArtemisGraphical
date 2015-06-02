@@ -13,9 +13,18 @@ var graph = null;
 		countNode=0;
 		countEdge=0;			
 		while (countNode < infoNode.length){
-			nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1]});
+			var currentGroup;
+			var name = infoNode[countNode+1];
+			if(name.indexOf("S") == 0) {
+				currentGroup = 'switches';
+			}
+			else {
+				currentGroup = 'endpoints';
+			}
+			nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1], "group":currentGroup});
 			countNode=countNode+2;
 		}  
+
 		if (infos[1] != ""){
 			while (countEdge < infoEdge.length) {
 				edges.push({"from":parseInt(infoEdge[countEdge]),"to":parseInt(infoEdge[countEdge+1]),"id":parseInt(infoEdge[countEdge+2])});
@@ -26,25 +35,8 @@ var graph = null;
 	} 
 	// create a graph
 	var container = document.getElementById('mygraph');
-	var data = {
-		nodes: nodes,
-		edges: edges
-	};
 	var options = {	  
 		nodes: {
-			fontColor: "rgb(0,0,0)",	
-			fontFace: "Verdana",
-			fontSize: 15,
-			shape:"square",
-			color: {		
-				background: "rgb(20,20,30)",
-				border: "rgb(210,210,230)",
-				highlight:{
-					background:"rgb(210,210,230)",
-					font: "rgb(20,20,30)",
-					border: "rgb(20,20,30)"
-				}
-			},
 			allowedToMoveX:false,
 		},
 			
@@ -53,7 +45,38 @@ var graph = null;
 			length: 50
 		},
 			
-			
+		groups : {
+			switches:{
+				shape:"circle",
+				fontColor: "rgb(0,0,0)",	
+				fontFace: "Verdana",
+				fontSize: 15,
+				color: {		
+					background: "rgb(220,220,230)",
+					border: "rgb(210,210,230)",
+					highlight:{
+						background:"rgb(210,210,230)",
+						font: "rgb(20,20,30)",
+						border: "rgb(20,20,30)"
+					}
+				},
+			}, 
+			endpoints : {
+				shape:"square",
+				fontColor: "rgb(0,0,0)",	
+				fontFace: "Verdana",
+				fontSize: 8,
+				color: {		
+					background: "rgb(20,20,30)",
+					border: "rgb(210,210,230)",
+					highlight:{
+						background:"rgb(210,210,230)",
+						font: "rgb(20,20,30)",
+						border: "rgb(20,20,30)"
+					}
+				},
+			}
+		},	
 		physics: {
 	        barnesHut: {
 	            enabled: false,
@@ -120,7 +143,11 @@ var graph = null;
 			addLink(data.from, data.to);
 		}
 	};
-	
+	var data = {
+			nodes: nodes,
+			edges: edges
+		};
+
 	graph = new vis.Graph(container, data, options);
 
 	graph.on("resize", function(params) {

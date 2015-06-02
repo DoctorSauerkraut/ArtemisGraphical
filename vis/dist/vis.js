@@ -87,6 +87,12 @@ if (!Array.prototype.forEach) {
   }
 }
 
+
+
+/*
+ * ############################################### COMPLIANCE MANAGEMENT  ###############################################
+ */
+
 // Internet Explorer 8 and older does not support Array.map, so we define it
 // here in that case.
 // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/map
@@ -307,6 +313,12 @@ if (!Function.prototype.bind) {
     return fBound;
   };
 }
+
+
+
+/*
+ * ############################################### UTILS  ###############################################
+ */
 
 /**
  * utility functions
@@ -1179,6 +1191,12 @@ util.copyObject = function copyObject(objectFrom, objectTo) {
     }
   }
 };
+
+
+
+/*
+ * ############################################### OBJECTS DEFINITIONS  ###############################################
+ */
 
 /**
  * DataSet
@@ -8398,6 +8416,19 @@ Timeline.prototype._toScreen = function _toScreen(time) {
   return (time.valueOf() - conversion.offset) * conversion.scale;
 };
 
+
+
+/*
+ * ############################################### NEEDED FUNCTIONS  ###############################################
+ */
+
+
+
+
+
+
+
+
 (function(exports) {
   /**
    * Parse a text source containing data in DOT language into a JSON object.
@@ -9228,6 +9259,16 @@ Timeline.prototype._toScreen = function _toScreen(time) {
 
 })(typeof util !== 'undefined' ? util : exports);
 
+
+
+/*
+ * ############################################### CANVAS RENDERING  ###############################################
+ */
+
+
+
+
+
 /**
  * Canvas shapes used by the Graph
  */
@@ -9453,6 +9494,11 @@ if (typeof CanvasRenderingContext2D !== 'undefined') {
 
   // TODO: add diamond shape
 }
+
+
+/*
+ * ############################################### NODES  ###############################################
+ */
 
 /**
  * @class Node
@@ -10420,6 +10466,13 @@ Node.prototype.updateVelocity = function(massBeforeClustering) {
 };
 
 
+
+/*
+ * ############################################### EDGES  ###############################################
+ */
+
+
+
 /**
  * @class Edge
  *
@@ -11193,6 +11246,14 @@ Edge.prototype.positionBezierNode = function() {
     this.via.y = 0.5 * (this.from.y + this.to.y);
   }
 };
+
+
+
+/*
+ * ############################################### POPUPS  ###############################################
+ */
+
+
 /**
  * Popup is a class to create a popup window with some text
  * @param {Element}  container     The container object.
@@ -11325,6 +11386,12 @@ Popup.prototype.show = function (show) {
 Popup.prototype.hide = function () {
   this.frame.style.visibility = "hidden";
 };
+
+
+
+/*
+ * ############################################### GROUPS  ###############################################
+ */
 
 /**
  * @class Groups
@@ -12931,6 +12998,13 @@ var HierarchicalLayoutMixin = {
 
 
 };
+
+
+
+
+/*
+ * ############################################### GRAPH CONFIGURATION ###############################################
+ */
 /**
  * Created by Alex on 2/4/14.
  */

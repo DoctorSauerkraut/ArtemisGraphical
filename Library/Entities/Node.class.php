@@ -12,6 +12,7 @@
 		private $_criticality= 0;
 		private $_links;
 		private $_displayed;
+		private $_speed;
 		
 		const SCHEDULING_FIFO = 'FIFO';
 		const SCHEDULING_FP = 'FP';
@@ -98,6 +99,14 @@
 
 		public function isDisplayed() {
 			return $this->_displayed;
+		}
+		
+		public function setSpeed($speed) {
+			$this->_speed = $speed;
+		}
+		
+		public function getSpeed() {
+			return $this->_speed;
 		}
 	}
 

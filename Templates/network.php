@@ -56,11 +56,12 @@
 	//	
 	}
 	
-	foreach($list_nodes as $element1){
+	foreach($list_nodes as $currentNode){
 
 		$machine=$dom->createElement("machine");
-		$machine->setAttribute("id",$element1->id());
-		$machine->setAttribute("name",$element1->name());
+		$machine->setAttribute("id",$currentNode->id());
+		$machine->setAttribute("name",$currentNode->name());
+		$machine->setAttribute("speed", 1);
 		
 			$config = $dom->createElement("Config");
 				$name = $dom->createElement("name");
@@ -71,7 +72,7 @@
 			foreach ($listMessages as $singleMessage) {
 				$arr=explode(",", $singleMessage->path(), 2);										
 				
-				if($arr[0] == trim($element1->name()) ){
+				if($arr[0] == trim($currentNode->name()) ){
 					$message = $dom->createElement("message");
 					$message->setAttribute("id", $singleMessage->id());
 
@@ -121,20 +122,21 @@
 				$links = $dom->createElement("Links");
 			foreach ($donnees2 as $element2){
 					
-				if($element2->node2() == $element1->id()){
+				if($element2->node2() == $node->id()){
 				$machinel=$dom->createElement("machinel");
 				$machinel->setAttribute("id", $element2->node1());
 			$links->appendChild($machinel);
-		$machine->appendChild($links);
-				}else if($element2->node1() == $element1->id()){			
+			$machine->appendChild($links);
+
+			}else if($element2->node1() == $node->id()){			
 				$machinel=$dom->createElement("machinel");
 				$machinel->setAttribute("id", $element2->node2());
-			$links->appendChild($machinel);
-		$machine->appendChild($links);	
-				}else{}
+				$links->appendChild($machinel);
+				$machine->appendChild($links);	
+			}
 				
 
-			}
+		}
 			
 	$network->appendChild($machine);
 	}

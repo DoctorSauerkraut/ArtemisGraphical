@@ -15,7 +15,9 @@
 		
 		<script type="text/javascript" src="./scripts/jquery.js" ></script>
 		<script type="text/javascript" src="./scripts/script.js"></script>
+		<!--  Vis files -->
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
+		
 		<script type="text/javascript" src="./scripts/create.js"></script>
 		<script type="text/javascript" src="./scripts/edit.js"></script>
 		<script type="text/javascript" src="./scripts/settings.js"></script>
