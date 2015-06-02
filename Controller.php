@@ -356,7 +356,7 @@
 		}
 		
 		$node = $manager->displayNode($nodeId);
-		$manager->updateNodeC($node->id(), $node->name(), $node->ipAddress(), $node->scheduling(), $checked);
+		$manager->updateNodeC($node->id(), $node->name(), $node->ipAddress(), $node->scheduling(), $checked, $node->getSpeed());
 		
 	/*	$list_nodes= $manager->displayListNode();
 		

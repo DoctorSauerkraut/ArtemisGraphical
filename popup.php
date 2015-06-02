@@ -27,8 +27,13 @@
 		}
 	}
 	else if($popupFunction == "loadingSimu") {
+		$progress = 0;
+		
 		echo $popupHead;
 		echo "Loading....";
+		echo "<div id=\"progressbar\">";
+		echo "$progress %";
+		echo "</div>";
 	}
 	else if($popupFunction == "critButton") {
 		echo $popupHead;

@@ -14,6 +14,7 @@
 		<link type="text/css" rel="stylesheet" href="./vis/dist/vis.css"/>
 		
 		<script type="text/javascript" src="./scripts/jquery.js" ></script>
+		
 		<script type="text/javascript" src="./scripts/script.js"></script>
 		<!--  Vis files -->
 		<script type="text/javascript" src="./vis/dist/vis.js"></script>
