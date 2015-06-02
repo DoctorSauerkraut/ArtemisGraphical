@@ -51,7 +51,7 @@ return $donnees['count(id)'];
  
  public function displayNode($id){
 	 $id = (int) $id;
-	 $request='SELECT id, name, ip_address, scheduling, displayed FROM node WHERE id = '.$id;
+	 $request='SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE id = '.$id;
 	 //echo $request;
 	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ return $donnees['count(id)'];
  
   public function displayNodeByName($name){
 	//$request = 'SELECT id, name, ip_address, scheduling, criticality FROM node WHERE name = "'.$name.'"';
-	 $q= $this->_db->query('SELECT id, name, ip_address, scheduling, displayed FROM node WHERE name = "'.$name.'"')or die (print_r($_db->errorInfo()));
+	 $q= $this->_db->query('SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE name = "'.$name.'"')or die (print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
 	 $tmp =new node();
 	 if($donnees != null){
@@ -78,7 +78,7 @@ return $donnees['count(id)'];
  public function displayListNode(){
  $nodes = array();
  
- $q = $this->_db->query('SELECT id, name, ip_address, scheduling, displayed FROM node')or die(print_r($_db->errorInfo()));
+ $q = $this->_db->query('SELECT id, name, ip_address, scheduling, displayed, speed FROM node')or die(print_r($_db->errorInfo()));
  while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
  $tmp = new node();
  $tmp->hydrate($donnees);
@@ -88,19 +88,24 @@ return $donnees['count(id)'];
  return $nodes;
  }
  
-public function updateNodeC($id, $name, $ip, $sched, $disp) {
-	$q=$this->_db->prepare('UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, displayed = :displayed WHERE id = :id')or die(print_r($_db->errorInfo()));
+public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
+	$q=$this->_db->prepare('UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, displayed = :displayed, speed = :speed WHERE id = :id')or die(print_r($_db->errorInfo()));
 	
 	$q->bindValue(':name',$name);
 	$q->bindValue(':ip_address', $ip, PDO::PARAM_INT);
 	$q->bindValue(':scheduling', $sched);
 	$q->bindValue(':id', $id, PDO::PARAM_INT);
 	$q->bindValue(':displayed', $disp, PDO::PARAM_INT);
+	$q->bindValue(':speed', $speed, PDO::PARAM_INT);
 	$q->execute();
 }
 
+public function updateNodeS($id, $name, $ip, $sched, $speed){
+	$this->updateNodeC($id, $name, $ip, $sched, 0, $speed);
+}
+
  public function updateNode($id, $name, $ip, $sched){
-	$this->updateNodeC($id, $name, $ip, $sched, 0);
+	$this->updateNodeC($id, $name, $ip, $sched, 0, 1);
  }
  
  public function verifyNodeDeletion($idnode,$name){

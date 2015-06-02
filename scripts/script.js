@@ -116,7 +116,7 @@ function editNode() {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'editNode'+'&id='+document.getElementById('node-id').value+'&label='+document.getElementById('node-label').value+'&ipAddress='+document.getElementById('node-ip').value+'&scheduling='+document.getElementById('node-sched').value+'&criticality='+document.getElementById('node-crit').value,
+		data:'action='+'editNode'+'&id='+document.getElementById('node-id').value+'&label='+document.getElementById('node-label').value+'&ipAddress='+document.getElementById('node-ip').value+'&scheduling='+document.getElementById('node-sched').value+'&speed='+document.getElementById('node-speed').value,
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 		}

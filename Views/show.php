@@ -22,53 +22,23 @@
 			<tr>
 				<td>Load</td><td><input id="node-crit" type="number" value="1"> </td>
 			</tr>
+			<tr>
+				<td>Speed</td><td>
+					<select id="node-speed">
+						<option value="1">1x</option>
+						<option value="2">2x</option>
+						<option value="3">4x</option>
+						<option value="4">8x</option>
+						<option value="5">16x</option>
+						<option value="6">32x</option>
+					</select>
+				
+				 </td>
+			</tr>
 		</table>
+		
 		<input type="button" value="SAVE" onclick="editNode();" id="saveButton"></button>
 		<input type="button" value="CANCEL" onclick="hideNode();" id="cancelButton"></button>
-	</div>
-	
-	<!--------------------------------------- Edit Link PopUp which is normally not displayed ------------------------------------------------>
-	
-	<div style="display:none" id="popup-link-edit">
-		<span id="edit-link-title">link</span> <br>
-		<table id="table-edit-link" >
-			<tr style="display:none;">
-				<td>ID</td><td><input id="link-id"> </td>
-			</tr>
-			<tr>
-				<td>Node 1</td><td><input id="node1-label" value="new value"> </td>
-			</tr>
-			<tr>
-				<td>Node 2</td><td><input id="node2-label" value="new value"> </td>
-			</tr>
-		</table>
-		<input type="button" value="SAVE" onclick="editLink();" id="saveButton"></button>
-		<input type="button" value="CANCEL" onclick="hideLink();" id="cancelButton"></button>
-	</div>
-	
-	<!--------------------------------------- Edit Message PopUp which is normally not displayed ------------------------------------------------>
-	
-	<div style="display:none" id="popup-message-edit">
-		<span id="edit-message-title">Message</span> <br>
-		<table id="table-edit-message" >
-			<tr style="display:none;">
-				<td>ID</td><td><input id="message-id"> </td>
-			</tr>
-			<tr>
-				<td>Path</td><td><input id="path" value="new value"> </td>
-			</tr>
-			<tr>
-				<td>Period</td><td><input id="period" value="0"> </td>
-			</tr>
-			<tr>
-				<td>Offset</td><td><input id="offset" value="0"> </td>
-			</tr>
-			<tr>
-				<td>Wcet</td><td><input id="wcet" value="0"> </td>
-			</tr>
-		</table>
-		<input type="button" value="SAVE" onclick="editMessage();" id="saveButton"></button>
-		<input type="button" value="CANCEL" onclick="hideMessage();" id="cancelButton"></button>
 	</div>
 	
 	<!------------------------------------- Tables containing information coming from the database ---------------------------------------------->
@@ -108,20 +78,20 @@
 		<table class="tableShow">
 			<caption> Nodes Table </caption>
 			<tr>
-				<th>ID</th><th>Name</th><th>IP Address</th><th>Scheduling</th><th>Load</th><th>Edit</th><th>Delete</th>
+				<th>ID</th><th>Name</th><!--<th>IP Address</th>--><th>Scheduling</th><th>Load</th><th>Speed</th><th>Edit</th><th>Delete</th>
 			</tr>
 			
 			<?php foreach($donnees1 as $element){ ?>
 				<tr>
 					<td><?php echo $element->id(); ?> </td>
 					<td><?php echo $element->name(); ?> </td>
-					<td><?php echo $element->ipAddress(); ?> </td>
+				<!-- 	<td><?php echo $element->ipAddress(); ?> </td> -->
 					<td><?php echo $element->scheduling(); ?> </td>
 					<?php 
 						$name = trim($element->name());
 						$load = $loadArray[$name];?>
 					<td <?php if($loadArray[$name] > 1.0) {echo "class=\"redcase\"";}?>><?php echo number_format($loadArray[$name], 4); ?></td>
-					<!-- <td><?php echo $element->criticality(); ?> </td> -->
+					<td><?php echo pow(2, $element->getSpeed()-1)."x"; ?> </td>
 					<td style="text-align:center;"><a href="#" class="button green" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')">Edit</a></td>
 					<td style="text-align:center;"><a href="#" class="button red" onclick="deleteNode('<?php echo $element->id(); ?>')">Delete</a></td>
 				</tr>		

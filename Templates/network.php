@@ -61,7 +61,7 @@
 		$machine=$dom->createElement("machine");
 		$machine->setAttribute("id",$currentNode->id());
 		$machine->setAttribute("name",$currentNode->name());
-		$machine->setAttribute("speed", 1);
+		$machine->setAttribute("speed", $currentNode->getSpeed());
 		
 			$config = $dom->createElement("Config");
 				$name = $dom->createElement("name");

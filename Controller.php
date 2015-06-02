@@ -243,7 +243,7 @@
 		
 	}else if($action_server=="editNode"){
 		
-		$manager->updateNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['criticality']);
+		$manager->updateNodeS($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['speed']);
 		$donnees1= $manager->displayListNode();	
 		$donnees2= $manager->displayListLink();	
 		$donnees3= $manager->displayListMessage();
