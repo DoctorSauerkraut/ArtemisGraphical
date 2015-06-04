@@ -1,10 +1,10 @@
-<?php		
+ <?php		
 	
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
 	
 	include('functions.php');
-		
+	
 	spl_autoload_register('chargerClasse');
 	
 	$manager = initManager();
@@ -333,9 +333,15 @@
 			
 			$endTimeGraph = $timeLimit;
 		}
+		if($startTimeGraph <0 || $startTimeGraph >= $endTimeGraph) {
+			$startTimeGraph = 0;
+		}
+		
+		
 		$list_nodes= $manager->displayListNode();
 		
 		Settings::save("endgraphtime", $endTimeGraph);
+		Settings::save("startgraphtime", $startTimeGraph);
 		
 		include('./Templates/graphconfig.php');
 		

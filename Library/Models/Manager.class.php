@@ -18,7 +18,7 @@ class Manager{
    $this->_db->exec('TRUNCATE TABLE node');  
    $this->_db->exec('TRUNCATE TABLE critswitches');  
    $this->_db->exec('TRUNCATE TABLE wcets');  
-   $this->_db->exec('TRUNCATE TABLE critlevels');  
+   //$this->_db->exec('TRUNCATE TABLE critlevels');  
   }
   
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////

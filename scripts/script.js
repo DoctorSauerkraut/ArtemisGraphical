@@ -92,7 +92,7 @@ function closePopup() {
 //////////////////////////////////////////////////// Generate link
 function generate() {
 	popup('loadingSimu');
-	
+
 	$.ajax({
 		url:"Controller.php",
 		type:"post",
@@ -105,8 +105,6 @@ function generate() {
 		}
 	});
 }
-
-
 //////////////////////////////////////////////////// Details Links ///////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////// Node table links
@@ -116,7 +114,7 @@ function editNode() {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'editNode'+'&id='+document.getElementById('node-id').value+'&label='+document.getElementById('node-label').value+'&ipAddress='+document.getElementById('node-ip').value+'&scheduling='+document.getElementById('node-sched').value+'&speed='+document.getElementById('node-speed').value,
+		data:'action='+'editNode'+'&id='+document.getElementById('node-id').value+'&label='+document.getElementById('node-label').value+'&ipAddress=0'+'&scheduling=\'FIFO\''+'&speed='+document.getElementById('node-speed').value,
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 		}
@@ -132,16 +130,20 @@ function popupNode($id, $name, $ip, $sched, $crit) {
 	var span = document.getElementById('edit-node-title');
 	var id = document.getElementById('node-id');
 	var name = document.getElementById('node-label');
-	var ip = document.getElementById('node-ip');
-	var sched = document.getElementById('node-sched');
+	//var ip = document.getElementById('node-ip');
+	//var sched = document.getElementById('node-sched');
 	var crit = document.getElementById('node-crit');
 	var div = document.getElementById('popup-node-edit');
 	span.innerHTML = "Edit Node n."+$id;
+	
 	id.value = $id;
 	name.value=$name;
-	ip.value=$ip;
-	sched.value=$sched;
+	//ip.value=$ip;
+	//sched.value=$sched;
+	
+	
 	crit.value=$crit;
+	
 	div.style.display = 'block';
 }
 

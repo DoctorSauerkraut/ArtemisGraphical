@@ -9,28 +9,27 @@
 			<tr>
 				<td>Name</td><td><input id="node-label" value="new value"> </td>
 			</tr>
-			<tr>
+			<!--<tr>
 				<td>IP Address</td><td><input id="node-ip" value="0"> </td>
-			</tr>
+			</tr>  
 			<tr>
-				<td>Scheduling</td><td id="liste"><select id="node-sched">
+				<td>Scheduling</td>
+				<td id="liste"><select id="node-sched">
 				<option value="FIFO" selected >FIFO</option>
 				<option value="FP">FP</option>
 				<option value="EDF">EDF</option>
 				<option value="RM">RM</option></select></td>
-			</tr>
+			</tr>-->
 			<tr>
 				<td>Load</td><td><input id="node-crit" type="number" value="1"> </td>
 			</tr>
 			<tr>
 				<td>Speed</td><td>
 					<select id="node-speed">
-						<option value="1">1x</option>
-						<option value="2">2x</option>
-						<option value="3">4x</option>
-						<option value="4">8x</option>
-						<option value="5">16x</option>
-						<option value="6">32x</option>
+						<option value="1">100 Mo/s</option>
+						<option value="10">1 Go/s</option>
+						<option value="100">10 Go/s</option>
+						<option value="1000">100 Go/s</option>
 					</select>
 				
 				 </td>
@@ -54,6 +53,9 @@
 			/* Dynamic load computation */
 			foreach($path as $machineName) {
 				$machineName = trim($machineName);
+				/* Computing speed */
+				$machine = $manager->displayNodeByName($machineName);
+				
 				$tempPeriod = $message->period();
 				
 				if($tempPeriod == 0) {
@@ -63,10 +65,10 @@
 				$currentLoad = $message->wcet() / $tempPeriod;
 				
 				if($loadArray[$machineName] == "") {
-					$loadArray[$machineName] = $currentLoad;
+					$loadArray[$machineName] = ($currentLoad/$machine->getSpeed());
 				}
 				else {
-					$loadArray[$machineName] += $currentLoad;
+					$loadArray[$machineName] += ($currentLoad/$machine->getSpeed());
 				}
 					
 				//
@@ -91,7 +93,7 @@
 						$name = trim($element->name());
 						$load = $loadArray[$name];?>
 					<td <?php if($loadArray[$name] > 1.0) {echo "class=\"redcase\"";}?>><?php echo number_format($loadArray[$name], 4); ?></td>
-					<td><?php echo pow(2, $element->getSpeed()-1)."x"; ?> </td>
+					<td><?php echo $element->getSpeed()."x"; ?> </td>
 					<td style="text-align:center;"><a href="#" class="button green" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')">Edit</a></td>
 					<td style="text-align:center;"><a href="#" class="button red" onclick="deleteNode('<?php echo $element->id(); ?>')">Delete</a></td>
 				</tr>		
