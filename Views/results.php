@@ -3,8 +3,8 @@
 	
 	echo "<div id=\"graphoptionstoolbar\">";
 	
-	$startTime = Settings::getParameter("startgraphtime");
-	$endTime = Settings::getParameter("endgraphtime");
+	$startTime = Settings::getParameter("startgraphtime", $simuKey);
+	$endTime = Settings::getParameter("endgraphtime", $simuKey);
 	
 	echo "Start time :<input type=\"text\" id=\"starttimegraph\" value=\"$startTime\" />";
 	echo "End time :<input type=\"text\" id=\"endtimegraph\" value=\"$endTime\" />";
@@ -23,13 +23,10 @@
 	}
 	echo "</div>";
 	
-	echo "<img src=\"gen/histos/".Settings::getParameter("graphname").".PNG\" />";
-	
-
-	//echo "</br>Simulation Time: 0.35s";
+	echo "<img src=\"ressources/".Settings::getParameter("graphname", $simuKey)."/gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG\" />";
 	
 	echo "<br />Export results :";
-	echo " <a class=\"button green\" href=\"gen/histos/".Settings::getParameter("graphname").".PNG"."\">PNG</a>"; 
+	echo " <a class=\"button green\" href=\"gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG"."\">PNG</a>"; 
 	echo " <a class=\"button green\">PDF</a>"; 
 	echo " <a class=\"button green\">Latex</a>"; 
 	

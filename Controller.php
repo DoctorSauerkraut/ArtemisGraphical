@@ -199,9 +199,9 @@
 	}else if ($action_server=="generate"){
 		
 		$pathId =[];
-		$list_nodes= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$listMessages= $manager->displayListMessage();	
+		$list_nodes= $manager->displayListNode($simuKey);	
+		$donnees2= $manager->displayListLink($simuKey);	
+		$listMessages= $manager->displayListMessage($simuKey);	
 		
 		/* Parsing the path string */
 		foreach ($listMessages as $singleMessage) {
@@ -226,6 +226,8 @@
 			}
 			$pathId[$singleMessage->id()] = trim($pathId[$singleMessage->id()], ",");
 		}
+		
+		
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
@@ -234,24 +236,26 @@
 		}
 		
 		/* Get general settings */
-		$timeLimit 	= Settings::getParameter("timelimit");
-		$eLatency 	= Settings::getParameter("elatency");
-		$autogen 	= Settings::getParameter("autogen");
+		$timeLimit 	= Settings::getParameter("timelimit", $simuKey);
+		$eLatency 	= Settings::getParameter("elatency", $simuKey);
+		$autogen 	= Settings::getParameter("autogen", $simuKey);
 		
 		if($autogen == 0) {
-			$highestwcet	= Settings::getParameter("highestwcet");
-			$autotasks 		= Settings::getParameter("autotasks");
-			$autoload		= Settings::getParameter("autoload");
+			$highestwcet	= Settings::getParameter("highestwcet", $simuKey);
+			$autotasks 		= Settings::getParameter("autotasks", $simuKey);
+			$autoload		= Settings::getParameter("autoload", $simuKey);
 		}
 		
-		Settings::save("startgraphtime", 0);
-		Settings::save("endgraphtime", $timeLimit);
+		Settings::save("startgraphtime", 0, $simuKey);
+		Settings::save("endgraphtime", $timeLimit, $simuKey);
 		
+	
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
+	
 		
 	}else if ($action_server=="generateSimu"){
-		$list_nodes= $manager->displayListNode();
+		$list_nodes= $manager->displayListNode($simuKey);
 
 		include('./Views/results.php');
 		
