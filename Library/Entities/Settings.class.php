@@ -4,10 +4,36 @@ include("../../functions.php");
 
 class Settings {
 	
+	public static function createSimulation($session_id) {
+		$key = 0;
+		$bdd = connectBDD();
+		
+		$sql = "SELECT * FROM simulations WHERE id_session = \"$session_id\"";
+
+		$result = $bdd->query($sql);
+
+		if($result->rowCount() == 0) {
+			$sql 	= "INSERT INTO simulations (`id_simu`, `id_session`)";
+			$sql 	.= " VALUES (\"0\", \"$session_id\")";
+			
+			$result = $bdd->query($sql);
+			
+			$_SESSION["simuid"] = $key;
+		}
+		else {
+			$session = ($result->fetch());
+			
+			$_SESSION["simuid"] = $session["id_simu"];
+		}
+
+
+		return $result;
+	}
+	
 	/* Save a config parameter */
-	public static function save($key, $value) {
+	public static function save($key, $value, $simuKey = 1) {
 		//Unicity check
-		$sql = "SELECT * FROM config where config.key = \"$key\"";
+		$sql = "SELECT * FROM config where config.key = \"$key\" AND id_simu=\"$simuKey\"";
 	
 		$cptRst = 0;
 		
@@ -17,13 +43,14 @@ class Settings {
 		while($query=$result->fetch()) {$cptRst++;}
 
 		if($cptRst== 0) {
-			$sql 	= "INSERT INTO config (`key`, `value`)";
-			$sql 	.= " VALUES (\"$key\", \"$value\")";
+			$sql 	= "INSERT INTO config (`id_simu`,`key`, `value`)";
+			$sql 	.= " VALUES (\"".$this->idSimu."\", \"$key\", \"$value\")";
 		}
 		else {
 			$sql 	= "UPDATE config";
 			$sql 	.= " SET value = \"$value\"";
 			$sql 	.= " WHERE config.key = \"$key\"";
+			$sql	.= " AND id_simu=\"$simuKey\"";
 		}
 		
 		$bdd = connectBDD();
@@ -31,8 +58,8 @@ class Settings {
 			
 	}
 	
-	public static function getParameter($key) {
-		$sql = "SELECT * FROM config where config.key = \"$key\"";
+	public static function getParameter($key, $simuKey = 1) {
+		$sql = "SELECT * FROM config WHERE config.key = \"$key\" AND id_simu=\"$simuKey\"";
 		
 		$bdd = connectBDD();
 		$result = $bdd->query($sql);

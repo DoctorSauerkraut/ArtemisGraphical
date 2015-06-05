@@ -3,67 +3,81 @@ class Manager{
 
 	private $_db;
 	private $counter=0;
-
+	private $simulationId;
+	
 	 public function __construct($db){
 		 $this->setDb($db);
 	 }
 	 public function setDb(PDO $db){
 		 $this->_db = $db;
 	 }
-  
-  
+ 
+  	public function setSimuId($idP) {
+  		$this->simulationId = $idP;
+  	}
+  	
+  	public function getSimuId() {
+  		return $this->simulationId;
+  	}
+ 	
   public function clearAll(){
-   $this->_db->exec('TRUNCATE TABLE message');
-   $this->_db->exec('TRUNCATE TABLE link');
-   $this->_db->exec('TRUNCATE TABLE node');  
-   $this->_db->exec('TRUNCATE TABLE critswitches');  
-   $this->_db->exec('TRUNCATE TABLE wcets');  
+   $this->_db->exec('DELETE FROM message WHERE id_simu = $simulationId');
+   $this->_db->exec('DELETE FROM link WHERE id_simu = $simulationId');
+   $this->_db->exec('DELETE FROM node WHERE id_simu = $simulationId');
+   $this->_db->exec('DELETE FROM critswitches WHERE id_simu = $simulationId');
+   $this->_db->exec('DELETE FROM wcets WHERE id_simu = $simulationId'); 
    //$this->_db->exec('TRUNCATE TABLE critlevels');  
   }
   
  ////////////////////////////////////////////////    PART NODE     ///////////////////////////////////////////////////
- 
- public function nbNodes(){
- $q= $this->_db->query('SELECT count(id) FROM node ')or die(print_r($_db->errorInfo()));
- $donnees = $q->fetch(PDO::FETCH_ASSOC);
-return $donnees['count(id)'];
 
+ public function nbNodes(){
+ 	$q= $this->_db->query('SELECT count(id) FROM node ')or die(print_r($_db->errorInfo()));
+ 	$donnees = $q->fetch(PDO::FETCH_ASSOC);
+	
+ 	return $donnees['count(id)'];
  }
  
  
  public function addNode($name, $ip, $sched){
- if($name == ''){
- $name = "Unnamed ".$counter;
- $counter++;
- }
- $q = $this->_db->prepare('INSERT INTO node SET name = :name, ip_address = :ip_address, scheduling = :scheduling')or die(print_r($_db->errorInfo()));
- 
- $q->bindValue(':name',$name);
-  $q->bindValue(':ip_address',$ip);
- $q->bindValue(':scheduling', $sched);
- 
- $q->execute();
+	 if($name == ''){
+	 $name = "Unnamed ".$counter;
+		 $counter++;
+	 }
+	 $sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
+	 $q = $this->_db->prepare()or die(print_r($_db->errorInfo()));
+	 
+	 $q->bindValue(':name',$name);
+	 $q->bindValue(':id_simu',$this->simulationId);
+	  $q->bindValue(':ip_address',$ip);
+	 $q->bindValue(':scheduling', $sched);
+	 
+	 $q->execute();
  }
  
  public function deleteNode($id){
- $this->_db->exec('DELETE FROM node WHERE id = '.$id);
+ 	$this->_db->exec('DELETE FROM node WHERE id = '.$id);
  }
  
  public function displayNode($id){
 	 $id = (int) $id;
+	 
+	 
 	 $request='SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE id = '.$id;
-	 //echo $request;
+
 	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
-	 //print_r($donnees);
+	
 	 $tmp =new node();
 	 $tmp->hydrate($donnees);
 	 return $tmp;
  }
  
   public function displayNodeByName($name){
-	//$request = 'SELECT id, name, ip_address, scheduling, criticality FROM node WHERE name = "'.$name.'"';
-	 $q= $this->_db->query('SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE name = "'.$name.'"')or die (print_r($_db->errorInfo()));
+	$sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE name = "'.$name.'"';
+	$sql .= " AND id_simu = \"".$this->simulationId."\""; 
+	
+	 $q= $this->_db->query($sql)or die (print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
 	 $tmp =new node();
 	 if($donnees != null){
@@ -75,21 +89,34 @@ return $donnees['count(id)'];
 
  }
  
- public function displayListNode(){
- $nodes = array();
- 
- $q = $this->_db->query('SELECT id, name, ip_address, scheduling, displayed, speed FROM node')or die(print_r($_db->errorInfo()));
- while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
- $tmp = new node();
- $tmp->hydrate($donnees);
- $nodes[]=$tmp;
-
+   
+ public function displayListNode($simuId){
+ 	$this->simulationId = $simuId;
+ 	return $this->displayListNode_();
  }
+ 
+ 
+ public function displayListNode_(){
+ 
+	 $nodes = array();
+	 $sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node ';
+	 $sql .= "WHERE id_simu = \"".$this->simulationId."\""; 
+
+	 $q = $this->_db->query($sql) or die(print_r($_db->errorInfo()));
+	 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
+		 $tmp = new node();
+		 $tmp->hydrate($donnees);
+		 $nodes[]=$tmp;
+	  }
  return $nodes;
  }
  
+ 
 public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
-	$q=$this->_db->prepare('UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, displayed = :displayed, speed = :speed WHERE id = :id')or die(print_r($_db->errorInfo()));
+	$sql  = 'UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, displayed = :displayed, speed = :speed';
+	$sql .= 'WHERE id = :id AND id_simu = \"".$this->simulationId."\"';
+			
+	$q=$this->_db->prepare( )or die(print_r($_db->errorInfo()));
 	
 	$q->bindValue(':name',$name);
 	$q->bindValue(':ip_address', $ip, PDO::PARAM_INT);
@@ -132,44 +159,53 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 ////////////////////////////////////////////////////////     PART LINK    /////////////////////////////////////////////////////////
 
  public function addLink($node1, $node2){
- echo ($node1.$node2);
- $q = $this->_db->prepare('INSERT INTO link SET node1 = :node1, node2 = :node2')or die(print_r($_db->errorInfo()));
- $q->bindValue(':node1',$node1);
- $q->bindValue(':node2', $node2);
- $q->execute();
+	 echo ($node1.$node2);
+	 $q = $this->_db->prepare('INSERT INTO link SET id_simu = :id_simu, node1 = :node1, node2 = :node2')or die(print_r($_db->errorInfo()));
+	 $q->bindValue(':id_simu',$this->simulationId);
+	 $q->bindValue(':node1',$node1);
+	 $q->bindValue(':node2', $node2);
+	 $q->execute();
  }
 
   public function deleteLink($id){
- $this->_db->exec('DELETE FROM link WHERE id = '.$id);
+	 $this->_db->exec('DELETE FROM link WHERE id = '.$id);
  }
  
   public function displayLink($id){
- $id = (int) $id;
- $q= $this->_db->query('SELECT id, node1, node2 FROM link WHERE id = '.$id)or die(print_r($_db->errorInfo()));
- $donnees = $q->fetch(PDO::FETCH_ASSOC);
- $tmp = new link();
- $tmp->hydrate($donnees);
- return $tmp;
+	 $id = (int) $id;
+	 $q= $this->_db->query('SELECT id, node1, node2 FROM link WHERE id = '.$id)or die(print_r($_db->errorInfo()));
+	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
+	 $tmp = new link();
+	 $tmp->hydrate($donnees);
+	 return $tmp;
  }
  
-  public function displayListLink(){
+ public function displayListLink($simuId){
+ 	$this->simulationId = $simuId;
+ 	return $this->displayListLink_();
+ }
+ 
+  public function displayListLink_(){
 	$links = array();
-	$q = $this->_db->query('SELECT id, node1, node2 FROM link')or die(print_r($_db->errorInfo()));
+	$sql  = 'SELECT id, node1, node2 FROM link ';
+	$sql .= "WHERE id_simu = \"".$this->simulationId."\""; 
+	
+	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
-		 $tmp = new link();
-		 $tmp->hydrate($donnees);
-		 $links[]=$tmp;
+			 $tmp = new link();
+			 $tmp->hydrate($donnees);
+			 $links[]=$tmp;
 		 }
 	return $links;
  }
  
   public function updateLink($id, $node1, $node2){
- $q=$this->_db->prepare('UPDATE link SET node1 = :node1, node2 = :node2 WHERE id = :id')or die(print_r($_db->errorInfo()));
- 
- $q->bindValue(':node1',$node1);
- $q->bindValue(':node2', $node2);
- $q->bindValue(':id', $id, PDO::PARAM_INT);
- $q->execute();
+	 $q=$this->_db->prepare('UPDATE link SET node1 = :node1, node2 = :node2 WHERE id = :id')or die(print_r($_db->errorInfo()));
+	 
+	 $q->bindValue(':node1',$node1);
+	 $q->bindValue(':node2', $node2);
+	 $q->bindValue(':id', $id, PDO::PARAM_INT);
+	 $q->execute();
  }
  
   public function verifyLinkDeletion($node1, $node2){
@@ -193,8 +229,8 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 ////////////////////////////////////////////////////////     PART MESSAGES   //////////////////////////////////////////////////////
 
  public function addMessage($path, $period, $offset){
-	$sql 	= "INSERT INTO message(path, period, offset)";
-	$sql 	.= "VALUES(\"$path\",\"$period\", \"$offset\")";
+	$sql 	= "INSERT INTO message(id_simu, path, period, offset)";
+	$sql 	.= "VALUES(\"".$this->simulationId."\", \"$path\",\"$period\", \"$offset\")";
 	$this->_db->exec($sql);
 	 
 	$id = $this->_db->lastInsertId();
@@ -203,19 +239,32 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 }
 
   public function deleteMessage($id){
- $this->_db->exec('DELETE FROM message WHERE id = '.$id);
- }
+ 	$this->_db->exec('DELETE FROM message WHERE id = '.$id);
+  }
  
   public function displayMessage($id){
  $id = (int) $id;
- $q= $this->_db->query('SELECT id, path, period, offset FROM message WHERE id = '.$id)or die(print_r($_db->errorInfo()));
+ $sql  = 'SELECT id, path, period, offset FROM message WHERE id = '.$id;
+ $sql .= ' WHERE id_simu = \"'.$this->simulationId.'\"'; 
+ 		
+ $q= $this->_db->query($sql)or die(print_r($_db->errorInfo()));
  $donnees = $q->fetch(PDO::FETCH_ASSOC);
  return new message($donnees);
  }
  
-  public function displayListMessage(){
+ public function displayListMessage($simuId){
+ 	
+ 	$this->simulationId = $simuId;
+ 	return $this->displayListMessage_();
+ }
+
+  public function displayListMessage_(){
 	$messages = array();
-	$q = $this->_db->query('SELECT id, path, period, offset FROM message')or die(print_r($_db->errorInfo()));
+	$sql  = 'SELECT id, path, period, offset FROM message ';
+	$sql .= 'WHERE id_simu = "'.$this->simulationId.'"';
+	
+	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
+		
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
 
 		 $tmp = new message();
@@ -225,7 +274,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 		 }
 	return $messages;
  }
- 
+
   public function updateMessage($id, $path, $period, $offset){
   
    $nodes = explode(",",$path);
@@ -239,6 +288,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 $sql 	.= "period = \"$period\",";
 	 $sql 	.= "offset = \"$offset\" ";
 	 $sql	.= "WHERE id=\"$id\"";
+	 $sql   .= 'AND id_simu = \"'.$this->simulationId.'\"';
 	 
 	 $this->_db->exec($sql);
 }

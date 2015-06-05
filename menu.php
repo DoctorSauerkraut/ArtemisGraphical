@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
 	
 	include('functions.php');
@@ -6,12 +8,18 @@
 	spl_autoload_register('chargerClasse');
 	
 	$manager = initManager();
-
+	$id = session_id();
+	$ret = create_session($id);
+	$manager->setSimuId($_SESSION["simuid"]);
+	$simuKey = $_SESSION["simuid"];
+ 
 	/* content load */
 	if($action_server=="messages" || $action_server=="links" || $action_server=="details") {
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();
+		
+		
+		$donnees1= $manager->displayListNode($simuKey);	
+		$donnees2= $manager->displayListLink($simuKey);	
+		$donnees3= $manager->displayListMessage($simuKey);
 		
 		$tabNames =[];
 		foreach ($donnees2 as $element){

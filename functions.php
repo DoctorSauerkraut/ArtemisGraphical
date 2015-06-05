@@ -28,9 +28,11 @@
 		}
 		
 	function initManager() {
+		
 		$bdd = connectBDD();
+		
 		$manager = new Manager($bdd);
-			
+		
 		return $manager;
 	}
  
@@ -43,5 +45,9 @@
 	    }
 	  }
 	  return TRUE;
+	}
+	
+	function create_session($session_id) {
+		return Settings::createSimulation($session_id);
 	}
 ?>

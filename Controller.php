@@ -1,5 +1,6 @@
  <?php		
-	
+ 	session_start();
+ 
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
 	
@@ -7,14 +8,20 @@
 	
 	spl_autoload_register('chargerClasse');
 	
+	/* Session initialization */
 	$manager = initManager();
-		
+	$id = session_id();
+	$ret = create_session($id);
+	$manager->setSimuId($_SESSION["simuid"]);
+	$simuKey = $_SESSION["simuid"];
+	
+	/* Selecting actions */
 	if($action_server == "") {
 		return;	
 	}
 	else if($action_server=="create") {
-		$donnees1= $manager->displayListNode();
-		$donnees2= $manager->displayListLink();	
+		$donnees1= $manager->displayListNode($simuKey);
+		$donnees2= $manager->displayListLink($simuKey);	
 		
 		if ($donnees1 != null){
 			$info="";			
@@ -28,7 +35,13 @@
 			}
 			$info=substr($info,0,-1);
 			$info=$info.";";	
-			echo ($info);			
+			echo ($info);		
+			
+			
+			$id = session_id();
+			$ret = create_session($id);
+			$manager->setSimuId($_SESSION["simuid"]);
+			$manager->setSessionId($id);
 		}
 	}
 	else if($action_server=="displayCritTable"){
@@ -58,12 +71,13 @@
 		$autogen 	= isset($_POST["autogen"]) && ($_POST["autogen"] == "y")? "0":"1";
 		$autoload 	= isset($_POST["autoload"]) ? $_POST["autoload"]:"";
 		
-		Settings::save("timelimit", $timeLimit);
-		Settings::save("elatency", $eLatency);
-		Settings::save("autotasks", $tasks);
-		Settings::save("highestwcet", $hWcet);
-		Settings::save("autogen", $autogen);
-		Settings::save("autoload", $autoload);
+		
+		Settings::save("timelimit", $timeLimit, $simuKey);
+		Settings::save("elatency", $eLatency, $simuKey);
+		Settings::save("autotasks", $tasks, $simuKey);
+		Settings::save("highestwcet", $hWcet, $simuKey);
+		Settings::save("autogen", $autogen, $simuKey);
+		Settings::save("autoload", $autoload, $simuKey);
 		
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
@@ -309,8 +323,8 @@
 		}
 		
 		/* Reload page content */
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
+		$donnees1= $manager->displayListNode($simuKey);	
+		$donnees2= $manager->displayListLink($simuKey);	
 		$donnees3= $manager->displayListMessage();
 		$tabNames =[];
 		

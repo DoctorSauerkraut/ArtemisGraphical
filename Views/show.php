@@ -59,7 +59,7 @@
 				$tempPeriod = $message->period();
 				
 				if($tempPeriod == 0) {
-					$tempPeriod = Settings::getParameter("timelimit");
+					$tempPeriod = Settings::getParameter("timelimit", $simuKey);
 				}
 				
 				$currentLoad = $message->wcet() / $tempPeriod;
@@ -70,8 +70,6 @@
 				else {
 					$loadArray[$machineName] += ($currentLoad/$machine->getSpeed());
 				}
-					
-				//
 			}
 			 
 		}
