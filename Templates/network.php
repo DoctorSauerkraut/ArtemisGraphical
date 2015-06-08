@@ -142,8 +142,8 @@
 	}
 	$dom->appendChild($network);
 
-	$dom->save("ressources/".Settings::getParameter("graphname", $simuKey).'/input/network.xml');
-	$command = "/usr/bin/java -jar artemis_launcher.jar ".Settings::getParameter("graphname", $simuKey);
+	$dom->save("ressources/".$simuKey.'/input/network.xml');
+	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey;
 	//$command = "java -jar artemis_launcher.jar ".Settings::getParameter("graphname", $simuKey)."2>&1 > gen/logs/weblog.txt";
 	exec($command, $output);
 

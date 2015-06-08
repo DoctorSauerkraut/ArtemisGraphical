@@ -344,11 +344,11 @@
 	}else if($action_server == "reloadGraph"){
 		$startTimeGraph = isset($_POST["starttimegraph"]) ? $_POST["starttimegraph"]	: "";
 		$endTimeGraph	= isset($_POST["endtimegraph"]) ? $_POST["endtimegraph"]	: "";
+		echo "test";
+		Settings::save("startgraphtime", $startTimeGraph, $simuKey);
 		
-		Settings::save("startgraphtime", $startTimeGraph);
-		$timeLimit = Settings::getParameter("timelimit");
+		$timeLimit = Settings::getParameter("timelimit", $simuKey);
 		if($endTimeGraph > $timeLimit ) {
-			
 			$endTimeGraph = $timeLimit;
 		}
 		if($startTimeGraph <0 || $startTimeGraph >= $endTimeGraph) {
@@ -358,13 +358,14 @@
 		
 		$list_nodes= $manager->displayListNode();
 		
-		Settings::save("endgraphtime", $endTimeGraph);
-		Settings::save("startgraphtime", $startTimeGraph);
+		Settings::save("endgraphtime", $endTimeGraph, $simuKey);
+		Settings::save("startgraphtime", $startTimeGraph, $simuKey);
 		
 		include('./Templates/graphconfig.php');
 		
 		//$command = "java -jar artemis_grapher.jar 2>&1 > gen/logs/weblog.txt";
-		$command = "java -jar artemis_grapher.jar";
+		$command = "java -jar artemis_grapher.jar ".$simuKey;
+		
 		exec($command, $output);
 		
 		//Execute grapher to reload the new graph
@@ -381,7 +382,7 @@
 		
 		$node = $manager->displayNode($nodeId);
 		$manager->updateNodeC($node->id(), $node->name(), $node->ipAddress(), $node->scheduling(), $checked, $node->getSpeed());
-		
+	
 	/*	$list_nodes= $manager->displayListNode();
 		
 		include('./Views/results.php');*/

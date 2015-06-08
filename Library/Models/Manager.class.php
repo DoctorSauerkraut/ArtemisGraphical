@@ -114,9 +114,9 @@ class Manager{
  
 public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
 	$sql  = 'UPDATE node SET name = :name, ip_address = :ip_address, scheduling = :scheduling, displayed = :displayed, speed = :speed';
-	$sql .= 'WHERE id = :id AND id_simu = \"".$this->simulationId."\"';
+	$sql .= ' WHERE id = :id';
 			
-	$q=$this->_db->prepare( )or die(print_r($_db->errorInfo()));
+	$q=$this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
 	
 	$q->bindValue(':name',$name);
 	$q->bindValue(':ip_address', $ip, PDO::PARAM_INT);
@@ -124,6 +124,7 @@ public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
 	$q->bindValue(':id', $id, PDO::PARAM_INT);
 	$q->bindValue(':displayed', $disp, PDO::PARAM_INT);
 	$q->bindValue(':speed', $speed, PDO::PARAM_INT);
+
 	$q->execute();
 }
 
@@ -231,6 +232,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
  public function addMessage($path, $period, $offset){
 	$sql 	= "INSERT INTO message(id_simu, path, period, offset)";
 	$sql 	.= "VALUES(\"".$this->simulationId."\", \"$path\",\"$period\", \"$offset\")";
+	echo "::".$sql;
 	$this->_db->exec($sql);
 	 
 	$id = $this->_db->lastInsertId();
@@ -288,7 +290,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 $sql 	.= "period = \"$period\",";
 	 $sql 	.= "offset = \"$offset\" ";
 	 $sql	.= "WHERE id=\"$id\"";
-	 $sql   .= 'AND id_simu = \"'.$this->simulationId.'\"';
 	 
 	 $this->_db->exec($sql);
 }

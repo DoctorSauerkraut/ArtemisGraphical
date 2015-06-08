@@ -23,7 +23,7 @@
 	}
 	echo "</div>";
 	
-	echo "<img src=\"ressources/".Settings::getParameter("graphname", $simuKey)."/gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG\" />";
+	echo "<img src=\"ressources/".$simuKey."/gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG\" />";
 	
 	echo "<br />Export results :";
 	echo " <a class=\"button green\" href=\"gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG"."\">PNG</a>"; 
