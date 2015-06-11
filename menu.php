@@ -54,5 +54,7 @@ session_start();
 		include("./Views/settings.php");
 	}	else if($action_server=="mixedc"){
 		include("./Views/criticality.php");	
+	}	else if($action_server == "simus") {
+		include("./Views/simulations.php");	
 	}
 ?>

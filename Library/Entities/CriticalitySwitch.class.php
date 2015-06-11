@@ -4,10 +4,12 @@ include("../../functions.php");
 class CriticalitySwitch {
 	private $time;
 	private $level;
+	private $simuKey;
 	
-	public function __construct($time_, $lvl_) {
+	public function __construct($time_, $lvl_, $simuKey_) {
 		$this->time = $time_;
 		$this->level = $lvl_;		
+		$this->simuKey = $simuKey_;
 	}
 	
 	public function setTime($time_) {
@@ -27,15 +29,15 @@ class CriticalitySwitch {
 	}
 	
 	public function save() {
-		$sql = 	"INSERT INTO critswitches(time, level)";
-		$sql .= "VALUES(\"".$this->time."\", \"".$this->level."\")";
+		$sql = 	"INSERT INTO critswitches(id_simu, time, level)";
+		$sql .= "VALUES(\"".$this->simuKey."\",\"".$this->time."\", \"".$this->level."\")";
 		
 		$bdd = connectBDD();
 		$bdd->query($sql);
 	}
 	
-	public static function load() {
-		$sql = 	"SELECT time, level FROM critswitches";
+	public static function load($idSimu) {
+		$sql = 	"SELECT time, level FROM critswitches WHERE id_simu=\"".$idSimu."\"";
 		
 		$bdd = connectBDD();
 
@@ -44,8 +46,8 @@ class CriticalitySwitch {
 		return $req;
 	}
 	
-		public static function delete($time) {
-		$sql = 	"DELETE FROM critswitches WHERE time=\"$time\" ";
+		public static function delete($time, $idSimu) {
+		$sql = 	"DELETE FROM critswitches WHERE time=\"$time\" AND id_simu=\"".$idSimu."\"";
 		
 		$bdd = connectBDD();
 

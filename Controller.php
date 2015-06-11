@@ -10,7 +10,9 @@
 	
 	/* Session initialization */
 	$manager = initManager();
-	$id = session_id();
+	
+	$id = getSessionId();
+
 	$ret = create_session($id);
 	$manager->setSimuId($_SESSION["simuid"]);
 	$simuKey = $_SESSION["simuid"];
@@ -38,10 +40,10 @@
 			echo ($info);		
 			
 			
-			$id = session_id();
+			/*$id = session_id();
 			$ret = create_session($id);
 			$manager->setSimuId($_SESSION["simuid"]);
-			$manager->setSessionId($id);
+			$manager->setSessionId($id);*/
 		}
 	}
 	else if($action_server=="displayCritTable"){
@@ -51,13 +53,13 @@
 		$critTime 	= $_POST["critTime"];
 		$critLvl	= $_POST["critLvl"];
 		
-		$critSwitch = new CriticalitySwitch($critTime, $critLvl);
+		$critSwitch = new CriticalitySwitch($critTime, $critLvl, $simuKey);
 		$res = $critSwitch->save();	
 	}
 	else if($action_server == "delCritSwitch") {
 		$time 	= $_POST["time"];
 
-		CriticalitySwitch::delete($time);
+		CriticalitySwitch::delete($time, $simuKey);
 	}
 	else if($action_server == "addCritState") {
 		

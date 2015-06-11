@@ -24,6 +24,7 @@
 		  require 'Library/Entities/CriticalitySwitch.class.php';
 		  require 'Library/Entities/CriticalityLevel.class.php';
 		  require 'Library/Entities/Settings.class.php';
+		  require 'Library/Entities/Simulation.class.php';
 		  }
 		}
 		
@@ -47,6 +48,10 @@
 	  return TRUE;
 	}
 	
+	function getSessionId() {
+		return session_id();
+		
+	}
 	function create_session($session_id) {
 		return Settings::createSimulation($session_id);
 	}

@@ -13,8 +13,24 @@ class Settings {
 		$result = $bdd->query($sql);
 
 		if($result->rowCount() == 0) {
+			
+			/* Generate new id */
+			$sql 	= "SELECT id_simu FROM simulations";
+			
+			$result = $bdd->query($sql);
+			echo "::";
+			
+			$idSimu = 0;
+			while($data = $result->fetch()){
+				if($data["id_simu"] > $idSimu) {
+					$idSimu = $data["id_simu"];
+				}
+			}
+			$idSimu++;
+			
+			
 			$sql 	= "INSERT INTO simulations (`id_simu`, `id_session`)";
-			$sql 	.= " VALUES (\"0\", \"$session_id\")";
+			$sql 	.= " VALUES (\"$idSimu\", \"$session_id\")";
 			
 			$result = $bdd->query($sql);
 			

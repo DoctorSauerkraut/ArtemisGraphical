@@ -45,7 +45,7 @@ class Manager{
 		 $counter++;
 	 }
 	 $sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
-	 $q = $this->_db->prepare()or die(print_r($_db->errorInfo()));
+	 $q = $this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
 	 
 	 $q->bindValue(':name',$name);
 	 $q->bindValue(':id_simu',$this->simulationId);
