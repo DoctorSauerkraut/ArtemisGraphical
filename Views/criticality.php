@@ -2,7 +2,7 @@
 
 echo "<div class=\"tabledetailsdiv\" >";
 /* Crit Switches request */
-$req = CriticalitySwitch::load();
+$req = CriticalitySwitch::load($simuKey);
 $cptSwitches = 0;
 while($req->fetch()) {
 	$cptSwitches++;	

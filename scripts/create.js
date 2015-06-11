@@ -3,11 +3,12 @@ function draw(info) {
 var nodes = null;
 var edges = null;
 var graph = null;
-
+	
 	if(info != ""){
 		infos=info.split(";");
 		infoNode= infos[0].split(",");
 		infoEdge= infos[1].split(",");
+		
 		nodes=[];
 		edges=[];
 		countNode=0;

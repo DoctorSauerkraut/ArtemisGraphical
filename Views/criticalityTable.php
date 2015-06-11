@@ -1,5 +1,5 @@
 <?php
-$req = CriticalitySwitch::load();
+$req = CriticalitySwitch::load($simuKey);
 $levels = CriticalityLevel::load();
 
 $cptLevel = 0;
