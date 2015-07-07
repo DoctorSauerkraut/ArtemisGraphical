@@ -50,17 +50,17 @@ class Settings {
 	public static function save($key, $value, $simuKey = 1) {
 		//Unicity check
 		$sql = "SELECT * FROM config where config.key = \"$key\" AND id_simu=\"$simuKey\"";
-	
+		
 		$cptRst = 0;
 		
 		$bdd = connectBDD();
 		$result = $bdd->query($sql);
 		
 		while($query=$result->fetch()) {$cptRst++;}
-
+		
 		if($cptRst== 0) {
 			$sql 	= "INSERT INTO config (`id_simu`,`key`, `value`)";
-			$sql 	.= " VALUES (\"".$this->idSimu."\", \"$key\", \"$value\")";
+			$sql 	.= " VALUES (\"$simuKey\", \"$key\", \"$value\")";
 		}
 		else {
 			$sql 	= "UPDATE config";

@@ -78,13 +78,16 @@ class Manager{
 	$sql .= " AND id_simu = \"".$this->simulationId."\""; 
 	
 	 $q= $this->_db->query($sql)or die (print_r($_db->errorInfo()));
+	 	 
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
-	 $tmp =new node();
+
+	 $tmp = new node();
+	 
 	 if($donnees != null){
-	 $tmp->hydrate($donnees);
-	return $tmp;
+	 	$tmp->hydrate($donnees);
+		return $tmp;
 	 }else {
-	 return null;
+	 	return null;
 	 }
 
  }
@@ -232,7 +235,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
  public function addMessage($path, $period, $offset){
 	$sql 	= "INSERT INTO message(id_simu, path, period, offset)";
 	$sql 	.= "VALUES(\"".$this->simulationId."\", \"$path\",\"$period\", \"$offset\")";
-	echo "::".$sql;
+
 	$this->_db->exec($sql);
 	 
 	$id = $this->_db->lastInsertId();
@@ -294,35 +297,41 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 $this->_db->exec($sql);
 }
  
+/* Check if path is correct */
  public function verrifyPath($path){
  
  	 $nodes = explode(",",$path);
+ 	 
 	 $newpath="";
+	 
 	 foreach ($nodes as $element){
 		 $newpath = $newpath.trim($element).",";  
-		 }
+		}
 	$newpath=substr($newpath,0,-1);
 	
 	  $nodes = explode(",",$newpath);
 	  $nodesid=[];
-	  foreach ($nodes as $element ){
-	  $tmp=$this->displayNodeByName($element);
-	 
-	  if($tmp == null){
-	  	return "";
-	  }
 	  
-	  array_push($nodesid,$tmp->id());
+	  foreach ($nodes as $element ){
+	  	$tmp=$this->displayNodeByName($element);
+	  	
+	  	if($tmp == null){
+	  		return "";
+	  	}
+	  
+	  	array_push($nodesid,$tmp->id());
 	  }
-	$donnees = $this->displayListLink();
+	$donnees = $this->displayListLink_();
 	$counter = 0;
-		foreach ( $donnees as $element ){
-			for($i = 0, $size = count($nodesid)-1;$i<$size; $i++){
-				if ($nodesid[$i] == $element->node1() && $nodesid[$i+1] == $element->node2() || $nodesid[$i] == $element->node2() && $nodesid[$i+1] == $element->node1()){
+
+	foreach ( $donnees as $element ){
+		for($i = 0, $size = count($nodesid)-1;$i<$size; $i++){
+			if ($nodesid[$i] == $element->node1() && $nodesid[$i+1] == $element->node2() ||
+					 $nodesid[$i] == $element->node2() && $nodesid[$i+1] == $element->node1()){
 				$counter++;
-				break;
-			} 
-		}
+			break;
+		} 
+	}
 	}
 	if($counter !=  count($nodesid)-1){
 		return '';

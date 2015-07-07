@@ -66,17 +66,17 @@
 	}
 	else if($action_server=="saveSettings") {
 		/* Getting general settings */
-		$timeLimit	= isset($_POST["time"]) ? $_POST["time"]:"";
-		$eLatency 	= isset($_POST["elatency"]) ? $_POST["elatency"]:"";
-		$tasks 		= isset($_POST["autotasks"]) ? $_POST["autotasks"]:"";
-		$hWcet 		= isset($_POST["highestwcet"]) ? $_POST["highestwcet"]:"";
-		$autogen 	= isset($_POST["autogen"]) && ($_POST["autogen"] == "y")? "0":"1";
-		$autoload 	= isset($_POST["autoload"]) ? $_POST["autoload"]:"";
-		
-		
+		$timeLimit	= (isset($_POST["time"]) && $_POST["time"] != "") ? $_POST["time"]:0;
+		$eLatency 	= (isset($_POST["elatency"]) && $_POST["elatency"] != "") ? $_POST["elatency"]:0;
+		$tasks 		= (isset($_POST["autotasks"]) && $_POST["autotasks"] != "") ? $_POST["autotasks"]:0;
+		$hWcet 		= (isset($_POST["highestwcet"]) && $_POST["highestwcet"] != "") ? $_POST["highestwcet"]:0;
+		$autogen 	= (isset($_POST["autogen"]) && $_POST["autogen"] != "") && ($_POST["autogen"] == "y")? "0":"1";
+		$autoload 	= (isset($_POST["autoload"]) && $_POST["autoload"] != "") ? $_POST["autoload"]:0;
+
 		Settings::save("timelimit", $timeLimit, $simuKey);
 		Settings::save("elatency", $eLatency, $simuKey);
 		Settings::save("autotasks", $tasks, $simuKey);
+		
 		Settings::save("highestwcet", $hWcet, $simuKey);
 		Settings::save("autogen", $autogen, $simuKey);
 		Settings::save("autoload", $autoload, $simuKey);
@@ -126,6 +126,7 @@
 		$message = new Message();
 		
 		$newpath = $manager->verrifyPath($path);
+		
 		if ($newpath != ""){
 			$insertedId = $manager->addMessage($newpath,$period,$offset);
 			
@@ -146,9 +147,9 @@
 				}
 
 			}
-					}else {
-			echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
-		}
+			}else {
+				echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
+			}
 			
 	}else if ($action_server=="deleteNode"){
 	
@@ -229,28 +230,30 @@
 			$pathId[$singleMessage->id()] = trim($pathId[$singleMessage->id()], ",");
 		}
 		
-		
+	
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-		
+
 		/* Get general settings */
 		$timeLimit 	= Settings::getParameter("timelimit", $simuKey);
 		$eLatency 	= Settings::getParameter("elatency", $simuKey);
 		$autogen 	= Settings::getParameter("autogen", $simuKey);
 		
+
 		if($autogen == 0) {
 			$highestwcet	= Settings::getParameter("highestwcet", $simuKey);
 			$autotasks 		= Settings::getParameter("autotasks", $simuKey);
 			$autoload		= Settings::getParameter("autoload", $simuKey);
 		}
 		
+		echo "test::$simuKey::$timeLimit";
 		Settings::save("startgraphtime", 0, $simuKey);
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
-		
+		echo "test";
 	
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
@@ -346,7 +349,7 @@
 	}else if($action_server == "reloadGraph"){
 		$startTimeGraph = isset($_POST["starttimegraph"]) ? $_POST["starttimegraph"]	: "";
 		$endTimeGraph	= isset($_POST["endtimegraph"]) ? $_POST["endtimegraph"]	: "";
-		echo "test";
+
 		Settings::save("startgraphtime", $startTimeGraph, $simuKey);
 		
 		$timeLimit = Settings::getParameter("timelimit", $simuKey);
@@ -355,19 +358,17 @@
 		}
 		if($startTimeGraph <0 || $startTimeGraph >= $endTimeGraph) {
 			$startTimeGraph = 0;
-		}
+		}	
 		
-		
-		$list_nodes= $manager->displayListNode();
+		$list_nodes= $manager->displayListNode($simuKey);
 		
 		Settings::save("endgraphtime", $endTimeGraph, $simuKey);
 		Settings::save("startgraphtime", $startTimeGraph, $simuKey);
 		
 		include('./Templates/graphconfig.php');
 		
-		//$command = "java -jar artemis_grapher.jar 2>&1 > gen/logs/weblog.txt";
+	//	$command = "java -jar artemis_grapher.jar 2>&1 > weblog.txt";
 		$command = "java -jar artemis_grapher.jar ".$simuKey;
-		
 		exec($command, $output);
 		
 		//Execute grapher to reload the new graph

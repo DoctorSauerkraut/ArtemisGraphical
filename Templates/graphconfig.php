@@ -18,6 +18,7 @@ echo "::$simuKey";
 $date = new DateTime();
 Settings::save("graphname", $simuKey."_".$date->getTimestamp(), $simuKey);
 
+
 $nameTag=$dom->createElement("graphname");
 $nameTag->appendChild($dom->createTextNode(Settings::getParameter("graphname", $simuKey)));
 $graphConfig->appendChild($nameTag);
@@ -33,7 +34,6 @@ foreach($list_nodes as $node) {
 }
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);
-echo "::";
 
 if (!file_exists("ressources/".$simuKey)) {
 	mkdir("ressources/".$simuKey."/input/", 0777, true);

@@ -70,6 +70,7 @@ function saveSettings() {
 		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&autotasks="+tasks+"&highestwcet="+hwcet+"&autogen="+autogen+
 		"&autoload="+autoload,
 		success:function(data){
+			alert(data);
 			loadContent('settings');
 		},
 		fail:function(jqXHR, textStatus){
