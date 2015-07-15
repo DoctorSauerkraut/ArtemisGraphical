@@ -25,6 +25,9 @@
 	</div>
 	
 	<br />
+	Entry points :<input id="topodepth" type="text" value="0">
+	<input type="button" value="Generate Topology" onclick="generateTopology()">
+	
 	<div id="mygraph">
 	</div>
 

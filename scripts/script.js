@@ -44,8 +44,7 @@ function recupDatabase(){
 		type:"post",
 		data:"action=create",
 		success:function(data){
-			draw(data.trim());
-			
+			draw(data.trim());		
 		}
 	});
 }
@@ -451,6 +450,19 @@ function loadNodeOnCheck(nodeId, checked) {
 		success:function(data){
 			showSimulationResults();
 			//alert(data.trim());
+		}
+	});	
+}
+
+function generateTopology() {
+	var depth = document.getElementById("topodepth").value;
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=generateTopology"+"&topoDepth="+depth, 
+		success:function(data){
+			alert(data);
 		}
 	});	
 }

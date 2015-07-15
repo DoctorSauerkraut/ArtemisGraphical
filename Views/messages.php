@@ -96,6 +96,6 @@
 			?> 
 				
 		
-	<br />	<a class="button blue" id="buttonAddCriticality" onclick="popup('critButton')">Add a criticality level</a>
+	<br />	<!-- <a class="button blue" id="buttonAddCriticality" onclick="popup('critButton')">Add a criticality level</a> -->
 		
 		</div>

@@ -1,7 +1,7 @@
 		
 <?php
 	//require '../Library/Entities/CriticalitySwitch.class.php';
-	$criticalityLevelsReq = CriticalityLevel::load();
+	$criticalityLevelsReq = CriticalityLevel::load($simuKey);
 	$cptLevelsLimit = 0;
 	
 	while($levelCrit = $criticalityLevelsReq->fetch()){
@@ -9,99 +9,105 @@
 		$cptLevelsLimit++;
 	}
 	
-	$dom = new DomDocument();
-	
-	$network=$dom->createElement("Network");
 	
 	/* General configuration */
-	$timeLimitTag=$dom->createElement("time-limit");
-	$timeLimitTag->appendChild($dom->createTextNode($timeLimit));
-	$network->appendChild($timeLimitTag);
+	$simuConfigDom = new DomDocument();
 	
-	$eLatencyTag=$dom->createElement("elatency");
-	$eLatencyTag->appendChild($dom->createTextNode($eLatency));
-	$network->appendChild($eLatencyTag);
+	$simuConfig = $simuConfigDom->createElement("Config");
+
+	$timeLimitTag=$simuConfigDom->createElement("time-limit");
+	$timeLimitTag->appendChild($simuConfigDom->createTextNode($timeLimit));
+	$simuConfig->appendChild($timeLimitTag);
 	
-	$eAutogenTag=$dom->createElement("autogen");
-	$eAutogenTag->appendChild($dom->createTextNode($autogen));
-	$network->appendChild($eAutogenTag);
+	$eLatencyTag=$simuConfigDom->createElement("elatency");
+	$eLatencyTag->appendChild($simuConfigDom->createTextNode($eLatency));
+	$simuConfig->appendChild($eLatencyTag);
+	
+	$eAutogenTag=$simuConfigDom->createElement("autogen");
+	$eAutogenTag->appendChild($simuConfigDom->createTextNode($autogen));
+	$simuConfig->appendChild($eAutogenTag);
 	
 	if($autogen==0) {
-		$eHWcetTag=$dom->createElement("highestwctt");
-		$eHWcetTag->appendChild($dom->createTextNode($highestwcet));
-		$network->appendChild($eHWcetTag);
+		$eHWcetTag=$simuConfigDom->createElement("highestwctt");
+		$eHWcetTag->appendChild($simuConfigDom->createTextNode($highestwcet));
+		$simuConfig->appendChild($eHWcetTag);
 		
-		$eAutoTasksTag=$dom->createElement("autotasks");
-		$eAutoTasksTag->appendChild($dom->createTextNode($autotasks));
-		$network->appendChild($eAutoTasksTag);
+		$eAutoTasksTag=$simuConfigDom->createElement("autotasks");
+		$eAutoTasksTag->appendChild($simuConfigDom->createTextNode($autotasks));
+		$simuConfig->appendChild($eAutoTasksTag);
 		
-		$eAutoLoadTag=$dom->createElement("autoload");
-		$eAutoLoadTag->appendChild($dom->createTextNode($autoload));
-		$network->appendChild($eAutoLoadTag);
+		$eAutoLoadTag=$simuConfigDom->createElement("autoload");
+		$eAutoLoadTag->appendChild($simuConfigDom->createTextNode($autoload));
+		$simuConfig->appendChild($eAutoLoadTag);
 	}
 	
 	/* MC management */
-	$critSwitches = $dom->createElement("CritSwitches");
-	$network->appendChild($critSwitches);
+	$critSwitches = $simuConfigDom->createElement("CritSwitches");
+	$simuConfig->appendChild($critSwitches);
 	
-	$req = CriticalitySwitch::load();
+	$req = CriticalitySwitch::load($simuKey);
 	
 	while($switches = $req->fetch()) {
-		$critSwitch = $dom->createElement("critswitch");
+		$critSwitch = $simuConfigDom->createElement("critswitch");
 		$critSwitch->setAttribute("time", $switches["time"]);
-		$critSwitch->appendChild($dom->createTextNode($switches["level"]));
+		$critSwitch->appendChild($simuConfigDom->createTextNode($switches["level"]));
 		
 		$critSwitches->appendChild($critSwitch);
-		
-	//	
 	}
+	$simuConfigDom->appendChild($simuConfig);
+	
+	
+	/* Network file */
+	$networkDom = new DomDocument();
+	
+	$network=$networkDom->createElement("Network");
 	
 	foreach($list_nodes as $currentNode){
 
-		$machine=$dom->createElement("machine");
+		$machine=$networkDom->createElement("machine");
 		$machine->setAttribute("id",$currentNode->id());
 		$machine->setAttribute("name",$currentNode->name());
 		$machine->setAttribute("speed", $currentNode->getSpeed());
 		
-			$config = $dom->createElement("Config");
-				$name = $dom->createElement("name");
+			$config = $networkDom->createElement("Config");
+				$name = $networkDom->createElement("name");
 			$config->appendChild($name);
 		$machine->appendChild($config);
 
-			$messages = $dom->createElement("Messages");	
+			$messages = $networkDom->createElement("Messages");	
 			foreach ($listMessages as $singleMessage) {
 				$arr=explode(",", $singleMessage->path(), 2);										
 				
 				if($arr[0] == trim($currentNode->name()) ){
-					$message = $dom->createElement("message");
+					$message = $networkDom->createElement("message");
 					$message->setAttribute("id", $singleMessage->id());
 
 					for($cptLvl =0;$cptLvl < $cptLevelsLimit;$cptLvl++) {	
 						$critLevel = $criticalityLevels[$cptLvl];
 						
-						$criticality = $dom->createElement("criticality");
+						$criticality = $networkDom->createElement("criticality");
 						$criticality->setAttribute("level", $critLevel->getCode());
 					
 						/* Path */
-						$path = $dom->createElement("path");
-						$path->appendChild($dom->createTextNode($pathId[$singleMessage->id()]));
+						$path = $networkDom->createElement("path");
+						$path->appendChild($networkDom->createTextNode($pathId[$singleMessage->id()]));
 						
 						/* Priority */
-						$priority = $dom->createElement("priority");
-						$priority->appendChild($dom->createTextNode("0"));
+						$priority = $networkDom->createElement("priority");
+						$priority->appendChild($networkDom->createTextNode("0"));
 						
 						/* Period */
-						$period = $dom->createElement("period");
-						$period->appendChild($dom->createTextNode($singleMessage->period()));
+						$period = $networkDom->createElement("period");
+						$period->appendChild($networkDom->createTextNode($singleMessage->period()));
 						
 						/* Offset */
-						$offset = $dom->createElement("offset");
-						$offset->appendChild($dom->createTextNode($singleMessage->offset()));
+						$offset = $networkDom->createElement("offset");
+						$offset->appendChild($networkDom->createTextNode($singleMessage->offset()));
 				
 						/* WCTT */
-						$wcetXML = 	$dom->createElement("wcet");
+						$wcetXML = 	$networkDom->createElement("wcet");
 						$wcetValue = $singleMessage->wcet_($critLevel->getCode());
-						$wcetXML->appendChild($dom->createTextNode($wcetValue));					
+						$wcetXML->appendChild($networkDom->createTextNode($wcetValue));					
 					
 						$criticality->appendChild($path);
 						$criticality->appendChild($priority);
@@ -116,36 +122,88 @@
 					$machine->appendChild($messages);
 				}
 			}
-
-
 		
-				$links = $dom->createElement("Links");
+			$links = $networkDom->createElement("Links");
 			foreach ($donnees2 as $element2){
 					
 				if($element2->node2() == $node->id()){
-				$machinel=$dom->createElement("machinel");
-				$machinel->setAttribute("id", $element2->node1());
-			$links->appendChild($machinel);
-			$machine->appendChild($links);
-
-			}else if($element2->node1() == $node->id()){			
-				$machinel=$dom->createElement("machinel");
-				$machinel->setAttribute("id", $element2->node2());
-				$links->appendChild($machinel);
-				$machine->appendChild($links);	
+					$machinel=$networkDom->createElement("machinel");
+					$machinel->setAttribute("id", $element2->node1());
+					$links->appendChild($machinel);
+					$machine->appendChild($links);
+				}else if($element2->node1() == $node->id()){			
+					$machinel=$networkDom->createElement("machinel");
+					$machinel->setAttribute("id", $element2->node2());
+					$links->appendChild($machinel);
+					$machine->appendChild($links);	
+				}
 			}
-				
-
-		}
 			
-	$network->appendChild($machine);
+		$network->appendChild($machine);
 	}
-	$dom->appendChild($network);
+	$networkDom->appendChild($network);
 	
-	$dom->save("ressources/".$simuKey.'/input/network.xml');
+	
+	/* Messages file */
+	$messagesDom = new DomDocument();
+	$messages=$messagesDom->createElement("Messages");
+	
+ 	foreach($list_nodes as $currentNode){
+		foreach ($listMessages as $singleMessage) {
+ 			$arr=explode(",", $singleMessage->path(), 2);
+ 			
+			if($arr[0] == trim($currentNode->name()) ){
+				$message = $messagesDom->createElement("message");
+				$message->setAttribute("id", $singleMessage->id());
+				
+				for($cptLvl =0;$cptLvl < $cptLevelsLimit;$cptLvl++) {
+					$critLevel = $criticalityLevels[$cptLvl];
+
+					$criticality = $messagesDom->createElement("criticality");
+					$criticality->setAttribute("level", $critLevel->getCode());
+
+					/* Path */
+					$path = $messagesDom->createElement("path");
+					$path->appendChild($messagesDom->createTextNode($pathId[$singleMessage->id()]));
+
+					/* Priority */
+					$priority = $messagesDom->createElement("priority");
+					$priority->appendChild($messagesDom->createTextNode("0"));
+
+					/* Period */
+					$period = $messagesDom->createElement("period");
+					$period->appendChild($messagesDom->createTextNode($singleMessage->period()));
+
+					/* Offset */
+					$offset = $messagesDom->createElement("offset");
+					$offset->appendChild($messagesDom->createTextNode($singleMessage->offset()));
+
+					/* WCTT */
+					$wcetXML = 	$messagesDom->createElement("wcet");
+					$wcetValue = $singleMessage->wcet_($critLevel->getCode());
+					$wcetXML->appendChild($messagesDom->createTextNode($wcetValue));
+
+					$criticality->appendChild($path);
+					$criticality->appendChild($priority);
+					$criticality->appendChild($period);
+					$criticality->appendChild($offset);
+					$criticality->appendChild($wcetXML);
+					$message->appendChild($criticality);
+			}
+					
+			$messages->appendChild($message);
+			}
+ 		}
+ 	}
+	$messagesDom->appendChild($messages);
+	
+	$simuConfigDom->save("ressources/".$simuKey.'/input/config.xml');
+	$networkDom->save("ressources/".$simuKey.'/input/network.xml');
+	$messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
+	
 	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey;
-	echo "::$command";
-	//$command = "java -jar artemis_launcher.jar ".Settings::getParameter("graphname", $simuKey)."2>&1 > gen/logs/weblog.txt";
+	echo "::".$command;
+//	$command = "java -jar artemis_launcher.jar ".Settings::getParameter("graphname", $simuKey)."2>&1 > weblog.txt";
 	exec($command, $output);
 
 	include_once('./Views/results.php'); 

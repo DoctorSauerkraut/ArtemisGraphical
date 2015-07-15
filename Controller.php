@@ -267,9 +267,9 @@
 	}else if($action_server=="editNode"){
 		
 		$manager->updateNodeS($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['speed']);
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();
+		$donnees1= $manager->displayListNode_();	
+		$donnees2= $manager->displayListLink_();	
+		$donnees3= $manager->displayListMessage_();
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
@@ -389,5 +389,9 @@
 	/*	$list_nodes= $manager->displayListNode();
 		
 		include('./Views/results.php');*/
+	} else if($action_server == "generateTopology") {
+		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";
+		
+		echo $depth;
 	}
 ?>		
