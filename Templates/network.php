@@ -201,9 +201,9 @@
 	$networkDom->save("ressources/".$simuKey.'/input/network.xml');
 	$messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
 	
-	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey;
+	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey." 2>&1 > weblog.txt";
 	echo "::".$command;
-//	$command = "java -jar artemis_launcher.jar ".Settings::getParameter("graphname", $simuKey)."2>&1 > weblog.txt";
+//	$command = "java -jar artemis_launcher.jar ".$simuKey.";
 	exec($command, $output);
 
 	include_once('./Views/results.php'); 

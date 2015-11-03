@@ -29,7 +29,7 @@ $nodesTag=$dom->createElement("nodes");
 
 foreach($list_nodes as $node) {
 	if($node->isDisplayed() == 0) {
-		$string .= trim($node->name()).",";
+		$string .= trim($node->id()).",";
 	}
 }
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));

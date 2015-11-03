@@ -6,33 +6,35 @@ var graph = null;
 	
 	if(info != ""){
 		infos=info.split(";");
-		infoNode= infos[0].split(",");
-		infoEdge= infos[1].split(",");
-		
-		nodes=[];
-		edges=[];
-		countNode=0;
-		countEdge=0;			
-		while (countNode < infoNode.length){
-			var currentGroup;
-			var name = infoNode[countNode+1];
-			if(name.indexOf("S") == 0) {
-				currentGroup = 'switches';
-			}
-			else {
-				currentGroup = 'endpoints';
-			}
-			nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1], "group":currentGroup});
-			countNode=countNode+2;
-		}  
-
-		if (infos[1] != ""){
-			while (countEdge < infoEdge.length) {
-				edges.push({"from":parseInt(infoEdge[countEdge]),"to":parseInt(infoEdge[countEdge+1]),"id":parseInt(infoEdge[countEdge+2])});
-				countEdge=countEdge+3;
-			}
-		}
-
+        
+            alert(infos);
+            infoNode= infos[0].split(",");
+            if(infos[1] != undefined) {
+                infoEdge= infos[1].split(",");
+        
+                nodes=[];
+                edges=[];
+                countNode=0;
+                countEdge=0;			
+                while (countNode < infoNode.length){
+                    var currentGroup;
+                    var name = infoNode[countNode+1];
+                    if(name.indexOf("S") == 0) {
+                        currentGroup = 'switches';
+                    }
+                    else {
+                        currentGroup = 'endpoints';
+                    }
+                    nodes.push({"id":parseInt(infoNode[countNode]),"label":infoNode[countNode+1], "group":currentGroup});
+                    countNode=countNode+2;
+                }  
+            }
+            if (infos[1] != "" && infos[1] != undefined){
+                while (countEdge < infoEdge.length) {
+                    edges.push({"from":parseInt(infoEdge[countEdge]),"to":parseInt(infoEdge[countEdge+1]),"id":parseInt(infoEdge[countEdge+2])});
+                    countEdge=countEdge+3;
+                }
+            }
 	} 
 	// create a graph
 	var container = document.getElementById('mygraph');
