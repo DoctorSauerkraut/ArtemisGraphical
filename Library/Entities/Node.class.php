@@ -55,7 +55,7 @@
 		}
 		
 		public function name(){
-			return $this->_name.trim();
+			return $this->_name;//.trim();
 		}
 		public function scheduling(){
 			return $this->_scheduling;

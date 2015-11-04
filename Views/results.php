@@ -19,7 +19,7 @@
 		if($node->isDisplayed()==0) {
 			echo " checked ";
 		}
-		echo "/>".$node->name();
+		 echo "/>".$node->name()."(".$node->id().")";
 	}
 	echo "</div>";
 	
