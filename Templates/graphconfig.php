@@ -35,11 +35,14 @@ foreach($list_nodes as $node) {
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);
 
-$oldmask = umask(0);
-if(!mkdir("ressources/".$simuKey."/input/", 0777, true)) {
-       die("Les permissions sont insuffisantes pour lancer la simulation");
+if(!file_exists("ressources/".$simuKey."/input/")){
+    $oldmask = umask(0);
+    if(!mkdir("ressources/".$simuKey."/input/", 0777, true)) {
+           die("Les permissions sont insuffisantes pour lancer la simulation");
+    }
+    umask($oldmask);
 }
-umask($oldmask);
+
 
 $dom->save("ressources/".$simuKey.'/input/graphconfig.xml');
 

@@ -97,6 +97,7 @@ function generate() {
 		type:"post",
 		data:'action='+'generate',
 		success:function(data){
+            alert(data);
 			showSimulationResults();
 			document.getElementById("corps").innerHTML = data;
 			document.getElementById("link-results").innerHTML = "Simulate";

@@ -202,7 +202,6 @@
 	$messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
 	
 //	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey." 2>&1 > weblog.txt";
-	echo "::".$command;
 	$command = "java -jar artemis_launcher.jar ".$simuKey;
 	exec($command, $output);
 
