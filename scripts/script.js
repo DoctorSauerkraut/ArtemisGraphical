@@ -376,7 +376,7 @@ function ajaxSaveMessage(){
 		success:function(data){
 			data=data.trim();
 			if(data!=''){
-				alert(data);
+				//alert(data);
 			}
 		}
 	});
@@ -402,7 +402,7 @@ function launchSimulation() {
 		type:"post",
 		data:"action=launchSimulation",
 		success:function(data){
-			alert("done:"+data);
+		//	alert("done:"+data);
 		}
 	});	
 }
@@ -462,7 +462,7 @@ function generateTopology() {
 		type:"post",
 		data:"action=generateTopology"+"&topoDepth="+depth, 
 		success:function(data){
-			alert(data);
+			//alert(data);
 		}
 	});	
 }

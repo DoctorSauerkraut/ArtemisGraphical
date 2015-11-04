@@ -165,19 +165,19 @@
 					/* Path */
 					$path = $messagesDom->createElement("path");
 					$path->appendChild($messagesDom->createTextNode($pathId[$singleMessage->id()]));
-
+                
 					/* Priority */
 					$priority = $messagesDom->createElement("priority");
 					$priority->appendChild($messagesDom->createTextNode("0"));
-
+                
 					/* Period */
 					$period = $messagesDom->createElement("period");
 					$period->appendChild($messagesDom->createTextNode($singleMessage->period()));
-
+                
 					/* Offset */
 					$offset = $messagesDom->createElement("offset");
 					$offset->appendChild($messagesDom->createTextNode($singleMessage->offset()));
-
+                
 					/* WCTT */
 					$wcetXML = 	$messagesDom->createElement("wcet");
 					$wcetValue = $singleMessage->wcet_($critLevel->getCode());

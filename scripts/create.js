@@ -7,7 +7,7 @@ var graph = null;
 	if(info != ""){
 		infos=info.split(";");
         
-            alert(infos);
+           // alert(infos);
             infoNode= infos[0].split(",");
             if(infos[1] != undefined) {
                 infoEdge= infos[1].split(",");
