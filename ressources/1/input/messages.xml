@@ -1,0 +1,2 @@
+<?xml version="1.0"?>
+<Messages><message id="24"><criticality level="NC"><path>36,38</path><priority>0</priority><period>10</period><offset>0</offset><wcet>4</wcet></criticality></message><message id="25"><criticality level="NC"><path>37,38</path><priority>0</priority><period>5</period><offset>0</offset><wcet>1</wcet></criticality></message></Messages>

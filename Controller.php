@@ -200,7 +200,12 @@
 		include('./Views/show.php');
 			
 	}else if ($action_server=="generate"){
-		
+        /* Default config values */
+        if(Settings::getParameter("timelimit") == "") {Settings::save("timelimit", 100, $simuKey);}
+        if(Settings::getParameter("elatency") == "") {Settings::save("elatency", 0, $simuKey);}
+        if(Settings::getParameter("endgraphtime") == "") {Settings::save("endgraphtime", 100, $simuKey);}
+        if(Settings::getParameter("startgraphtime") == "") {Settings::save("startgraphtime", 0, $simuKey);}     
+        
 		$pathId =[];
 		$list_nodes= $manager->displayListNode($simuKey);	
 		$donnees2= $manager->displayListLink($simuKey);	

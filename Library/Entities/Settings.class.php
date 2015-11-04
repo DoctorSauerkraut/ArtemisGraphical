@@ -84,6 +84,9 @@ class Settings {
 		while($tuples=$result->fetch()) {
 			return $tuples["value"];	
 		}
+        
+        /* If here : no default value */
+        return "";
 	}
 	
 }
