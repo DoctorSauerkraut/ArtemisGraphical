@@ -1,36 +1,21 @@
-/* Criticality level management */
-function addCritLevel() {
+/* Criticality switch management */
+
+
+function addCritSwitch() {
 	var critTime = document.getElementById("critTimeText").value;
 	var critLvl = document.getElementById("critLvlText").value;
 	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action=addCritLevel'+"&critTime="+critTime+"&critLvl="+critLvl,
+		data:'action=addCritSwitch'+"&critTime="+critTime+"&critLvl="+critLvl,
 		success:function(data){
 			loadContent('mixedc');
 		}
 	});
 }
 
-
-function addCriticalityState() {
-	var critName = document.getElementById("nameNCL").value;
-	var critCode = document.getElementById("codeNCL").value;
-	//alert(critName+","+critCode);
-	
-	$.ajax({
-		url:"./Controller.php",
-		type:"post",
-		data:'action=addCritState'+"&critName="+critName+"&critCode="+critCode,
-		success:function(data){
-			closePopup();
-			loadContent('messages');
-		}
-	});
-}
-
-function deleteCritLevel(time) {
+function deleteCritSwitch(time) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
@@ -41,3 +26,22 @@ function deleteCritLevel(time) {
 		}
 	});
 }
+
+/* Criticality levels management */
+function addCritState() {
+	var critName = document.getElementById("nameNCL").value;
+	var critCode = document.getElementById("codeNCL").value;
+	//alert(critName+","+critCode);
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action=addCritState'+"&critName="+critName+"&critCode="+critCode,
+		success:function(data){
+			closePopup();
+			loadContent('mixedc');
+		}
+	});
+}
+
+function deleteCritLevel(time) {}

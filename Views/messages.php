@@ -28,7 +28,7 @@
 		<table class="tableShow">
 			<caption> Messages Table </caption>
 			<tr>
-				<th>ID</th><th>Path</th><th>Period</th><th>Offset</th>
+				<th>Path</th><th>Period</th><th>Offset</th>
 				<?php
 					for($cptTd=0;$cptTd<$cptLevels;$cptTd++) {	
 						echo "<th>WCTT ".$levelsTab[$cptTd]->getName()."</th>";
@@ -41,7 +41,6 @@
 			
 			foreach($donnees3 as $element){ 	
 				echo "<tr>";
-					echo "<td>".$element->id()."</td>";
 					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
 					echo "<td id=\"peri_".$element->id()."\" onclick=\"editValue(this)\" >".$element->period()."</td>";
 					echo "<td id=\"offs_".$element->id()."\" onclick=\"editValue(this)\" >".$element->offset()."</td>";
@@ -73,7 +72,6 @@
 			 } 
 			
 				echo "<tr>";
-				echo "<td>-</td>";
 				echo "<td><input type=\"text\" id=\"path\" /></td>";
 				echo "<td><input type=\"text\" id=\"period\" /></td>";
 				echo "<td><input type=\"text\" id=\"offset\" /></td>";

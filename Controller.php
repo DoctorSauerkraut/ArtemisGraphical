@@ -49,7 +49,7 @@
 	else if($action_server=="displayCritTable"){
 		include("./Views/criticalityTable.php");
 	}		
-	else if($action_server=="addCritLevel") {
+    else if($action_server=="addCritSwitch") {
 		$critTime 	= $_POST["critTime"];
 		$critLvl	= $_POST["critLvl"];
 		
@@ -62,7 +62,11 @@
 		CriticalitySwitch::delete($time, $simuKey);
 	}
 	else if($action_server == "addCritState") {
-		
+		$critName = $_POST["critName"];
+        $critCode = $_POST["critCode"];        
+        
+        $level = new CriticalityLevel($critName, $critCode);
+        $level->save();
 	}
 	else if($action_server=="saveSettings") {
 		/* Getting general settings */
