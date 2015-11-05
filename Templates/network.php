@@ -69,80 +69,32 @@
 		$machine->setAttribute("name",$currentNode->name());
 		$machine->setAttribute("speed", $currentNode->getSpeed());
 		
-			$config = $networkDom->createElement("Config");
-				$name = $networkDom->createElement("name");
-			$config->appendChild($name);
+        $config = $networkDom->createElement("Config");
+        $name = $networkDom->createElement("name");
+        $config->appendChild($name);
 		$machine->appendChild($config);
-
-			$messages = $networkDom->createElement("Messages");	
-			foreach ($listMessages as $singleMessage) {
-				$arr=explode(",", $singleMessage->path(), 2);										
-				
-				if($arr[0] == trim($currentNode->name()) ){
-					$message = $networkDom->createElement("message");
-					$message->setAttribute("id", $singleMessage->id());
-
-					for($cptLvl =0;$cptLvl < $cptLevelsLimit;$cptLvl++) {	
-						$critLevel = $criticalityLevels[$cptLvl];
-						
-						$criticality = $networkDom->createElement("criticality");
-						$criticality->setAttribute("level", $critLevel->getCode());
-					
-						/* Path */
-						$path = $networkDom->createElement("path");
-						$path->appendChild($networkDom->createTextNode($pathId[$singleMessage->id()]));
-						
-						/* Priority */
-						$priority = $networkDom->createElement("priority");
-						$priority->appendChild($networkDom->createTextNode("0"));
-						
-						/* Period */
-						$period = $networkDom->createElement("period");
-						$period->appendChild($networkDom->createTextNode($singleMessage->period()));
-						
-						/* Offset */
-						$offset = $networkDom->createElement("offset");
-						$offset->appendChild($networkDom->createTextNode($singleMessage->offset()));
-				
-						/* WCTT */
-						$wcetXML = 	$networkDom->createElement("wcet");
-						$wcetValue = $singleMessage->wcet_($critLevel->getCode());
-						$wcetXML->appendChild($networkDom->createTextNode($wcetValue));					
-					
-						$criticality->appendChild($path);
-						$criticality->appendChild($priority);
-						$criticality->appendChild($period);
-						$criticality->appendChild($offset);
-						$criticality->appendChild($wcetXML);
-						$message->appendChild($criticality);
-					}
-						
-					$messages->appendChild($message);
-
-					$machine->appendChild($messages);
-				}
-			}
-		
-			$links = $networkDom->createElement("Links");
-			foreach ($donnees2 as $element2){
-					
-				if($element2->node2() == $node->id()){
-					$machinel=$networkDom->createElement("machinel");
-					$machinel->setAttribute("id", $element2->node1());
-					$links->appendChild($machinel);
-					$machine->appendChild($links);
-				}else if($element2->node1() == $node->id()){			
-					$machinel=$networkDom->createElement("machinel");
-					$machinel->setAttribute("id", $element2->node2());
-					$links->appendChild($machinel);
-					$machine->appendChild($links);	
-				}
-			}
+        
+        $network->appendChild($machine);
+    }
 			
-		$network->appendChild($machine);
-	}
+		
+    $links = $networkDom->createElement("Links");
+    foreach ($donnees2 as $element2){
+
+        if($element2->node2() == $node->id()){
+            $machinel=$networkDom->createElement("machinel");
+            $machinel->setAttribute("id", $element2->node1());
+            $links->appendChild($machinel);
+            $machine->appendChild($links);
+        }else if($element2->node1() == $node->id()){			
+            $machinel=$networkDom->createElement("machinel");
+            $machinel->setAttribute("id", $element2->node2());
+            $links->appendChild($machinel);
+            $machine->appendChild($links);	
+        }
+    }
+			
 	$networkDom->appendChild($network);
-	
 	
 	/* Messages file */
 	$messagesDom = new DomDocument();

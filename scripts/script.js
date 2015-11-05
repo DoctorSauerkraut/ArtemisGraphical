@@ -189,6 +189,7 @@ function popupLink($id, $name1, $name2) {
 }
 
 function deleteLink($id,$node1,$node2) {
+  
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",

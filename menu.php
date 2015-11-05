@@ -18,11 +18,11 @@ session_start();
 		
 		
 		$donnees1= $manager->displayListNode($simuKey);	
-		$donnees2= $manager->displayListLink($simuKey);	
+		$list_links= $manager->displayListLink($simuKey);	
 		$donnees3= $manager->displayListMessage($simuKey);
 		
 		$tabNames =[];
-		foreach ($donnees2 as $element){
+		foreach ($list_links as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
@@ -56,5 +56,7 @@ session_start();
 		include("./Views/criticality.php");	
 	}	else if($action_server == "simus") {
 		include("./Views/simulations.php");	
+	}   else if($action_server == "credits") {
+		include("./Views/credits.php");	
 	}
 ?>

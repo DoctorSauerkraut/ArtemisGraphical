@@ -214,7 +214,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
  
   public function verifyLinkDeletion($node1, $node2){
   // We check in the Message database if some messages have to be deleted.
-  echo (":".$node1.$node2);
 	$donnees=$this->displayListMessage();
 	foreach($donnees as $element){
 		$path=explode(",", $element->path(), $this->nbNodes());

@@ -78,12 +78,11 @@
 		<table class="tableShow">
 			<caption> Nodes Table </caption>
 			<tr>
-				<th>ID</th><th>Name</th><!--<th>IP Address</th>--><th>Scheduling</th><th>Load</th><th>Speed</th><th>Edit</th><th>Delete</th>
+				<th>Name</th><!--<th>IP Address</th>--><th>Scheduling</th><th>Load</th><th>Speed</th><th>Edit</th><th>Delete</th>
 			</tr>
 			
 			<?php foreach($donnees1 as $element){ ?>
 				<tr>
-					<td><?php echo $element->id(); ?> </td>
 					<td><?php echo $element->name(); ?> </td>
 				<!-- 	<td><?php echo $element->ipAddress(); ?> </td> -->
 					<td><?php echo $element->scheduling(); ?> </td>

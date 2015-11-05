@@ -172,16 +172,16 @@
 	
 		$manager->deleteLink($_POST['id']);	
 		$manager->verifyLinkDeletion($_POST['source'],$_POST['destination']);
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();
+        
+		$list_links= $manager->displayListLink($simuKey);	
 		$tabNames =[];
-		foreach ($donnees2 as $element){
+        
+		foreach ($list_links as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}				
-		include('./Views/show.php');
+		include('./Views/links.php');
 			
 	}else if ($action_server=="deleteMessage"){
 		$idMsg = $_POST['id'];
