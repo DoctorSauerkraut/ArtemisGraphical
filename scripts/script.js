@@ -152,7 +152,7 @@ function deleteNode($id) {
 		type:"post",
 		data:'action='+'deleteNode'+'&id='+$id,
 		success:function(data){
-			document.getElementById("corps").innerHTML = data;
+			loadContent("details");
 		}
 	});
 }
@@ -458,12 +458,16 @@ function loadNodeOnCheck(nodeId, checked) {
 function generateTopology() {
 	var depth = document.getElementById("topodepth").value;
 	
+    openPopup();
+    document.getElementById("popup").innerHTML = "Generating topology...";
+    
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
 		data:"action=generateTopology"+"&topoDepth="+depth, 
 		success:function(data){
 			//alert(data);
+            closePopup();
 		}
 	});	
 }

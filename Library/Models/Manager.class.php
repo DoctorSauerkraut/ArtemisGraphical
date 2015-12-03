@@ -60,8 +60,7 @@ class Manager{
  }
  
  public function displayNode($id){
-	 $id = (int) $id;
-	 
+	 $id = (int) $id; 
 	 
 	 $request='SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE id = '.$id;
 

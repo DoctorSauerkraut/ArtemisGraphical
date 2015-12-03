@@ -160,18 +160,6 @@
 		$donnees=$manager->displayNode($_POST['id']);
 		$manager->deleteNode($_POST['id']);
 		$manager->verifyNodeDeletion($_POST['id'],$donnees->name());
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();	
-		
-		$tabNames =[];
-		foreach ($donnees2 as $element){
-			$name1 = $manager->displayNode($element->node1());
-			$name2 = $manager->displayNode($element->node2());				
-			array_push($tabNames,$name1->name(),$name2->name());
-		}
-		include('./Views/show.php');
-		
 	}else if($action_server=="deleteLink"){
 	
 		$manager->deleteLink($_POST['id']);	
@@ -399,8 +387,50 @@
 		
 		include('./Views/results.php');*/
 	} else if($action_server == "generateTopology") {
-		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";
-		
-		echo $depth;
+		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";  
+        
+        $command = "java -jar artemis_topology.jar ".$simuKey." ".$depth;
+		exec($command, $output);     
+        
+        $file = simplexml_load_file("ressources/".$simuKey."/input/network.xml");
+        if($file === FALSE) {
+            echo "NO";
+            return;
+        }
+        else {
+            /* We create a list to store the pre-generated node ids */
+         //   $idArray = new Array();
+            $idArray = array();
+            
+            foreach($file->children() as $machine) {
+                 $name = $machine->attributes()["name"];
+                $id = $machine->attributes()["id"];
+                $idArray["".$id] = $name;
+                $manager->addNode($name, 0, 'FIFO');
+            }
+            
+             foreach($file->children() as $machine) {
+                $idFirstMachine = $machine->attributes()["id"];
+                 
+                foreach($machine->children() as $link) {
+                    foreach($link->children() as $machinel) {
+                        /* We need to convert pre-id to real db id */
+                        $preIdLink = $machinel->attributes()["id"];
+                        
+                        /* We get the node name from pre-id */
+                        $nodeName = $idArray["".$preIdLink];
+                        
+                        /* We get the real db id */
+                        $nodeDestId = $manager->displayNodeByName($nodeName)->id();
+                        $nodeSrcId  = $manager->displayNodeByName($idArray["".$idFirstMachine])->id();
+                        
+                        /* We finally add a new node */
+                        $manager->addLink($nodeSrcId, $nodeDestId);
+                    }
+                } 
+            }
+            
+        echo "OK";
+        }
 	}
 ?>		
