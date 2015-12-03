@@ -20,10 +20,29 @@
 					$cptLevels++;
 				}
 			}
-			
-					
-	?>
-	
+
+    echo "<table class=\"tableShow\">";
+   echo "<tr><td>Automatic task generation</td><td>";
+    $autogen = Settings::getParameter("autogen", $_SESSION["simuid"]);
+
+    echo "<input type=\"radio\" value=\"n\" name=\"radiotask\"";
+    if ($autogen == "1") echo "checked";
+    echo "  onclick=\"desactivateGenerateTextFields()\" /> No";
+
+    echo "<input type=\"radio\" value=\"y\" name=\"radiotask\"";
+    if ($autogen == "0") echo "checked";
+    echo " onclick=\"activateGenerateTextFields()\" /> Yes</td>";
+
+    echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autotasks\" value=\"".Settings::getParameter("autotasks", $_SESSION["simuid"])."\"/> tasks</td></td>";
+
+    echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet", $_SESSION["simuid"])."\"/> ms (highest WCTT)</td></td>";
+
+    echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autoload\" value=\"".Settings::getParameter("autoload", $_SESSION["simuid"])."\"/> load < 1.0</td></td>";
+    
+echo "<td><a class=\"button blue\">Generate</a></td></tr>";
+    echo "</table>";
+?>
+	   
 		<div class="tabledetailsdiv" id="tabledetailsmessages">
 		<table class="tableShow">
 			<caption> Messages Table </caption>

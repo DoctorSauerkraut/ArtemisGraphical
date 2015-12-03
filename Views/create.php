@@ -25,9 +25,14 @@
 	</div>
 	
 	<br />
-	Entry points :<input id="topodepth" type="text" value="0" />
-	<input type="button" value="Generate Topology" onclick="generateTopology()">
-	
+	<table class="tableShow">
+        <tr>
+            <td>Automatic topology generation</td>
+            <td><input id="topodepth" type="text" value="0" />entry points</td>
+        <td><a class="button blue" onclick="generateTopology()">Generate</a></td>
+        <td><a class="button red" onclick="clearGraph()">Delete all nodes</a></td></tr>
+    </table>
+
 	<div id="mygraph">
 	</div>
 

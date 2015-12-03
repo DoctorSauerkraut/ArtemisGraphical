@@ -21,11 +21,11 @@ class Manager{
   	}
  	
   public function clearAll(){
-   $this->_db->exec('DELETE FROM message WHERE id_simu = $simulationId');
-   $this->_db->exec('DELETE FROM link WHERE id_simu = $simulationId');
-   $this->_db->exec('DELETE FROM node WHERE id_simu = $simulationId');
-   $this->_db->exec('DELETE FROM critswitches WHERE id_simu = $simulationId');
-   $this->_db->exec('DELETE FROM wcets WHERE id_simu = $simulationId'); 
+   $this->_db->exec("DELETE FROM message WHERE id_simu = ".$this->simulationId);
+   $this->_db->exec("DELETE FROM link WHERE id_simu = ".$this->simulationId);
+   $this->_db->exec("DELETE FROM node WHERE id_simu = ".$this->simulationId);
+   $this->_db->exec("DELETE FROM critswitches WHERE id_simu = ".$this->simulationId);
+   $this->_db->exec("DELETE FROM wcets WHERE id_simu = ".$this->simulationId); 
    //$this->_db->exec('TRUNCATE TABLE critlevels');  
   }
   

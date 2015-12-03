@@ -466,8 +466,8 @@ function generateTopology() {
 		type:"post",
 		data:"action=generateTopology"+"&topoDepth="+depth, 
 		success:function(data){
-			//alert(data);
             closePopup();
+            loadCreate();
 		}
 	});	
 }

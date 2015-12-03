@@ -13095,9 +13095,9 @@ var manipulationMixin = {
         "<div class='graph-seperatorLine'></div>" +
         "<span class='graph-manipulationUI connect' id='graph-manipulate-connectNode'>" +
           "<span class='graph-manipulationLabel'>"+this.constants.labels['link'] +"</span></span>" + 
-		  "<div class='graph-seperatorLine'></div>"+ 
-		  "<span class='graph-manipulationUI del' id='graph-manipulate-deleteall' >" +
-          "<span class='graph-manipulationLabel' >"+this.constants.labels['deleteall'] +"</span></span>" ;
+		  "<div class='graph-seperatorLine'></div>";
+	//	  "<span class='graph-manipulationUI del' id='graph-manipulate-deleteall' >" +
+    //      "<span class='graph-manipulationLabel' >"+this.constants.labels['deleteall'] +"</span></span>" ;
 		  
       if (this._getSelectedNodeCount() == 1 && this.triggerFunctions.edit) {
         this.manipulationDiv.innerHTML += "" +
@@ -13118,8 +13118,8 @@ var manipulationMixin = {
 	  addNodeButton.onclick = this._createAddNodeToolbar.bind(this);
       var addEdgeButton = document.getElementById("graph-manipulate-connectNode");
       addEdgeButton.onclick = this._createAddEdgeToolbar.bind(this);
-	  var addDeleteAllButton = document.getElementById("graph-manipulate-deleteall");
-	 addDeleteAllButton.onclick = this._deleteAll.bind(this);
+	 // var addDeleteAllButton = document.getElementById("graph-manipulate-deleteall");
+	 //addDeleteAllButton.onclick = this._deleteAll.bind(this);
       if (this._getSelectedNodeCount() == 1 && this.triggerFunctions.edit) {
         var editButton = document.getElementById("graph-manipulate-editNode");
         editButton.onclick = this._editNode.bind(this);

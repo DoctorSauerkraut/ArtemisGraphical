@@ -31,9 +31,9 @@
 		
 		echo $popupHead;
 		echo "Loading....";
-		echo "<div id=\"progressbar\">";
+		/*echo "<div id=\"progressbar\">";
 		echo "$progress %";
-		echo "</div>";
+		echo "</div>";*/
 	}
 	else if($popupFunction == "critButton") {
 		echo $popupHead;
