@@ -191,7 +191,8 @@
 		}
 		include('./Views/show.php');
 			
-	}else if ($action_server=="generate"){
+	}
+    else if ($action_server=="generate"){
         /* Default config values */
         if(Settings::getParameter("timelimit") == "") {Settings::save("timelimit", 100, $simuKey);}
         if(Settings::getParameter("elatency") == "") {Settings::save("elatency", 0, $simuKey);}
@@ -247,13 +248,16 @@
 			$autoload		= Settings::getParameter("autoload", $simuKey);
 		}
 		
-		echo "test::$simuKey::$timeLimit";
 		Settings::save("startgraphtime", 0, $simuKey);
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
-		echo "test";
 	
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
+        
+        $command = "java -jar artemis_launcher.jar ".$simuKey;
+	    exec($command, $output);
+
+	   include_once('./Views/results.php'); 
 	
 		
 	}else if ($action_server=="generateSimu"){
@@ -386,24 +390,89 @@
 	/*	$list_nodes= $manager->displayListNode();
 		
 		include('./Views/results.php');*/
-	} else if($action_server == "generateTopology") {
+	}  else if($action_server=="generateMessagesSet") {
+        if(Settings::getParameter("timelimit") == "") {Settings::save("timelimit", 100, $simuKey);}
+        if(Settings::getParameter("elatency") == "") {Settings::save("elatency", 0, $simuKey);}
+        if(Settings::getParameter("endgraphtime") == "") {Settings::save("endgraphtime", 100, $simuKey);}
+        if(Settings::getParameter("startgraphtime") == "") {Settings::save("startgraphtime", 0, $simuKey);} 
+        
+        $timeLimit 	= Settings::getParameter("timelimit", $simuKey);
+		$eLatency 	= Settings::getParameter("elatency", $simuKey);
+		$autogen 	= Settings::getParameter("autogen", $simuKey);
+		
+        $highestwcet	= Settings::getParameter("highestwcet", $simuKey);
+        $autotasks 		= Settings::getParameter("autotasks", $simuKey);
+        $autoload		= Settings::getParameter("autoload", $simuKey);
+        
+        include("Templates/globalconfig.php");
+        
+        $command = "java -jar artemis_messages.jar ".$simuKey;
+		//exec($command, $output);  
+        
+        $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
+        if($file === FALSE) {
+            echo "->".$command;
+            return;
+        }
+        else {
+            $str = "::";
+             foreach($file->children() as $message) {
+                 $id = $message->attributes()["id"];
+                 $path      = "";
+                 $period    = "";
+                 $offset    = "";
+                     
+                 foreach($message->children() as $critLvl) {
+                     $lvl = $critLvl->attributes()["level"];
+                     
+                     foreach($critLvl->children() as $property) {
+                         if($property->getName() == "path") {
+                            $path = explode(",", $property);
+                            $i = 0;
+                            $finalPath = "";
+                             
+                            while($path[$i] != "") {
+                                $finalPath .= ($manager->displayNode($path[$i])->name().",");
+                                $i++;
+                            }
+                             /* We delete the last comma */
+                             $finalPath = substr($finalPath, 0, -1);
+                         }
+                          if($property->getName() == "period") {
+                             $period = $property;
+                         }
+                          if($property->getName() == "offset") {
+                             $offset = $property;
+                         } 
+                         if($property->getName() == "wcet") {
+                             $wcet = $property;
+                         } 
+                     }
+                 }
+               $manager->addMessage($finalPath, $period, $offset);
+            //     $message = new Message();
+              //   $message->setId($id);
+                // $message->setWcet($wcet, CriticalityLevel::getIdFromLevel($lvl));
+            }
+        }
+    } else if($action_server == "generateTopology") {
 		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";  
         
         $command = "java -jar artemis_topology.jar ".$simuKey." ".$depth;
 		exec($command, $output);     
         
         $file = simplexml_load_file("ressources/".$simuKey."/input/network.xml");
+         
         if($file === FALSE) {
             echo "NO";
             return;
         }
         else {
             /* We create a list to store the pre-generated node ids */
-         //   $idArray = new Array();
             $idArray = array();
             
             foreach($file->children() as $machine) {
-                 $name = $machine->attributes()["name"];
+                $name = $machine->attributes()["name"];
                 $id = $machine->attributes()["id"];
                 $idArray["".$id] = $name;
                 $manager->addNode($name, 0, 'FIFO');
@@ -429,8 +498,20 @@
                     }
                 } 
             }
-            
-        echo "OK";
         }
+        
+        $pathId =[];
+		$list_nodes= $manager->displayListNode($simuKey);	
+		$donnees2= $manager->displayListLink($simuKey);	
+			
+		$tabNames =[];
+        
+		foreach ($donnees2 as $element){
+			$name1 = $manager->displayNode($element->node1());
+			$name2 = $manager->displayNode($element->node2());				
+			array_push($tabNames,$name1->name(),$name2->name());
+		}
+        
+        include('./Templates/networkxml.php');
 	}
 ?>		

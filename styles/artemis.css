@@ -66,6 +66,7 @@ a{
 	color: #202030;
 	/* background: #FFF; */
 	font-family: Verdana, Georgia, sans-serif;
+    padding-top:20px;
 }
 
 #footer { 
@@ -273,12 +274,13 @@ caption {
 
 
 .tabledetailsdiv {
+    z-index:110;
 	width:100%;
 	max-width: 1200px;
 	min-height: 300px;
 	height: auto;
 	margin-bottom:50px;
-	padding-top: 50px;
+	/*padding-top: 50px;*/
 	text-align:center;
 }
 

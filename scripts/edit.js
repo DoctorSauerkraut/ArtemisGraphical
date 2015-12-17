@@ -75,7 +75,7 @@ function saveSettings() {
 		"&autoload="+autoload,
 		success:function(data){
 			//alert(data);
-			loadContent('settings');
+			loadContent('messages');
 		},
 		fail:function(jqXHR, textStatus){
 			//alert(textStatus);

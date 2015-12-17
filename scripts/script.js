@@ -471,3 +471,20 @@ function generateTopology() {
 		}
 	});	
 }
+
+function generateMessagesSet() {
+   openPopup();
+    
+	saveSettings();
+    
+    $.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=generateMessagesSet",
+		success:function(data){
+            closePopup();
+            alert(data);
+            loadContent("messages");
+		}
+	});	
+}

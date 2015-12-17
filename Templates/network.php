@@ -8,94 +8,10 @@
 		$criticalityLevels[$cptLevelsLimit] = new CriticalityLevel($levelCrit["name"], $levelCrit["code"]);	
 		$cptLevelsLimit++;
 	}
-	
-	
-	/* General configuration */
-	$simuConfigDom = new DomDocument();
-	
-	$simuConfig = $simuConfigDom->createElement("Config");
 
-	$timeLimitTag=$simuConfigDom->createElement("time-limit");
-	$timeLimitTag->appendChild($simuConfigDom->createTextNode($timeLimit));
-	$simuConfig->appendChild($timeLimitTag);
-	
-	$eLatencyTag=$simuConfigDom->createElement("elatency");
-	$eLatencyTag->appendChild($simuConfigDom->createTextNode($eLatency));
-	$simuConfig->appendChild($eLatencyTag);
-	
-	$eAutogenTag=$simuConfigDom->createElement("autogen");
-	$eAutogenTag->appendChild($simuConfigDom->createTextNode($autogen));
-	$simuConfig->appendChild($eAutogenTag);
-	
-	if($autogen==0) {
-		$eHWcetTag=$simuConfigDom->createElement("highestwctt");
-		$eHWcetTag->appendChild($simuConfigDom->createTextNode($highestwcet));
-		$simuConfig->appendChild($eHWcetTag);
-		
-		$eAutoTasksTag=$simuConfigDom->createElement("autotasks");
-		$eAutoTasksTag->appendChild($simuConfigDom->createTextNode($autotasks));
-		$simuConfig->appendChild($eAutoTasksTag);
-		
-		$eAutoLoadTag=$simuConfigDom->createElement("autoload");
-		$eAutoLoadTag->appendChild($simuConfigDom->createTextNode($autoload));
-		$simuConfig->appendChild($eAutoLoadTag);
-	}
-	
-	/* MC management */
-	$critSwitches = $simuConfigDom->createElement("CritSwitches");
-	$simuConfig->appendChild($critSwitches);
-	
-	$req = CriticalitySwitch::load($simuKey);
-	
-	while($switches = $req->fetch()) {
-		$critSwitch = $simuConfigDom->createElement("critswitch");
-		$critSwitch->setAttribute("time", $switches["time"]);
-		$critSwitch->appendChild($simuConfigDom->createTextNode($switches["level"]));
-		
-		$critSwitches->appendChild($critSwitch);
-	}
-	$simuConfigDom->appendChild($simuConfig);
-	
-	
-	/* Network file */
-	$networkDom = new DomDocument();
-	
-	$network=$networkDom->createElement("Network");
-	
-	foreach($list_nodes as $currentNode){
+	include("./Templates/globalconfig.php");
+	include("./Templates/networkxml.php");
 
-		$machine=$networkDom->createElement("machine");
-		$machine->setAttribute("id",$currentNode->id());
-		$machine->setAttribute("name",$currentNode->name());
-		$machine->setAttribute("speed", $currentNode->getSpeed());
-		
-        $config = $networkDom->createElement("Config");
-        $name = $networkDom->createElement("name");
-        $config->appendChild($name);
-		$machine->appendChild($config);
-        
-        $network->appendChild($machine);
-    }
-			
-		
-    $links = $networkDom->createElement("Links");
-    foreach ($donnees2 as $element2){
-
-        if($element2->node2() == $node->id()){
-            $machinel=$networkDom->createElement("machinel");
-            $machinel->setAttribute("id", $element2->node1());
-            $links->appendChild($machinel);
-            $machine->appendChild($links);
-        }else if($element2->node1() == $node->id()){			
-            $machinel=$networkDom->createElement("machinel");
-            $machinel->setAttribute("id", $element2->node2());
-            $links->appendChild($machinel);
-            $machine->appendChild($links);	
-        }
-    }
-			
-	$networkDom->appendChild($network);
-	
 	/* Messages file */
 	$messagesDom = new DomDocument();
 	$messages=$messagesDom->createElement("Messages");
@@ -149,14 +65,5 @@
  	}
 	$messagesDom->appendChild($messages);
 
-	$simuConfigDom->save("ressources/".$simuKey.'/input/config.xml');
-	$networkDom->save("ressources/".$simuKey.'/input/network.xml');
-	$messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
-	
-//	$command = "/usr/bin/java -jar artemis_launcher.jar ".$simuKey." 2>&1 > weblog.txt";
-	$command = "java -jar artemis_launcher.jar ".$simuKey;
-	exec($command, $output);
-
-	include_once('./Views/results.php'); 
-
+    $messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
 ?>

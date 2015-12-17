@@ -1,6 +1,17 @@
 
 	<!------------------------ GRAPH POP UP  ------------------------->
-	<div id="graph-popUp">
+	<table class="tableShow">
+        <tr>
+            <td>Automatic topology generation</td>
+            <td><input id="topodepth" type="text" value="0" />entry points</td>
+        <td><a class="button blue" onclick="generateTopology()">Generate</a></td>
+        <td><a class="button red" onclick="clearGraph()">Delete all nodes</a></td></tr>
+    </table>
+
+	<div id="mygraph">
+	</div>
+
+<div id="graph-popUp">
 		<span id="operation">node</span> <br>
 		<table id="tableEdit" >
 			<tr style="display:none;">
@@ -22,18 +33,6 @@
 		</table>
 			<input type="button" value="SAVE" id="saveButton"></button>
 			<input type="button" value="CANCEL" id="cancelButton"></button>
-	</div>
-	
-	<br />
-	<table class="tableShow">
-        <tr>
-            <td>Automatic topology generation</td>
-            <td><input id="topodepth" type="text" value="0" />entry points</td>
-        <td><a class="button blue" onclick="generateTopology()">Generate</a></td>
-        <td><a class="button red" onclick="clearGraph()">Delete all nodes</a></td></tr>
-    </table>
-
-	<div id="mygraph">
 	</div>
 
 

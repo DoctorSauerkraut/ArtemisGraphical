@@ -22,10 +22,22 @@
 			}
 
     echo "<table class=\"tableShow\">";
-   echo "<tr><td>Automatic task generation</td><td>";
+   echo "<tr>";
+   
+echo "<tr><td>Simulation Time</td>";
+echo "<td>Electronical latency</td>";
+echo "<td>Automatic task generation</td>";
+echo "<td>Number of tasks</td>";
+echo "<td>Highest WCTT</td>";
+echo "<td>Load</td>";
+echo "<td>Generate</td></tr>";
+
+echo "<tr><td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit", $_SESSION["simuid"])."\"/> ms</td>";
+echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency", $_SESSION["simuid"])."\"/> ms</td>";
+
     $autogen = Settings::getParameter("autogen", $_SESSION["simuid"]);
 
-    echo "<input type=\"radio\" value=\"n\" name=\"radiotask\"";
+    echo "<td><input type=\"radio\" value=\"n\" name=\"radiotask\"";
     if ($autogen == "1") echo "checked";
     echo "  onclick=\"desactivateGenerateTextFields()\" /> No";
 
@@ -35,11 +47,11 @@
 
     echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autotasks\" value=\"".Settings::getParameter("autotasks", $_SESSION["simuid"])."\"/> tasks</td></td>";
 
-    echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet", $_SESSION["simuid"])."\"/> ms (highest WCTT)</td></td>";
+    echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"highestwcet\" value=\"".Settings::getParameter("highestwcet", $_SESSION["simuid"])."\"/> ms</td></td>";
 
     echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autoload\" value=\"".Settings::getParameter("autoload", $_SESSION["simuid"])."\"/> load < 1.0</td></td>";
     
-echo "<td><a class=\"button blue\">Generate</a></td></tr>";
+echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a></td></tr>";
     echo "</table>";
 ?>
 	   
