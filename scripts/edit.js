@@ -59,22 +59,13 @@ function saveEditedMessage(id, wcetIdTable) {
 function saveSettings() {	
 	var time 	= $("#timelimit")[0].value;
 	var latency = $("#elatency")[0].value;
-	var tasks 	= $("#autotasks")[0].value;
-	var hwcet	= $("#highestwcet")[0].value;
-	var autogen = $("input[name=radiotask]:checked")[0];
-	var autoload= $("#autoload")[0].value;
-	
-    if(autogen != undefined) {
-        autogen = autogen.value;
-    }
+    var wcttcompute = $("#wcttcompute")[0].value;
     
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&autotasks="+tasks+"&highestwcet="+hwcet+"&autogen="+autogen+
-		"&autoload="+autoload,
+		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&wcttcompute="+wcttcompute,
 		success:function(data){
-			//alert(data);
 			loadContent('messages');
 		},
 		fail:function(jqXHR, textStatus){

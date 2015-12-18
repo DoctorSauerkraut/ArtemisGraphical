@@ -13,6 +13,10 @@
 	$eLatencyTag->appendChild($simuConfigDom->createTextNode($eLatency));
 	$simuConfig->appendChild($eLatencyTag);
 	
+    $wcttComputeTag=$simuConfigDom->createElement("wcttcompute");
+	$wcttComputeTag->appendChild($simuConfigDom->createTextNode($wcttCompute));
+	$simuConfig->appendChild($wcttComputeTag);
+    
 	$eAutogenTag=$simuConfigDom->createElement("autogen");
 	$eAutogenTag->appendChild($simuConfigDom->createTextNode($autogen));
 	$simuConfig->appendChild($eAutogenTag);

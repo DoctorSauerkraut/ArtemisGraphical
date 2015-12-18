@@ -20,7 +20,7 @@
 			<tr>
 				<td>Name:</td><td><input id="node-label" value="new value"> </td>
 			</tr>
-			<tr>
+			<!--<tr>
 				<td>IP Address:</td><td><input id="node-ip" value="0"> </td>
 			</tr>
 			<tr>
@@ -29,7 +29,7 @@
 				<option value="FP">FP</option>
 				<option value="EDF">EDF</option>
 				<option value="RM">RM</option></select></td>
-			</tr>
+			</tr>-->
 		</table>
 			<input type="button" value="SAVE" id="saveButton"></button>
 			<input type="button" value="CANCEL" id="cancelButton"></button>

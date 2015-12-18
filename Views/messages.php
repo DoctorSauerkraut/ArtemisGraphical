@@ -26,15 +26,36 @@
    
 echo "<tr><td>Simulation Time</td>";
 echo "<td>Electronical latency</td>";
+echo "<td>WCTT computation model</td>";
+echo "<td>Save</td></tr>";
+
+echo "<tr><td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit", $_SESSION["simuid"])."\"/> ms</td>";
+echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency", $_SESSION["simuid"])."\"/> ms</td>";
+echo "<td>";
+echo "<select id=\"wcttcompute\">";
+
+$wcttModels = array("STR", "LIN20", "LIN40", "LIN60", "LIN80", "GAU20", "GAU40", "GAU50", "GAU60", "GAU80", "GCO20", "GCO40", "GCO50", "GCO60", "GCO80");
+
+foreach($wcttModels as $model) {
+    echo "<option value=\"$model\" ";   
+if(Settings::getParameter("wcttcompute", $_SESSION["simuid"]) == $model) {
+    echo " selected=\"selected\" ";
+}
+echo ">$model</option>";
+}
+
+echo "</select>";
+echo "</td>";
+echo "<td><a class=\"button blue\" onclick=\"saveSettings()\">Save</a></td></tr></table>";
+
+
+// Automatic task generation table
+echo "<table class=\"tableShow\"><tr>";
 echo "<td>Automatic task generation</td>";
 echo "<td>Number of tasks</td>";
 echo "<td>Highest WCTT</td>";
 echo "<td>Load</td>";
 echo "<td>Generate</td></tr>";
-
-echo "<tr><td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit", $_SESSION["simuid"])."\"/> ms</td>";
-echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency", $_SESSION["simuid"])."\"/> ms</td>";
-
     $autogen = Settings::getParameter("autogen", $_SESSION["simuid"]);
 
     echo "<td><input type=\"radio\" value=\"n\" name=\"radiotask\"";

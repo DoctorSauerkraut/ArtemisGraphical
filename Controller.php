@@ -72,19 +72,13 @@
 		/* Getting general settings */
 		$timeLimit	= (isset($_POST["time"]) && $_POST["time"] != "") ? $_POST["time"]:0;
 		$eLatency 	= (isset($_POST["elatency"]) && $_POST["elatency"] != "") ? $_POST["elatency"]:0;
-		$tasks 		= (isset($_POST["autotasks"]) && $_POST["autotasks"] != "") ? $_POST["autotasks"]:0;
-		$hWcet 		= (isset($_POST["highestwcet"]) && $_POST["highestwcet"] != "") ? $_POST["highestwcet"]:0;
-		$autogen 	= (isset($_POST["autogen"]) && $_POST["autogen"] != "") && ($_POST["autogen"] == "y")? "0":"1";
-		$autoload 	= (isset($_POST["autoload"]) && $_POST["autoload"] != "") ? $_POST["autoload"]:0;
+        $wcttcompute = (isset($_POST["wcttcompute"]) && $_POST["wcttcompute"] != "") ? $_POST["wcttcompute"]:"STR";
 
 		Settings::save("timelimit", $timeLimit, $simuKey);
 		Settings::save("elatency", $eLatency, $simuKey);
-		Settings::save("autotasks", $tasks, $simuKey);
-		
-		Settings::save("highestwcet", $hWcet, $simuKey);
-		Settings::save("autogen", $autogen, $simuKey);
-		Settings::save("autoload", $autoload, $simuKey);
-		
+        Settings::save("wcttcompute", $wcttcompute, $simuKey);
+        
+        echo "::$wcttcompute";
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -237,10 +231,10 @@
 		}
 
 		/* Get general settings */
-		$timeLimit 	= Settings::getParameter("timelimit", $simuKey);
-		$eLatency 	= Settings::getParameter("elatency", $simuKey);
-		$autogen 	= Settings::getParameter("autogen", $simuKey);
-		
+		$timeLimit 	  = Settings::getParameter("timelimit", $simuKey);
+		$eLatency 	  = Settings::getParameter("elatency", $simuKey);
+		$autogen 	  = Settings::getParameter("autogen", $simuKey);
+		$wcttCompute  = Settings::getParameter("wcttcompute", $simuKey);
 
 		if($autogen == 0) {
 			$highestwcet	= Settings::getParameter("highestwcet", $simuKey);
@@ -391,6 +385,16 @@
 		
 		include('./Views/results.php');*/
 	}  else if($action_server=="generateMessagesSet") {
+        
+        $tasks 		= (isset($_POST["autotasks"]) && $_POST["autotasks"] != "") ? $_POST["autotasks"]:0;
+		$hWcet 		= (isset($_POST["highestwcet"]) && $_POST["highestwcet"] != "") ? $_POST["highestwcet"]:0;
+		$autogen 	= (isset($_POST["autogen"]) && $_POST["autogen"] != "") && ($_POST["autogen"] == "y")? "0":"1";
+		$autoload 	= (isset($_POST["autoload"]) && $_POST["autoload"] != "") ? $_POST["autoload"]:0;
+        
+        Settings::save("highestwcet", $hWcet, $simuKey);
+		Settings::save("autogen", $autogen, $simuKey);
+		Settings::save("autoload", $autoload, $simuKey);
+        
         if(Settings::getParameter("timelimit") == "") {Settings::save("timelimit", 100, $simuKey);}
         if(Settings::getParameter("elatency") == "") {Settings::save("elatency", 0, $simuKey);}
         if(Settings::getParameter("endgraphtime") == "") {Settings::save("endgraphtime", 100, $simuKey);}

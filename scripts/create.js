@@ -122,10 +122,10 @@ var graph = null;
 			donnees.success(function (data) {
 				var output = data;
 				outputs=output.split(",");
-				var ip = document.getElementById('node-ip');
+				/*var ip = document.getElementById('node-ip');
 				ip.value=parseInt(outputs[0]);
 				var sched = document.getElementById('node-sched');
-				sched.value=outputs[1];
+				sched.value=outputs[1];*/
 			});
 			 			  			  
 			saveButton.onclick = saveData.bind(this,data,callback);
@@ -168,8 +168,8 @@ var graph = null;
 	function saveData(data,callback) {
 		var idInput = document.getElementById('node-id');
 		var labelInput = document.getElementById('node-label');
-		var ip = document.getElementById('node-ip');
-		var sched = document.getElementById('node-sched');
+		var ip = 0;//document.getElementById('node-ip');
+		var sched = 'FIFO';//document.getElementById('node-sched');
 		var div = document.getElementById('graph-popUp');
 		data.id = idInput.value;
 		data.label = labelInput.value;
