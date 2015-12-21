@@ -77,8 +77,6 @@
 		Settings::save("timelimit", $timeLimit, $simuKey);
 		Settings::save("elatency", $eLatency, $simuKey);
         Settings::save("wcttcompute", $wcttcompute, $simuKey);
-        
-        echo "::$wcttcompute";
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -394,6 +392,7 @@
         Settings::save("highestwcet", $hWcet, $simuKey);
 		Settings::save("autogen", $autogen, $simuKey);
 		Settings::save("autoload", $autoload, $simuKey);
+        Settings::save("autotasks", $tasks, $simuKey);
         
         if(Settings::getParameter("timelimit") == "") {Settings::save("timelimit", 100, $simuKey);}
         if(Settings::getParameter("elatency") == "") {Settings::save("elatency", 0, $simuKey);}
@@ -402,8 +401,7 @@
         
         $timeLimit 	= Settings::getParameter("timelimit", $simuKey);
 		$eLatency 	= Settings::getParameter("elatency", $simuKey);
-		$autogen 	= Settings::getParameter("autogen", $simuKey);
-		
+		$autogen 	= Settings::getParameter("autogen", $simuKey);	
         $highestwcet	= Settings::getParameter("highestwcet", $simuKey);
         $autotasks 		= Settings::getParameter("autotasks", $simuKey);
         $autoload		= Settings::getParameter("autoload", $simuKey);
@@ -411,26 +409,25 @@
         include("Templates/globalconfig.php");
         
         $command = "java -jar artemis_messages.jar ".$simuKey;
-		//exec($command, $output);  
+		exec($command, $output);  
         
-        $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
+       $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
         if($file === FALSE) {
             echo "->".$command;
             return;
         }
         else {
-            $str = "::";
              foreach($file->children() as $message) {
                  $id = $message->attributes()["id"];
                  $path      = "";
                  $period    = "";
                  $offset    = "";
-                     
-                 foreach($message->children() as $critLvl) {
-                     $lvl = $critLvl->attributes()["level"];
-                     
-                     foreach($critLvl->children() as $property) {
-                         if($property->getName() == "path") {
+
+                  foreach($message->children() as $critLvl) {
+                       $lvl = $critLvl->attributes()["level"];
+                      
+                       foreach($critLvl->children() as $property) {
+                           if($property->getName() == "path") {
                             $path = explode(",", $property);
                             $i = 0;
                             $finalPath = "";
@@ -451,13 +448,16 @@
                          if($property->getName() == "wcet") {
                              $wcet = $property;
                          } 
-                     }
-                 }
-               $manager->addMessage($finalPath, $period, $offset);
-            //     $message = new Message();
-              //   $message->setId($id);
-                // $message->setWcet($wcet, CriticalityLevel::getIdFromLevel($lvl));
-            }
+                       }
+                  }
+                 
+                 $manager->addMessage($finalPath, $period, $offset);
+                 /* We get the message generated id */
+                 $idCreatedMessage = $manager->getMessageID($finalPath, $period, $offset);
+                 $message = new Message();
+                 $message->setId($idCreatedMessage);
+                 $message->_setWcet($wcet, $lvl);
+             }
         }
     } else if($action_server == "generateTopology") {
 		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";  

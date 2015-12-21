@@ -66,7 +66,7 @@ class Manager{
 
 	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
-	
+     
 	 $tmp =new node();
 	 $tmp->hydrate($donnees);
 	 return $tmp;
@@ -277,6 +277,29 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 		 }
 	return $messages;
  }
+    
+    public function getMessageID($path, $period, $offset) {
+        $sql = "SELECT id FROM message ";
+        $sql .= "WHERE path=\"$path\" ";
+        $sql .= "AND period=\"$period\" ";
+        $sql .= "AND offset=\"$offset\" ";
+        $sql .= 'AND id_simu = "'.$this ->simulationId.' "';
+        $sql .= "ORDER BY id, id_simu";
+
+        $q= $this->_db->query($sql)or die (print_r($_db->errorInfo()));
+	 	 
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+
+        $tmp = new Message($data);
+        
+         if($data != null){
+            $tmp->hydrate($data);
+             
+            return $tmp->id();
+         }else {
+            return null;
+         }
+    }
 
   public function updateMessage($id, $path, $period, $offset){
   

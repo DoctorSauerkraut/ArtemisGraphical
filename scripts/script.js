@@ -480,14 +480,14 @@ function generateMessagesSet() {
 	var autogen = $("input[name=radiotask]:checked")[0];
 	var autoload= $("#autoload")[0].value;
     
-        if(autogen != undefined) {
+    if(autogen != undefined) {
         autogen = autogen.value;
     }
     
     $.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:"action=generateMessagesSet",
+		data:"action=generateMessagesSet&autogen="+autogen+"&highestwcet="+hwcet+"&autoload="+autoload+"&autotasks="+tasks,
 		success:function(data){
             closePopup();
             alert(data);

@@ -83,12 +83,11 @@
 			return $req;
 		}
 		
-		public function _setWcet($wcet, $critLvl){
+		public function _setWcet($wcet, $critLvl){       
 			/* Selecting existing message */
 			$wcetBDD = $this->wcet_($critLvl);
 			
-			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);
-			
+			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);		
 			
 			
 			if($wcet == -1 && $wcetBDD == -1) {
@@ -104,15 +103,14 @@
 			if($wcet != - 1 && $wcetBDD == -1) {
 				// No message previously created, to create
 				$sql 	= "INSERT INTO wcets(id_msg, id_clvl, value)";
-				$sql 	.= "VALUES(".$this->_id.",".$critLvl.",".$wcet.")";
+				$sql 	.= " VALUES(".$this->_id.",".$critLvl.",".$wcet.")";
 			}
 			
 			if($wcet != -1 && $wcetBDD != -1) {
 				// Message previously created, to update
 				$sql = "UPDATE wcets SET value=\"$wcet\" WHERE id_msg=\"".$this->_id."\" AND id_clvl=\"$critLvl\"";
 			}
-			echo "/".$wcetBDD."::".$sql;
-			
+
 			$bdd = connectBDD();
 			$bdd->query($sql);
 		}
