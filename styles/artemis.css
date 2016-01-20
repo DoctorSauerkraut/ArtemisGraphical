@@ -398,3 +398,20 @@ caption {
 #critLevelsTable {
 	margin-left:20px;
 }
+
+.nodebox {
+	float:left;
+	border:1px solid black;
+	margin-left:4px;
+	margin-top:4px;
+	width:50px;
+	padding:4px;
+	text-align:center;
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
+}
+
+.nodebox:hover {
+	opacity:0.8;
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4); 
+
+}

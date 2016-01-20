@@ -12,14 +12,16 @@
 	echo "<a class=\"button green\" onclick=\"reloadGraph()\">Reload graph</a><br /><br />";
 	
 	foreach($list_nodes as $node) {
-		echo "<input type=\"checkbox\" ";
-		
-		echo "onclick=\"loadNodeOnCheck('".$node->id()."','".$node->isDisplayed()."')\" ";
-		
-		if($node->isDisplayed()==0) {
-			echo " checked ";
+        echo "<div onclick=\"loadNodeOnCheck('".$node->id()."','".$node->isDisplayed()."')\"  class=\"nodebox";
+        if($node->isDisplayed()==0) {
+			echo " green ";
 		}
-		 echo "/>".$node->name();
+        else {
+            echo " red ";
+        }
+        
+        echo "\" >".$node->name();
+        echo "</div>";
 	}
 	echo "</div>";
 	
