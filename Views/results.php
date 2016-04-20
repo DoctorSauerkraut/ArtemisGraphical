@@ -28,9 +28,9 @@
 	echo "<img src=\"ressources/".$simuKey."/gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG\" />";
 	
 	echo "<br />Export results :";
-	echo " <a class=\"button green\" href=\"gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG"."\">PNG</a>"; 
-	echo " <a class=\"button green\">PDF</a>"; 
-	echo " <a class=\"button green\">Latex</a>"; 
+	//echo " <a class=\"button green\" href=\"gen/histos/".Settings::getParameter("graphname", $simuKey).".PNG"."\">PNG</a>"; 
+	//echo " <a class=\"button green\">PDF</a>"; 
+	//echo " <a class=\"button green\">Latex</a>"; 
 	
 	echo "</div>";
 ?>

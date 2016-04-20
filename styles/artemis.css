@@ -77,7 +77,7 @@ a{
 	height: 50px;
 	text-align: center;
 	margin-top:10px;
-	position:absolute;
+	position:fixed;
 	bottom:0;
 	left:0;
 	z-index:100;

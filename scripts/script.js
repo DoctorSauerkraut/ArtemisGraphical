@@ -385,7 +385,6 @@ function ajaxSaveMessage(){
 
 
 function displayCriticalityTable() {
-	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
