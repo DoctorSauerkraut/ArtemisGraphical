@@ -34,7 +34,7 @@ echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter(
 echo "<td>";
 echo "<select id=\"wcttcompute\">";
 
-$wcttModels = array("STR", "LIN20", "LIN40", "LIN60", "LIN80", "GAU20", "GAU40", "GAU50", "GAU60", "GAU80", "GCO20", "GCO40", "GCO50", "GCO60", "GCO80", "STRPROB");
+$wcttModels = array("STR", "LIN20", "LIN40", "LIN60", "LIN80", "GAU20", "GAU40", "GAU50", "GAU60", "GAU80", "GCO20", "GCO40", "GCO50", "GCO60", "GCO80", "GAP20", "GAP40", "GAP50", "GAP60", "GAP80", "STRPROB");
 
 foreach($wcttModels as $model) {
     echo "<option value=\"$model\" ";   

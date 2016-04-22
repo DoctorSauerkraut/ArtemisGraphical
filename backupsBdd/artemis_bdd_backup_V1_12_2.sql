@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:8889
--- Généré le :  Mar 05 Mai 2015 à 10:44
+-- Généré le :  Mer 20 Avril 2016 à 08:55
 -- Version du serveur :  5.5.34
 -- Version de PHP :  5.5.10
 
@@ -19,6 +19,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `artemis`
 --
+CREATE DATABASE IF NOT EXISTS `artemis` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `artemis`;
 
 -- --------------------------------------------------------
 
@@ -26,12 +28,13 @@ SET time_zone = "+00:00";
 -- Structure de la table `config`
 --
 
-CREATE TABLE IF NOT EXISTS `config` (
+CREATE TABLE `config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL DEFAULT '0',
   `key` varchar(60) NOT NULL,
   `value` varchar(60) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=176 ;
 
 -- --------------------------------------------------------
 
@@ -39,12 +42,12 @@ CREATE TABLE IF NOT EXISTS `config` (
 -- Structure de la table `critlevels`
 --
 
-CREATE TABLE IF NOT EXISTS `critlevels` (
+CREATE TABLE `critlevels` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `code` varchar(2) NOT NULL,
   `name` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -52,12 +55,13 @@ CREATE TABLE IF NOT EXISTS `critlevels` (
 -- Structure de la table `critswitches`
 --
 
-CREATE TABLE IF NOT EXISTS `critswitches` (
+CREATE TABLE `critswitches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL DEFAULT '0',
   `time` int(11) DEFAULT NULL,
   `level` varchar(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -65,12 +69,13 @@ CREATE TABLE IF NOT EXISTS `critswitches` (
 -- Structure de la table `link`
 --
 
-CREATE TABLE IF NOT EXISTS `link` (
+CREATE TABLE `link` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL,
   `node1` int(11) NOT NULL,
   `node2` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=537 ;
 
 -- --------------------------------------------------------
 
@@ -78,13 +83,14 @@ CREATE TABLE IF NOT EXISTS `link` (
 -- Structure de la table `message`
 --
 
-CREATE TABLE IF NOT EXISTS `message` (
+CREATE TABLE `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL DEFAULT '0',
   `path` varchar(255) NOT NULL,
   `period` int(11) NOT NULL,
   `offset` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=207 ;
 
 -- --------------------------------------------------------
 
@@ -92,13 +98,29 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- Structure de la table `node`
 --
 
-CREATE TABLE IF NOT EXISTS `node` (
+CREATE TABLE `node` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL DEFAULT '0',
   `name` varchar(25) NOT NULL,
   `ip_address` int(11) NOT NULL,
   `scheduling` varchar(25) NOT NULL DEFAULT 'FIFO',
+  `displayed` tinyint(1) NOT NULL DEFAULT '0',
+  `speed` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=659 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `simulations`
+--
+
+CREATE TABLE `simulations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_simu` int(11) NOT NULL,
+  `id_session` varchar(100) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10056 ;
 
 -- --------------------------------------------------------
 
@@ -106,13 +128,13 @@ CREATE TABLE IF NOT EXISTS `node` (
 -- Structure de la table `wcets`
 --
 
-CREATE TABLE IF NOT EXISTS `wcets` (
+CREATE TABLE `wcets` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_msg` int(11) NOT NULL,
   `id_clvl` int(11) NOT NULL,
   `value` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=231 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
