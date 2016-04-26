@@ -22,8 +22,7 @@ body {
 }
 
 #header {
-	max-width: 1200px;
-	min-width: 100%;
+	width: auto;
 	padding:0px;
 	margin: 0px 0px 0px 0px;
 	padding-left:0px;
@@ -47,8 +46,7 @@ h3{
 }
 
 #titre {
-	padding-left:200px;
-	width: 60%;
+	width: auto;
 	/* margin: auto; */
 	text-align: center;
 	height:40%;
@@ -61,6 +59,7 @@ a{
 }
 
 #corps {
+	display: block;
 	width: 100%;
 	height: 80%;
 	color: #202030;
@@ -221,10 +220,9 @@ div.table_description {
 	bottom: 19%;
 }
 
-.tableShow {
-	display:inline-block; 
+.tableShow { 
 	vertical-align: top;
-	float:center;
+	margin: 0 auto;
 	font-family: Verdana, Georgia, sans-serif;
 	border-collapse: collapse;
 	font-size: 12px;
@@ -245,14 +243,13 @@ div.table_description {
 .tableShow td input[type="text"]{
 	min-width: 15px;
 	max-width:40px;
-	text-align:left;
+	text-align: center;
 }
 .redcase {
 	background: red !important;	
 }
 
 .tableShow th{
-
 	text-align: center;
 	border: 2px solid white;
 	padding:5px;
@@ -260,6 +257,7 @@ div.table_description {
 	background: #202030;
 }
 caption {
+	text-align: center;
 	font-size: x-large;
 	font-family: verdana, sans-serif;
 	padding-bottom: 20px;
@@ -276,12 +274,12 @@ caption {
 .tabledetailsdiv {
     z-index:110;
 	width:100%;
-	max-width: 1200px;
+	/*max-width: 1200px;*/
 	min-height: 300px;
 	height: auto;
 	margin-bottom:50px;
 	/*padding-top: 50px;*/
-	text-align:center;
+	text-align: center;
 }
 
 #results img {
@@ -337,10 +335,10 @@ caption {
 	width:60px;
 	border-radius:0em 2em 0em 0em;
 	border-left:2px solid black;
-		background: -webkit-linear-gradient(#FF3333, #FF3300); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#FF3333, #FF3300); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#FF3333, #FF3300); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#FF3333, #FF3300); /* Standard syntax */
+	background: -webkit-linear-gradient(#FF3333, #FF3300); /* For Safari 5.1 to 6.0 */
+  	background: -o-linear-gradient(#FF3333, #FF3300); /* For Opera 11.1 to 12.0 */
+  	background: -moz-linear-gradient(#FF3333, #FF3300); /* For Firefox 3.6 to 15 */
+  	background: linear-gradient(#FF3333, #FF3300); /* Standard syntax */
 
 }
 
@@ -360,9 +358,9 @@ caption {
 }
 
 .button {
-	border:1px solid #;
+	border:1px solid;
 	padding:5px 10px 5px 10px;
-	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7); 
+	box-shadow: -1px 2px 3px 1px rgba(0, 0, 0, 0.7); 
 	font-weight:bold;
 	margin-left:10px;
 }
@@ -380,10 +378,10 @@ caption {
   background: linear-gradient(#33CC33, #33FF66); /* Standard syntax */
 }
 .red {
-	background: -webkit-linear-gradient(#FF3333, #FF3300); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#FF3333, #FF3300); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#FF3333, #FF3300); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#FF3333, #FF3300); /* Standard syntax */
+	background: -webkit-linear-gradient(#FF3333, #FF8888); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#FF3333, #FF8888); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#FF3333, #FF8888); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#FF3333, #FF8888); /* Standard syntax */
 }
 
 .button:hover {
@@ -396,7 +394,8 @@ caption {
 }
 
 #critLevelsTable {
-	margin-left:20px;
+	text-align: center;
+	width: auto;
 }
 
 .nodebox {
@@ -413,5 +412,4 @@ caption {
 .nodebox:hover {
 	opacity:0.8;
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4); 
-
 }

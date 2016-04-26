@@ -72,11 +72,18 @@
 		/* Getting general settings */
 		$timeLimit	= (isset($_POST["time"]) && $_POST["time"] != "") ? $_POST["time"]:0;
 		$eLatency 	= (isset($_POST["elatency"]) && $_POST["elatency"] != "") ? $_POST["elatency"]:0;
-        $wcttcompute = (isset($_POST["wcttcompute"]) && $_POST["wcttcompute"] != "") ? $_POST["wcttcompute"]:"STR";
+        $wcttmodel = (isset($_POST["wcttmodel"]) && $_POST["wcttmodel"] != "") ? $_POST["wcttmodel"]:"STR";
+        $wcttrate = (isset($_POST["wcttrate"]) && $_POST["wcttrate"] != "") ? $_POST["wcttrate"]:10;
+        $switch = (isset($_POST["switch"]) && $_POST["switch"] != "") ? $_POST["switch"]:"STR";
+        $protocol = (isset($_POST["protocol"]) && $_POST["protocol"] != "") ? $_POST["protocol"]:10;
 
 		Settings::save("timelimit", $timeLimit, $simuKey);
 		Settings::save("elatency", $eLatency, $simuKey);
-        Settings::save("wcttcompute", $wcttcompute, $simuKey);
+        Settings::save("wcttmodel", $wcttmodel, $simuKey);
+        Settings::save("wcttrate", $wcttrate, $simuKey);
+        Settings::save("switch", $switch, $simuKey);
+        Settings::save("protocol", $protocol, $simuKey);
+
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -232,7 +239,11 @@
 		$timeLimit 	  = Settings::getParameter("timelimit", $simuKey);
 		$eLatency 	  = Settings::getParameter("elatency", $simuKey);
 		$autogen 	  = Settings::getParameter("autogen", $simuKey);
-		$wcttCompute  = Settings::getParameter("wcttcompute", $simuKey);
+		$wcttmodel    = Settings::getParameter("wcttmodel", $simuKey);
+		$wcttrate     = Settings::getParameter("wcttrate", $simuKey);
+		$switch 	  = Settings::getParameter("switch", $simuKey);
+        $protocol	  = Settings::getParameter("protocol", $simuKey);
+
 
 		if($autogen == 0) {
 			$highestwcet	= Settings::getParameter("highestwcet", $simuKey);
@@ -242,6 +253,10 @@
 		
 		Settings::save("startgraphtime", 0, $simuKey);
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
+
+		echo '<script language="javascript">';
+echo 'alert("juste avant      ")';
+echo '</script>';
 	
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
@@ -405,13 +420,18 @@
         $highestwcet	= Settings::getParameter("highestwcet", $simuKey);
         $autotasks 		= Settings::getParameter("autotasks", $simuKey);
         $autoload		= Settings::getParameter("autoload", $simuKey);
+        $wcttrate 		= Settings::getParameter("wcttrate", $simuKey);
+        $wcttmodel		= Settings::getParameter("wcttmodel", $simuKey);
+        $switch 		= Settings::getParameter("switch", $simuKey);
+        $protocol		= Settings::getParameter("protocol", $simuKey);
         
-        include("Templates/globalconfig.php");
+        include("./Templates/globalconfig.php");
+        include('./Templates/network.php');
         
         $command = "java -jar artemis_messages.jar ".$simuKey;
 		exec($command, $output);  
         
-       $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
+        $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
         if($file === FALSE) {
             echo "->".$command;
             return;

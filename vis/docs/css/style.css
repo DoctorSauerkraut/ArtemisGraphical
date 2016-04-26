@@ -55,6 +55,7 @@ a:visited {
 a:hover {
   color: red;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 table {

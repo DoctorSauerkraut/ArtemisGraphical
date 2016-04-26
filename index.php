@@ -50,7 +50,7 @@
 						<li id="link-mixedc" class="menuitem" onclick="loadContent('mixedc')">
 							Criticality
 						</li>
-					<!--	<li id="link-settings" class="menuitem" onclick="loadContent('settings')">
+					<!-- <li id="link-settings" class="menuitem" onclick="loadContent('settings')">
 							Settings
 						</li> -->
 						<li id="link-results" class="menuitem" onclick="popup('popupConfirmSimu')">

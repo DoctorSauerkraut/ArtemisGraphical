@@ -21,31 +21,84 @@
 				}
 			}
 
+	//////////// SETTINGS MODELE, RATE, PROTOCOL, SWITCH ///////////////////
+
     echo "<table class=\"tableShow\">";
    echo "<tr>";
    
 echo "<tr><td>Simulation Time</td>";
 echo "<td>Electronical latency</td>";
 echo "<td>WCTT computation model</td>";
+echo '<td>WCTT computation rate</td>';
+echo '<td>Switch</td>';
+echo '<td>Protocol</td>';
 echo "<td>Save</td></tr>";
 
 echo "<tr><td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit", $_SESSION["simuid"])."\"/> ms</td>";
 echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency", $_SESSION["simuid"])."\"/> ms</td>";
 echo "<td>";
-echo "<select id=\"wcttcompute\">";
+echo "<select id=\"wcttmodel\">";
 
-$wcttModels = array("STR", "LIN20", "LIN40", "LIN60", "LIN80", "GAU20", "GAU40", "GAU50", "GAU60", "GAU80", "GCO20", "GCO40", "GCO50", "GCO60", "GCO80", "GAP20", "GAP40", "GAP50", "GAP60", "GAP80", "STRPROB");
+$wcttModels = array("STR", "LIN", "GAU", "GCO", "GAP");
 
 foreach($wcttModels as $model) {
     echo "<option value=\"$model\" ";   
-if(Settings::getParameter("wcttcompute", $_SESSION["simuid"]) == $model) {
+if(Settings::getParameter("wcttmodel", $_SESSION["simuid"]) == $model) {
     echo " selected=\"selected\" ";
 }
 echo ">$model</option>";
 }
-
 echo "</select>";
 echo "</td>";
+
+
+echo "<td>";
+echo "<select id=\"wcttrate\">";
+
+$wcttRates = array(10, 20, 30, 40, 50, 60, 70, 80, 90);
+
+foreach($wcttRates as $rate) {
+    echo "<option value=\"$rate\" ";   
+if(Settings::getParameter("wcttrate", $_SESSION["simuid"]) == $rate) {
+    echo " selected=\"selected\" ";
+}
+echo ">$rate</option>";
+}
+echo "</select>";
+echo "</td>";
+
+
+echo "<td>";
+echo "<select id=\"switch\" style=\"width:115px\" onclick=\"correction();\">";
+
+$swits = array("Static", "Dynamic");
+
+foreach($swits as $sw) {
+    echo "<option value=\"$sw\" ";   
+if(Settings::getParameter("switch", $_SESSION["simuid"]) == $sw) {
+    echo " selected=\"selected\" ";
+}
+echo ">$sw</option>";
+}
+echo "</select>";
+echo "</td>";
+
+
+echo "<td>";
+echo "<select id=\"protocol\" style=\"width:115px\" onclick=\"notAllowed();\">";
+
+$protos = array("Centralized", "Decentralized");
+
+foreach($protos as $proto) {
+    echo "<option value=\"$proto\" ";   
+if(Settings::getParameter("protocol", $_SESSION["simuid"]) == $proto) {
+    echo " selected=\"selected\" ";
+}
+echo ">$proto</option>";
+}
+echo "</select>";
+
+
 echo "<td><a class=\"button blue\" onclick=\"saveSettings()\">Save</a></td></tr></table>";
 
 

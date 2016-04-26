@@ -1,10 +1,8 @@
 <?php
-
 /* General configuration */
 	$simuConfigDom = new DomDocument();
 	
 	$simuConfig = $simuConfigDom->createElement("Config");
-
 	$timeLimitTag=$simuConfigDom->createElement("time-limit");
 	$timeLimitTag->appendChild($simuConfigDom->createTextNode($timeLimit));
 	$simuConfig->appendChild($timeLimitTag);
@@ -12,10 +10,22 @@
 	$eLatencyTag=$simuConfigDom->createElement("elatency");
 	$eLatencyTag->appendChild($simuConfigDom->createTextNode($eLatency));
 	$simuConfig->appendChild($eLatencyTag);
+
+	$wcttModelTag=$simuConfigDom->createElement("wcttmodel");
+	$wcttModelTag->appendChild($simuConfigDom->createTextNode($wcttmodel));
+	$simuConfig->appendChild($wcttModelTag);
 	
-    $wcttComputeTag=$simuConfigDom->createElement("wcttcompute");
-	$wcttComputeTag->appendChild($simuConfigDom->createTextNode($wcttCompute));
-	$simuConfig->appendChild($wcttComputeTag);
+    $wcttRateTag=$simuConfigDom->createElement("wcttrate");
+	$wcttRateTag->appendChild($simuConfigDom->createTextNode($wcttrate));
+	$simuConfig->appendChild($wcttRateTag);
+
+	$switchTag=$simuConfigDom->createElement("switch");
+	$switchTag->appendChild($simuConfigDom->createTextNode($switch));
+	$simuConfig->appendChild($switchTag);
+
+	$protocoleTag=$simuConfigDom->createElement("protocol");
+	$protocoleTag->appendChild($simuConfigDom->createTextNode($protocole));
+	$simuConfig->appendChild($protocoleTag);
     
 	$eAutogenTag=$simuConfigDom->createElement("autogen");
 	$eAutogenTag->appendChild($simuConfigDom->createTextNode($autogen));
@@ -36,19 +46,18 @@
 	}
 	
 	/* MC management */
-	$critSwitches = $simuConfigDom->createElement("CritSwitches");
-	$simuConfig->appendChild($critSwitches);
+	$critswitchs = $simuConfigDom->createElement("Critswitchs");
+	$simuConfig->appendChild($critswitchs);
 	
 	$req = CriticalitySwitch::load($simuKey);
 	
-	while($switches = $req->fetch()) {
+	while($switchs = $req->fetch()) {
 		$critSwitch = $simuConfigDom->createElement("critswitch");
-		$critSwitch->setAttribute("time", $switches["time"]);
-		$critSwitch->appendChild($simuConfigDom->createTextNode($switches["level"]));
+		$critSwitch->setAttribute("time", $switchs["time"]);
+		$critSwitch->appendChild($simuConfigDom->createTextNode($switchs["level"]));
 		
-		$critSwitches->appendChild($critSwitch);
+		$critswitchs->appendChild($critSwitch);
 	}
 	$simuConfigDom->appendChild($simuConfig);
-
     $simuConfigDom->save("ressources/".$simuKey.'/input/config.xml');
 ?>
