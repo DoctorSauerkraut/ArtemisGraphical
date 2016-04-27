@@ -1,9 +1,9 @@
 <?php
 
-echo "Crédits<br />";
-echo "Modélisation : O.Cros<br />";
+echo "Credits<br />";
+echo "Modelization and Simulation : O.Cros<br />";
 
 echo "Artemis Core : O. Cros<br />";
 
-echo "Interface : O. Cros et L. Teilhac<br />";
+echo "GUI : O. Cros & L. Teilhac<br />";
 ?>
