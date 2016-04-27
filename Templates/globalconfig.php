@@ -24,7 +24,7 @@
 	$simuConfig->appendChild($switchTag);
 
 	$protocoleTag=$simuConfigDom->createElement("protocol");
-	$protocoleTag->appendChild($simuConfigDom->createTextNode($protocole));
+	$protocoleTag->appendChild($simuConfigDom->createTextNode($protocol));
 	$simuConfig->appendChild($protocoleTag);
     
 	$eAutogenTag=$simuConfigDom->createElement("autogen");
