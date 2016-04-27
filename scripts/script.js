@@ -486,11 +486,25 @@ function generateMessagesSet() {
     $.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:"action=generateMessagesSet&autogen="+autogen+"&highestwcet="+hwcet+"&autoload="+autoload+"&autotasks="+tasks,
+		data:"action=generateMessagesSet"+"&autogen="+autogen+"&highestwcet="+hwcet+"&autoload="+autoload+"&autotasks="+tasks,
 		success:function(data){
             closePopup();
             alert(data);
             loadContent("messages");
 		}
+
 	});	
+}
+
+function notAllowed(){
+	if(document.getElementById('protocol').value=='Decentralized' && document.getElementById('switch').value=='Static') {
+		(document.getElementById('switch').value='Dynamic');
+		alert('You can\'t choose both \"Switch: Static\" and \"Protocole: Decentralized\"');
+	}
+}
+
+function correction(){
+	if(document.getElementById('switch').value=='Static'){
+		document.getElementById('protocol').value='Centralized';
+	}
 }

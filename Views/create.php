@@ -1,5 +1,5 @@
 
-	<!------------------------ GRAPH POP UP  ------------------------->
+	<!------------------ GRAPH POP UP  -------------->
 	<table class="tableShow">
         <tr>
             <td>Automatic topology generation</td>
