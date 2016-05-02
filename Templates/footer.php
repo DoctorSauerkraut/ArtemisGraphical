@@ -7,7 +7,8 @@
             3e chiffre : modification de la GUI mineure
             4e chiffre : Correction de bugs
     -->
-	<p>Artemis v1.13.3.0 - Feedback : cros@ece.fr - <a onclick="loadContent('credits')">Cr&eacute;dits</a></p> 
+
+	<p>Artemis v1.14.3.0 - Feedback : cros@ece.fr - <a onclick="loadContent('credits')">Credits</a></p>
 	<p id="numSimu">
 	<?php 
 		echo ' - Simulation n° '.$_SESSION['simuid'];
