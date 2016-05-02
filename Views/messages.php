@@ -71,14 +71,14 @@ echo "</td>";
 echo "<td>";
 echo "<select id=\"switch\" style=\"width:115px\" onclick=\"correction();\">";
 
-$swits = array("Static", "Dynamic");
+$swits = array("Static"=>"S", "Dynamic"=>"D");
 
-foreach($swits as $sw) {
+foreach($swits as $key=>$sw) {
     echo "<option value=\"$sw\" ";   
 if(Settings::getParameter("switch", $_SESSION["simuid"]) == $sw) {
     echo " selected=\"selected\" ";
 }
-echo ">$sw</option>";
+echo ">$key</option>";
 }
 echo "</select>";
 echo "</td>";
@@ -101,7 +101,7 @@ echo "</select>";
 
 echo "<td><a class=\"button blue\" onclick=\"saveSettings()\">Save</a></td></tr></table>";
 
-
+/*
 // Automatic task generation table
 echo "<table class=\"tableShow\"><tr>";
 echo "<td>Automatic task generation</td>";
@@ -127,6 +127,7 @@ echo "<td>Generate</td></tr>";
     
 echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a></td></tr>";
     echo "</table>";
+    */
 ?>
 	   
 		<div class="tabledetailsdiv" id="tabledetailsmessages">

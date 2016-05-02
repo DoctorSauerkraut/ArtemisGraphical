@@ -32,9 +32,9 @@
 		</div>
 		<div id="menu"> 
 					<ul id="menuitems">
-					<!--	<li id="link-sims" class="menuitem" onclick="loadContent('simus')">
+						<li id="link-simus" class="menuitem" onclick="loadContent('simus')">
 							Simulations
-						</li>-->
+						</li>
 						<li id="link-create" class="menuitem" onclick="loadCreate()">
 							Network
 						</li>
@@ -60,7 +60,6 @@
 			</div>
 		<div id="grayer" onclick="closePopup()"></div>
 		<div id="popup"></div>
-	
 		<div id="corps">
 		</div>
 		<?php  

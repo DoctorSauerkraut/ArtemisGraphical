@@ -16,6 +16,7 @@
 	$ret = create_session($id);
 	$manager->setSimuId($_SESSION["simuid"]);
 	$simuKey = $_SESSION["simuid"];
+
 	
 	/* Selecting actions */
 	if($action_server == "") {
@@ -38,13 +39,45 @@
 			$info=substr($info,0,-1);
 			$info=$info.";";	
 			echo ($info);		
-			
-			
-			/*$id = session_id();
-			$ret = create_session($id);
-			$manager->setSimuId($_SESSION["simuid"]);
-			$manager->setSessionId($id);*/
 		}
+	}
+	else if($action_server=="select_simu"){
+		$_SESSION['id_sel']=$_POST["id_sel"];
+		$id=getSessionId();
+		$ret = create_session($id);
+		$manager->setSimuId($_SESSION["simuid"]);
+	}	
+	else if($action_server=="delete_simu"){
+		$id_sel=$_POST["id_sel"];
+		// suppression des simulations et de tous les éléments associés dans la base de données
+		$bdd 	= connectBDD();
+		$tables=array('simulations','config','node','link','message');
+		foreach($tables as $tbl) {
+			$rq_sel='SELECT id FROM '.$tbl.' WHERE id_simu='.$id_sel;
+			$res = $bdd->query($rq_sel);
+			while($select=$res->fetch()){
+				if(isset($select)){
+					$rq_del='DELETE FROM '.$tbl.' WHERE id='.$select['id'];
+					$resu = $bdd->query($rq_del);
+					echo $tbl;
+					if($tbl=="message"){
+						$rq_del_message='DELETE FROM wcets WHERE id_msg='.$select['id'];
+						echo $rq_del;
+						$resultats = $bdd->query($rq_del_message);
+					}
+				}
+			}
+		}
+		$fileToDel='./ressources/'.$id_sel;
+		if(file_exists($fileToDel)){
+			$dir_iterator = new RecursiveDirectoryIterator($fileToDel, RecursiveDirectoryIterator::SKIP_DOTS);;
+			$iterator = new RecursiveIteratorIterator($dir_iterator, RecursiveIteratorIterator::CHILD_FIRST);
+			foreach($iterator as $fichier){
+				$fichier->isDir() ? rmdir($fichier) : unlink($fichier);
+			}
+			rmdir($fileToDel);
+		}
+		
 	}
 	else if($action_server=="displayCritTable"){
 		include("./Views/criticalityTable.php");
@@ -535,7 +568,6 @@ echo '</script>';
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-        
         include('./Templates/networkxml.php');
 	}
 ?>		

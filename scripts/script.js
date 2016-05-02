@@ -496,15 +496,53 @@ function generateMessagesSet() {
 	});	
 }
 
+// attribution d'une nouvelle simulation, et actualisation du numéro de simulation dans le footer
+function select_simu(id_sel){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=select_simu"+"&id_sel="+id_sel,
+		success:function(data){
+			document.getElementById("numSimu").innerHTML = ' - Simulation n° '+id_sel;
+			loadContent('simus');
+		}
+	});
+}
+
+// création d'une nouvelle simulation, et actualisation du numéro de simulation dans le footer
+function new_simu(id_simu){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=select_simu&id_sel=0",
+		success:function(data){
+			document.getElementById("numSimu").innerHTML = ' - Simulation n° '+id_simu;
+			loadContent('simus');
+		}
+	});
+}
+
+function delete_simu(id_sel){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=delete_simu&id_sel="+id_sel,
+		success:function(data){
+			loadContent('simus');
+		}
+	});
+}
+
 function notAllowed(){
-	if(document.getElementById('protocol').value=='Decentralized' && document.getElementById('switch').value=='Static') {
-		(document.getElementById('switch').value='Dynamic');
+	if(document.getElementById('protocol').value=='Decentralized' && document.getElementById('switch').value=='S') {
+		(document.getElementById('switch').value='D');
 		alert('You can\'t choose both \"Switch: Static\" and \"Protocole: Decentralized\"');
 	}
 }
 
+
 function correction(){
-	if(document.getElementById('switch').value=='Static'){
+	if(document.getElementById('switch').value=='S'){
 		document.getElementById('protocol').value='Centralized';
 	}
 }

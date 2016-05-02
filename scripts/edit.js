@@ -67,7 +67,7 @@ function saveSettings() {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'saveSettings'+'&time='+time+'&elatency='+latency+"&wcttmodel="+wcttmodel+"&wcttrate="+wcttrate+"&switch="+switchs+"&protocol="+protocol,
+		data:'action='+'saveSettings&time='+time+'&elatency='+latency+"&wcttmodel="+wcttmodel+"&wcttrate="+wcttrate+"&switch="+switchs+"&protocol="+protocol,
 		success:function(data){
 			loadContent('messages');
 		},

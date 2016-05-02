@@ -11,10 +11,12 @@
 	height: 100%;
 	transition: width 2s;
 	z-index:101;
+	border: 2px solid lightgray;
+	position:fixed;
 }
 
 #menu:hover{
-	opacity:0.9;
+	opacity:1;
 	width:10%;
 	transition: width 1s;
 	transition-timing-function: ease-in-out;
@@ -24,7 +26,7 @@
 {
 	margin:0px;
 	padding:0px;
-	padding-left:3px;
+	padding-left:5px;
 	width:100%;
 	list-style-type: none;
 	list-style-position: inside;
@@ -35,7 +37,7 @@
 	margin-top:20px;
 	width:100%;
 	height:100%;
-	border: 1px solid lightgray;
+	border-bottom: 2px solid lightgray;
 	text-align: center;
 	margin:0px;
 	margin-left: -5px;
@@ -50,6 +52,7 @@
 	background-color: #000050;
 	font-weight: bold;
 	font-size: 15px;
+	cursor: pointer;
 }
 
 #menu li:active{
