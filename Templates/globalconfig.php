@@ -3,10 +3,15 @@
 	$simuConfigDom = new DomDocument();
 	
 	$simuConfig = $simuConfigDom->createElement("Config");
+
 	$timeLimitTag=$simuConfigDom->createElement("time-limit");
 	$timeLimitTag->appendChild($simuConfigDom->createTextNode($timeLimit));
 	$simuConfig->appendChild($timeLimitTag);
 	
+    $wcAnalysisTag=$simuConfigDom->createElement("wcanalysis");
+	$wcAnalysisTag->appendChild($simuConfigDom->createTextNode($wcAnalysis));
+	$simuConfig->appendChild($wcAnalysisTag);
+
 	$eLatencyTag=$simuConfigDom->createElement("elatency");
 	$eLatencyTag->appendChild($simuConfigDom->createTextNode($eLatency));
 	$simuConfig->appendChild($eLatencyTag);
@@ -14,7 +19,7 @@
 	$wcttModelTag=$simuConfigDom->createElement("wcttmodel");
 	$wcttModelTag->appendChild($simuConfigDom->createTextNode($wcttmodel));
 	$simuConfig->appendChild($wcttModelTag);
-	
+
     $wcttRateTag=$simuConfigDom->createElement("wcttrate");
 	$wcttRateTag->appendChild($simuConfigDom->createTextNode($wcttrate));
 	$simuConfig->appendChild($wcttRateTag);

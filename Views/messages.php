@@ -27,6 +27,7 @@
    echo "<tr>";
    
 echo "<tr><td>Simulation Time</td>";
+echo "<td>Worst-case analysis</td>";
 echo "<td>Electronical latency</td>";
 echo "<td>WCTT computation model</td>";
 echo '<td>WCTT computation rate</td>';
@@ -34,7 +35,28 @@ echo '<td>Switch</td>';
 echo '<td>Protocol</td>';
 echo "<td>Save</td></tr>";
 
+/* WC Analysis set */
 echo "<tr><td><input type=\"text\" id=\"timelimit\" value=\"".Settings::getParameter("timelimit", $_SESSION["simuid"])."\"/> ms</td>";
+
+echo "<td>";
+echo "<select id=\"wcanalysis\">";
+
+echo "<option value=\"true\"";
+if(Settings::getParameter("wcanalysis", $_SESSION["simuid"]) == "true") {
+    echo " selected='selected' ";
+}
+
+echo ">true</option>";
+echo "<option value=\"false\"";
+if(Settings::getParameter("wcanalysis", $_SESSION["simuid"]) != "true") {
+    echo " selected='selected' ";
+}
+
+echo ">false</option>";
+echo "</select>";
+echo "</td>";
+
+/* Electronical latency */
 echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter("elatency", $_SESSION["simuid"])."\"/> ms</td>";
 echo "<td>";
 echo "<select id=\"wcttmodel\">";

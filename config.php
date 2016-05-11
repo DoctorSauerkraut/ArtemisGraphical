@@ -1,6 +1,6 @@
 <?php 
-	$db_name="";
-	$db_user="";
-	$db_pass=""; 
-	$db_host=""; 
+	$db_name="artemis";
+	$db_user="artemisuser";
+	$db_pass="artemispass"; 
+	$db_host="localhost"; 
 ?>
