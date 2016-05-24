@@ -37,8 +37,8 @@
 				$info=$info.$element2->node1().','.$element2->node2().','.$element2->id().',';
 			}
 			$info=substr($info,0,-1);
-			$info=$info.";";	
-			echo ($info);		
+			$info=$info.";";
+			echo($info);			
 		}
 	}
 	else if($action_server=="select_simu"){
@@ -59,10 +59,8 @@
 				if(isset($select)){
 					$rq_del='DELETE FROM '.$tbl.' WHERE id='.$select['id'];
 					$resu = $bdd->query($rq_del);
-					echo $tbl;
 					if($tbl=="message"){
 						$rq_del_message='DELETE FROM wcets WHERE id_msg='.$select['id'];
-						echo $rq_del;
 						$resultats = $bdd->query($rq_del_message);
 					}
 				}
@@ -79,6 +77,7 @@
 		}
 		
 	}
+
 	else if($action_server=="displayCritTable"){
 		include("./Views/criticalityTable.php");
 	}		
@@ -156,16 +155,13 @@
 		$path 	= $_POST["path"];
 		$offset = $_POST["offset"];
 		$period = $_POST["period"];
-		
-		$wcetStr= $_POST["wcetStr"];
-		 
+		$color = $_POST['color'];
+		$wcetStr = (isset($_POST["wcetStr"]) && $_POST["wcetStr"] != "NC=:") ? $_POST["wcetStr"]:"NC=0:";
 		$message = new Message();
 		
 		$newpath = $manager->verrifyPath($path);
-		
 		if ($newpath != ""){
-			$insertedId = $manager->addMessage($newpath,$period,$offset);
-			
+			$insertedId = $manager->addMessage($newpath,$period,$offset,$color);
 			if($insertedId != "") {
 				$msg = new Message();
 				$msg->setId($insertedId);
@@ -173,7 +169,6 @@
 				/* Getting all the wctts sent by the server */
 				$critLvls = split(":", $wcetStr);
 				$cptStr = 0;
-				
 				while($critLvls[$cptStr] != "") {
 					$critLvl	= split("=", $critLvls[$cptStr])[0]; 
 					$wcet 		= split("=", $critLvls[$cptStr])[1]; 	
@@ -186,6 +181,7 @@
 			}else {
 				echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";
 			}
+
 			
 	}else if ($action_server=="deleteNode"){
 	
@@ -235,6 +231,7 @@
 		$list_nodes= $manager->displayListNode($simuKey);	
 		$donnees2= $manager->displayListLink($simuKey);	
 		$listMessages= $manager->displayListMessage($simuKey);	
+		
 		
 		/* Parsing the path string */
 		foreach ($listMessages as $singleMessage) {
@@ -288,14 +285,12 @@
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
 
 		echo '<script language="javascript">';
-echo 'alert("juste avant      ")';
-echo '</script>';
-	
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
         
         $command = "java -jar artemis_launcher.jar ".$simuKey;
-	    exec($command, $output);
+	    var_dump(exec($command, $output));
+	    
 
 	   include_once('./Views/results.php'); 
 	

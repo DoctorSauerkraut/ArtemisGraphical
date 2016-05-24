@@ -61,7 +61,22 @@ function popup(popupFunction) {
 				else {
 					openPopup();
 					document.getElementById("popup").innerHTML = data;
+					updateMenuStyle("link-results");
 				}
+			}
+		});
+}
+
+function confirmDelSimu(id_sel) {
+		closePopup();
+		
+		$.ajax({
+			url:"popup.php",
+			type:"post",
+			data:'popupFunction=confirmDelSimu&id_sel='+id_sel+'&titre=Delete the simulation',
+			success:function(data){
+				openPopup();
+				document.getElementById("popup").innerHTML = data;
 			}
 		});
 }
@@ -340,6 +355,9 @@ function saveMessage() {
 }
 
 function addMessageTable(idArray) {
+	alert('ok');
+	alert(document.getElementById('inputColor').value);
+	alert(document.getElementById('thecolor').value);
 	/* Building wcet list */
 	var wcetStr = "";
 	
@@ -359,7 +377,7 @@ function addMessageTable(idArray) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr,
+		data:'action='+'addMessage'+'&path='+document.getElementById('path').value+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('thecolor').value+document.getElementById('inputColor').value,
 		success:function(data){
 			data=data.trim();
 
@@ -522,7 +540,9 @@ function new_simu(id_simu){
 	});
 }
 
+// suppression d'une simulation et des éléments associés
 function delete_simu(id_sel){
+	closePopup();
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
@@ -532,6 +552,62 @@ function delete_simu(id_sel){
 		}
 	});
 }
+
+function export_simu(id_sel){
+	closePopup();
+	$.ajax({
+			url:"popup.php",
+			type:"post",
+			data:'popupFunction=confirmExportSimu&titre=Export a simulation&id_sel='+id_sel,
+			success:function(data){
+				openPopup();
+				document.getElementById("popup").innerHTML = data;
+			}
+		});
+}
+
+function activeInputFiles(){
+	var monImport = document.getElementById('importSimu');
+	monImport.click();
+	$.ajax({
+			url:"popup.php",
+			type:"post",
+			data:'popupFunction=confirmImportSimu&titre=Import a simulation',
+			success:function(data){
+				openPopup();
+				document.getElementById("popup").innerHTML = data;
+			}
+		});;
+}
+
+function import_simu(){
+	closePopup();
+	var monImport = document.getElementById('importSimu');
+	if(monImport.value != ""){
+		document.getElementById('submitImport').click();
+	}else{
+		// alert(monImport.value);
+		import_simu();
+	}
+}
+
+function verifyFile(){
+	var monImport = document.getElementById('importSimu').value;
+	if (monImport.substr(monImport.lastIndexOf('\\')+1,11)!="export_simu"){
+		$.ajax({
+			url:"popup.php",
+			type:"post",
+			data:'popupFunction=wrongFile&titre=Wrong File',
+			success:function(data){
+				openPopup();
+				document.getElementById("popup").innerHTML = data;
+			}
+		});
+	}else{
+		import_simu();
+	}
+}
+
 
 function notAllowed(){
 	if(document.getElementById('protocol').value=='Decentralized' && document.getElementById('switch').value=='S') {
@@ -545,4 +621,32 @@ function correction(){
 	if(document.getElementById('switch').value=='S'){
 		document.getElementById('protocol').value='Centralized';
 	}
+}
+
+function activeColorBox(curColor){
+	var color=document.getElementById('colorChoice');
+	if(color.style.display=="none"){
+		color.style.display='block';
+		document.getElementById('inputColor').value="#";
+	}
+	else{
+		color.style.display='none';
+		document.getElementById('activeColorBox').style.backgroundColor='#'+curColor;
+		document.getElementById('thecolor').value='#'+curColor;
+		document.getElementById('inputColor').value='';
+	}
+}
+
+function deactivateRadio(){
+	var color=document.getElementById('inputColor');
+	document.getElementById('activeColorBox').style.backgroundColor=color.value;
+	document.getElementById('thecolor').value='';
+	document.getElementById('thecolor').checked='false';
+	// if(e.keyCode == 13){
+	// 	color.style.display='none';
+	// 	document.getElementById('activeColorBox').style.backgroundColor='#'+curColor;
+	// 	document.getElementById('thecolor').value='';
+	// 	document.getElementById('thecolor').checked='false';
+	// }
+
 }

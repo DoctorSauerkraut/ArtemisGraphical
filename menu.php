@@ -16,11 +16,9 @@ session_start();
 	/* content load */
 	if($action_server=="messages" || $action_server=="links" || $action_server=="details") {
 		
-		
 		$donnees1= $manager->displayListNode($simuKey);	
 		$list_links= $manager->displayListLink($simuKey);	
 		$donnees3= $manager->displayListMessage($simuKey);
-		
 		$tabNames =[];
 		foreach ($list_links as $element){
 			$name1 = $manager->displayNode($element->node1());
@@ -30,16 +28,17 @@ session_start();
 		
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
-			
 			foreach($path as $machineName) {
 				$tempPeriod = $message->period();
+
 				if($tempPeriod == 0) {
 					$tempPeriod = 80;
 				}
 				$currentLoad = $message->wcet()/$tempPeriod;
-				
 				$machineName = trim($machineName);
-				$loadArray[$machineName] += $currentLoad;	
+
+				$loadArray[$machineName] += $currentLoad;
+
 			}
 		}
 		if($action_server == "messages") 	

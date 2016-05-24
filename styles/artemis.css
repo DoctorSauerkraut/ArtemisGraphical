@@ -79,13 +79,18 @@ a{
 	position:fixed;
 	bottom:0;
 	left:0;
-	z-index:1000;
+	z-index:100;
 }
 
 #footer p {
 	padding-top: 20px;
 	display: inline-block;
 }
+
+#footer:hover a{
+	text-decoration: underline;
+}
+
 #numSimu{
 	display: inline;
 	padding-top: 20px;
@@ -372,28 +377,55 @@ caption {
 
 .blue {
 	background: -webkit-linear-gradient(#66CCFF, #99EEFF); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#66CCFF, #99EEFF); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#66CCFF, #99EEFF); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#66CCFF, #99EEFF); /* Standard syntax */
+	background: -o-linear-gradient(#66CCFF, #99EEFF); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#66CCFF, #99EEFF); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#66CCFF, #99EEFF); /* Standard syntax */
 }
 .green {
 	background: -webkit-linear-gradient(#33CC33, #33FF66); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#33CC33, #33FF66); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#33CC33, #33FF66); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#33CC33, #33FF66); /* Standard syntax */
+	background: -o-linear-gradient(#33CC33, #33FF66); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#33CC33, #33FF66); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#33CC33, #33FF66); /* Standard syntax */
 }
 .red {
 	background: -webkit-linear-gradient(#FF3333, #FF8888); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#FF3333, #FF8888); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#FF3333, #FF8888); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#FF3333, #FF8888); /* Standard syntax */
+	background: -o-linear-gradient(#FF3333, #FF8888); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#FF3333, #FF8888); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#FF3333, #FF8888); /* Standard syntax */
+}
+
+.purple {
+	background: -webkit-linear-gradient(#CC55CC, #CC88CC); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#CC55CC, #CC88CC); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#CC55CC, #CC88CC); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#CC55CC, #CC88CC); /* Standard syntax */
+}
+
+.myst {
+	background: -webkit-linear-gradient(#22FFFF, #77FFFF); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#22FFFF, #77FFFF); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#22FFFF, #77FFFF); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#DAA520,#EFD807 ); /* Standard syntax */
+}
+
+.grey {
+	background: -webkit-linear-gradient(#AAAAAA, #DDDDDD); /* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(#AAAAAA, #DDDDDD); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(#AAAAAA, #DDDDDD); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(#AAAAAA, #DDDDDD); /* Standard syntax */
 }
 
 .button:hover {
 	box-shadow: -1px 3px 5px 1px rgba(0, 0, 0, 0.7); 
-	opacity:0.9;
+/*	opacity:0.9;*/
 	cursor: pointer;
 }
+
+.exportSimu{
+	display: block;
+	width:43px;
+	margin:30px auto 0 auto;
+} 
 #graphoptionstoolbar {
 	padding:10px;
 	height:100px;
@@ -419,4 +451,112 @@ caption {
 	opacity:0.8;
 	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4); 
 	cursor: pointer;
+}
+
+#file #divFile
+{
+    position        : relative;
+    width           : 250px;
+    text-align      : right;
+}
+ 
+#conteneurFile .inputFile
+{
+    opacity         : 0; /* pour !IE */
+    filter          : alpha(opacity=0); /* pour IE */
+    position        : absolute;
+    right           : 0;
+    top             : 0;
+}
+ 
+#conteneurFile .inputText
+{
+    border          : 1px solid #999;
+    padding         : 0px 6px;
+    background      : #def;
+    width           : 130px;
+}
+ 
+#conteneurFile span
+{
+    border          : 1px solid #def;
+    background      : #ffc;
+    width           : 80px;
+    padding         : 1px 10px;
+}
+
+#colorChoice{
+	padding-top: 60px;
+	position: absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+	float: left;
+	z-index: 1000;
+	border: 1px solid;
+	border-radius: 12px;
+	background: linear-gradient(#DDDDDD,#EEEEEE);
+}
+
+#colorChoice table{
+	margin: 5px;
+	border-spacing: 5px;
+}
+
+#colorChoice td{
+	border-spacing: 15px;
+	border-radius: 30px;
+	width: 30px; 
+	height: 30px;
+	border: 0px solid;
+	padding: 0px;
+}
+#colorChoice span{
+	display: block;
+	border-radius: 100px;
+	width: 30px;
+	height: 30px;
+}
+
+#colorChoice span:hover{
+	width:26px;
+	height: 26px;
+	border:2px solid;
+	border-color: #000000;
+	border-radius: 30px;
+}
+
+#colorChoice td label{
+	border-radius: 30px;
+	width:30px;
+	height: 30px;
+}
+
+#colorChoice input{
+	position: absolute;
+	left:-2000px;
+}
+#colorChoice input:checked + span{
+	width:26px;
+	height: 26px;
+	border:2px solid;
+	border-radius: 30px;
+}
+
+#colorChoice .inputColor{
+	border-radius: 8px;
+	max-width: 80px;
+	height: 20px;
+	padding-left: 20px;
+	text-align: left;
+	position: absolute;
+	top:0;
+	left:50%;
+	transform: translate(-50%,0);
+	margin-top: 20px;
+}
+
+.activeColorBox{
+	width:50px; 
+	height: 20px;
 }

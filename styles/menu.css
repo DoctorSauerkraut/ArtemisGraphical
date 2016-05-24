@@ -56,14 +56,14 @@
 }
 
 #menu li:active{
-	text-decoration:underline;
 	font-size: 15px;
-	background-color:#000024;
-	color: #CCFFCC;
+	background-color:#000050;
+	color: #FFFFFF;
+	text-decoration: bold;
 }
 
 .linkselected{
-	text-decoration:underline;
+	font-weight: bold;
 	text-shadow: 1px 1px 1px grey;
 	color:#202030;
 	background: linear-gradient(to right, #30AA30, #85FF85);

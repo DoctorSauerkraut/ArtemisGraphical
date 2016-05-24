@@ -1,6 +1,9 @@
 <?php
-	if(file_exists("installer/index.php")) {
-		header("Location: installer/index.php"); 
+	// if(file_exists("installer/index.php")) {
+	// 	header("Location: installer/index.php"); 
+	// }
+	if(!file_exists("config.php")){
+		header("Location: installer/formDBcreation.php");
 	}
 	session_start();
 ?>
@@ -23,8 +26,9 @@
 		<script type="text/javascript" src="./scripts/create.js"></script>
 		<script type="text/javascript" src="./scripts/edit.js"></script>
 		<script type="text/javascript" src="./scripts/settings.js"></script>
+		<link rel="icon" href="./Templates/artemisicon.png" />
     </head>
-    <body onload="loadCreate()"> 
+    <body onload="loadContent('simus')"> 
 		<div id="header">
 			<div id="titre" >
 				<h3>ARTEMIS</h3> 
@@ -63,7 +67,14 @@
 		<div id="corps">
 		</div>
 		<?php  
-			include_once('./Templates/footer.php'); 
+		include('functions.php');
+		if($_FILES['import']['name']!=''){
+			import();
+		}else{}
+		$_FILES=array();
+		$_FILES['import']['name']='';
+	
+		include_once('./Templates/footer.php'); 
 		?>
 	</body>
 </html>

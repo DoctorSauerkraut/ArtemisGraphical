@@ -1,7 +1,7 @@
 <?php
 	include("functions.php");
-
 	$titre = isset($_POST["titre"]) ? $_POST["titre"]:"Popup";
+	$id_sel= isset($_POST["id_sel"]) ? $_POST["id_sel"]:null;
 	$popupFunction = $_POST["popupFunction"];
 	
 	/* Popup Head */
@@ -25,6 +25,29 @@
 			echo "<a class=\"button red\" onclick=\"showSimulationResults()\" />No</a>";
 			echo "<a class=\"button green\" onclick=\"generate()\" />Yes</a>";
 		}
+	}
+	elseif($popupFunction == "confirmDelSimu"){
+		echo $popupHead;
+		echo "<div id=\"popupBodyText\">You're going to delete the simulation n° ".$id_sel.", would you like to continue?</div>";
+		echo "<a class=\"button red\" onclick=\"closePopup()\" />No</a>";
+		echo "<a class=\"button green\" onclick=\"delete_simu(".$id_sel.")\" />Yes</a>";
+	}
+	elseif ($popupFunction == "confirmExportSimu") {
+		echo $popupHead;
+		echo "<div id=\"popupBodyText\">You're going to export the simulation n° ".$id_sel.", would you like to continue?</div>";
+		echo "<a class=\"button red\" onclick=\"closePopup()\" />No</a>";
+		echo "<a href=\"exportsimu.php?id_sel=".$id_sel."\" class=\"button green\" onclick=\"closePopup()\" />Yes</a>";
+	}
+	elseif($popupFunction == "confirmImportSimu"){
+		echo $popupHead;
+		echo "<div id=\"popupBodyText\">You're going to import a new simulation, would you like to continue?</div>";
+		echo "<a class=\"button red\" onclick=\"closePopup()\" />No</a>";
+		echo "<a class=\"button green\" onclick=\"verifyFile()\" />Yes</a>";
+	}
+	elseif($popupFunction == "wrongFile"){
+		echo $popupHead;
+		echo "<div id=\"popupBodyText\">You have to select a ZIP archive exported from ARTEMIS to import a simulation, please verify the file and try again.</div>";
+		echo "<a href=\"index.php\" class=\"button green\" onclick=\"closePopup()\" />Ok</a>";
 	}
 	else if($popupFunction == "loadingSimu") {
 		$progress = 0;
