@@ -12,6 +12,7 @@ function saveEditedMessage(id, wcetIdTable) {
 	var pathElement 	= document.getElementById('path_'+id);
 	var periodElement 	= document.getElementById('peri_'+id);
 	var offsetElement	= document.getElementById('offs_'+id);
+	var colorElement	= document.getElementById('inputColor'+id);
 	var wcetStr = "";
 	
 	var cptId = 0;
@@ -33,6 +34,7 @@ function saveEditedMessage(id, wcetIdTable) {
 	var path 	= pathElement.childNodes[0].value;
 	var period 	= periodElement.childNodes[0].value;
 	var offset 	= offsetElement.childNodes[0].value;
+	var color 	= colorElement.value;
 	
 	if(path == undefined) {
 		path = pathElement.innerHTML;
@@ -49,7 +51,7 @@ function saveEditedMessage(id, wcetIdTable) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'editMessage'+'&id='+id+'&path='+path+'&period='+period+'&offset='+offset+"&wcetStr="+wcetStr,
+		data:'action='+'editMessage'+'&id='+id+'&path='+path+'&period='+period+'&offset='+offset+"&wcetStr="+wcetStr+"&color="+color,
 		success:function(data){
 			loadContent('messages');
 		}

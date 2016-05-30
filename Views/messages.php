@@ -140,11 +140,10 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 						echo "<th>WCTT ".$levelsTab[$cptTd]->getName()."</th>";
 					}	
 				?>
-				<th>Edit</th><th>Add</th><th>Delete</th>
+				<th>Color</th><th>Edit</th><th>Add</th><th>Delete</th>
 			</tr>
 			<?php 
 			$codeStr = "";
-			
 			foreach($donnees3 as $element){ 	
 				echo "<tr>";
 					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
@@ -163,7 +162,11 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 						if($cptTd<$cptLevels-1)
 							$codeStr .= ",";
 					}
-					
+
+					echo '<td>';
+					activeColorBox($element->id(),$element->color());
+					echo '</td>';
+
 					echo "<td>";
 					
 					/* Building js table containing all wcet-critical codes */
@@ -193,6 +196,12 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 							$codeStr .= ",";
 				}
 				
+				echo '<td>';
+				    activeColorBox('');
+				    
+				echo '</td>';
+
+
 				echo "<td>-</td>";
 				echo "<td><a class=\"button blue\" onclick=\"addMessageTable(new Array($codeStr))\" />Add</a></td>";
 				echo "<td>-</td>";

@@ -22,7 +22,6 @@
 			$lastSimu=$simulation['id_simu'];
 
 		}
-		// echo 'done dans simu: '.$_SESSION['done'];
 		?>
 		<tr><td></td><td></td>
 		<td><a class="button blue" onclick="new_simu(<?php echo $lastSimu+1; ?>)";>New</a></td>

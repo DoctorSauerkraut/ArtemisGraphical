@@ -11,6 +11,7 @@
 		private $_period;
 		private $_offset;
 		private $_wcet;
+		private $_color;
 
 		private static $_idnb=0;
 
@@ -53,6 +54,10 @@
 			return $this->wcet_("NC");
 		}
 		
+		public function color() {	
+			return $this->_color;
+		}
+
 		public function wcet_($critLvl){
 			
 			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);	
@@ -71,6 +76,10 @@
 		
 		public function setWcet($wcet) {
 			$this->_setWcet($wcet, "NC");
+		}
+
+		public function setColor($colorP) {
+			$this->_color = $colorP;
 		}
 		
 		public function getAllWcet() {

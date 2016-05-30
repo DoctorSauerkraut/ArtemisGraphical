@@ -5,7 +5,6 @@
 	$network=$networkDom->createElement("Network");
 	
 	foreach($list_nodes as $currentNode){
-       // echo "ID:".$currentNode->id()." ";
         
 		$machine=$networkDom->createElement("machine");
 		$machine->setAttribute("id", $currentNode->id());

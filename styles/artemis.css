@@ -250,11 +250,21 @@ div.table_description {
 	/* min-height: 71px; */
 }
 
-.tableShow td input[type="text"]{
+.tableShow td input{
 	min-width: 15px;
-	max-width:40px;
+	max-width:30px;
 	text-align: center;
 }
+
+.tableShow td select{
+	max-width:105px;
+	text-align: center;
+}
+
+.tableShow td a{
+	margin-left: 0;
+}
+
 .redcase {
 	background: red !important;	
 }
@@ -485,7 +495,8 @@ caption {
     padding         : 1px 10px;
 }
 
-#colorChoice{
+.colorChoice{
+
 	padding-top: 60px;
 	position: absolute;
 	top:50%;
@@ -498,12 +509,12 @@ caption {
 	background: linear-gradient(#DDDDDD,#EEEEEE);
 }
 
-#colorChoice table{
+.colorChoice table{
 	margin: 5px;
 	border-spacing: 5px;
 }
 
-#colorChoice td{
+.colorChoice td{
 	border-spacing: 15px;
 	border-radius: 30px;
 	width: 30px; 
@@ -511,14 +522,14 @@ caption {
 	border: 0px solid;
 	padding: 0px;
 }
-#colorChoice span{
+.colorChoice span{
 	display: block;
 	border-radius: 100px;
 	width: 30px;
 	height: 30px;
 }
 
-#colorChoice span:hover{
+.colorChoice span:hover{
 	width:26px;
 	height: 26px;
 	border:2px solid;
@@ -526,24 +537,24 @@ caption {
 	border-radius: 30px;
 }
 
-#colorChoice td label{
+.colorChoice td label{
 	border-radius: 30px;
 	width:30px;
 	height: 30px;
 }
 
-#colorChoice input{
+.colorChoice input{
 	position: absolute;
 	left:-2000px;
 }
-#colorChoice input:checked + span{
+.colorChoice input:checked + span{
 	width:26px;
 	height: 26px;
 	border:2px solid;
 	border-radius: 30px;
 }
 
-#colorChoice .inputColor{
+.colorChoice .inputColor{
 	border-radius: 8px;
 	max-width: 80px;
 	height: 20px;
@@ -552,11 +563,29 @@ caption {
 	position: absolute;
 	top:0;
 	left:50%;
-	transform: translate(-50%,0);
+	transform: translate(-63%,0);
 	margin-top: 20px;
 }
 
 .activeColorBox{
 	width:50px; 
-	height: 20px;
+	height: 25px;
+}
+
+.colorChoice .valideColor{
+	position: absolute;
+	top:22px;
+	left:80%;
+	width:20px;
+	height:20px;
+	background: radial-gradient(circle, #FFFFFF , #33CC33);
+	border-radius:15px;
+	border: 1px solid;
+}
+
+.colorChoice .valideColor:hover{
+	background: radial-gradient(circle, #FFFFFF , #11AA00);
+}
+.colorChoice .valideColor:active{
+	background: radial-gradient(circle, #DDDDDD , #11AA00);
 }

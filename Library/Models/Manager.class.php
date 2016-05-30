@@ -75,11 +75,9 @@ class Manager{
   public function displayNodeByName($name){
 	$sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE name = "'.$name.'"';
 	$sql .= " AND id_simu = \"".$this->simulationId."\""; 
-	
 	 $q= $this->_db->query($sql)or die (print_r($_db->errorInfo()));
 	 	 
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
-
 	 $tmp = new node();
 	 
 	 if($donnees != null){
@@ -89,8 +87,7 @@ class Manager{
 	 	return null;
 	 }
 
- }
- 
+ } 
    
  public function displayListNode($simuId){
  	$this->simulationId = $simuId;
@@ -99,7 +96,6 @@ class Manager{
  
  
  public function displayListNode_(){
- 
 	 $nodes = array();
 	 $sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node ';
 	 $sql .= "WHERE id_simu = \"".$this->simulationId."\""; 
@@ -230,9 +226,9 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
  }
 ////////////////////////////////////////////////////////     PART MESSAGES   //////////////////////////////////////////////////////
 
- public function addMessage($path, $period, $offset){
-	$sql 	= "INSERT INTO message(id_simu, path, period, offset)";
-	$sql 	.= "VALUES(\"".$this->simulationId."\", \"$path\",\"$period\", \"$offset\")";
+ public function addMessage($path, $period, $offset, $color){
+	$sql 	= "INSERT INTO message(id_simu, path, period, offset, color)";
+	$sql 	.= "VALUES(\"".$this->simulationId."\", \"$path\",\"$period\", \"$offset\",\"$color\")";
 
 	$this->_db->exec($sql);
 	 
@@ -242,12 +238,13 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 }
 
   public function deleteMessage($id){
+  	echo'del mess   ';
  	$this->_db->exec('DELETE FROM message WHERE id = '.$id);
   }
  
   public function displayMessage($id){
  $id = (int) $id;
- $sql  = 'SELECT id, path, period, offset FROM message WHERE id = '.$id;
+ $sql  = 'SELECT id, path, period, offset, color FROM message WHERE id = '.$id;
  $sql .= ' WHERE id_simu = \"'.$this->simulationId.'\"'; 
  		
  $q= $this->_db->query($sql)or die(print_r($_db->errorInfo()));
@@ -263,18 +260,16 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 
   public function displayListMessage_(){
 	$messages = array();
-	$sql  = 'SELECT id, path, period, offset FROM message ';
+	$sql  = 'SELECT id, path, period, offset, color FROM message ';
 	$sql .= 'WHERE id_simu = "'.$this->simulationId.'"';
-	
 	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
 		
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
-
-		 $tmp = new message();
-		 $tmp->hydrate($donnees);
-		 $messages[]=$tmp;
-		 
+			 $tmp = new Message();
+			 $tmp->hydrate($donnees);
+			 $messages[]=$tmp;
 		 }
+
 	return $messages;
  }
     
@@ -301,21 +296,30 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
          }
     }
 
-  public function updateMessage($id, $path, $period, $offset){
+  public function updateMessage($id, $path, $period, $offset, $color){
   
    $nodes = explode(",",$path);
+   // echo'<pre>'.print_r($nodes).'</pre>';
+   // echo 'id: '.$id.'</br>';
+   // echo 'path: '.$path.'</br>';
+   // echo 'period: '.$period.'</br>';
+   // echo 'offset: '.$offset.'</br>';
+   // echo 'color: '.$color.'</br>';
 		$newpath="";
 	foreach ($nodes as $element){
 		 $newpath = $newpath.trim($element).",";  
 	}
+
 	$newpath=substr($newpath,0,-1);
-	 $sql 	= "UPDATE MESSAGE ";
+	 $sql 	= "UPDATE message ";
 	 $sql 	.= "SET path=\"$newpath\",";
 	 $sql 	.= "period = \"$period\",";
-	 $sql 	.= "offset = \"$offset\" ";
+	 $sql 	.= "offset = \"$offset\",";
+	 $sql 	.= "color = \"$color\" ";
 	 $sql	.= "WHERE id=\"$id\"";
-	 
-	 $this->_db->exec($sql);
+	 echo $sql;
+	 $q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
+	 echo 'ok';
 }
  
 /* Check if path is correct */
@@ -329,7 +333,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 		 $newpath = $newpath.trim($element).",";  
 		}
 	$newpath=substr($newpath,0,-1);
-	
 	  $nodes = explode(",",$newpath);
 	  $nodesid=[];
 	  
@@ -343,6 +346,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	  	array_push($nodesid,$tmp->id());
 	  }
 	$donnees = $this->displayListLink_();
+
 	$counter = 0;
 
 	foreach ( $donnees as $element ){

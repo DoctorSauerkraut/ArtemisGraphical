@@ -185,9 +185,21 @@
 			
 	}else if ($action_server=="deleteNode"){
 	
-		$donnees=$manager->displayNode($_POST['id']);
-		$manager->deleteNode($_POST['id']);
+		$donnees=$manager->displayNode($_POST['id']); // recupération du noeud à supprimer
+		$messages=$manager->displayListMessage_(); // récupération des messages
+		foreach ($messages as $message) { //pour chaque message 
+			$path=$message->path(); // on récupère le path
+			$path=explode(",",$path); // on en fait un tableau 
+			foreach ($path as $node) { // pour chaque noeud du path
+				if($donnees->name()==$node){  // on regarde si le noeud à supprimer est dans le path
+					$manager->deleteMessage($message->id()); // si le noeud fait parti du path du message on supprime le message
+				}					// ca n'a aucun sens de garder un message si l'un de ses noeuds n'existe plus
+			}
+		}
+		$manager->deleteNode($_POST['id']); // suppression du noeud
 		$manager->verifyNodeDeletion($_POST['id'],$donnees->name());
+
+
 	}else if($action_server=="deleteLink"){
 	
 		$manager->deleteLink($_POST['id']);	
@@ -208,9 +220,9 @@
 		$manager->deleteMessage($idMsg);	
 		Message::deleteMessage($idMsg);
 		
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();
+		$donnees1= $manager->displayListNode_();	
+		$donnees2= $manager->displayListLink_();	
+		$donnees3= $manager->displayListMessage_();
 		$tabNames =[];
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
@@ -285,6 +297,7 @@
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
 
 		echo '<script language="javascript">';
+		
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
         
@@ -301,9 +314,8 @@
 		include('./Views/results.php');
 		
 	}else if($action_server=="editNode"){
-		
 		$manager->updateNodeS($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['speed']);
-		$donnees1= $manager->displayListNode_();	
+		$donnees1= $manager->displayListNode_();
 		$donnees2= $manager->displayListLink_();	
 		$donnees3= $manager->displayListMessage_();
 		$tabNames =[];
@@ -322,16 +334,16 @@
 		}else {
 			echo "/!\ Impossible Link, you need to create the corresponding nodes. /!\ ";
 		}
-		$donnees1= $manager->displayListNode();	
-		$donnees2= $manager->displayListLink();	
-		$donnees3= $manager->displayListMessage();
+		$donnees1= $manager->displayListNode_();	
+		$list_links= $manager->displayListLink_();	
+		$donnees3= $manager->displayListMessage_();
 		$tabNames =[];
-		foreach ($donnees2 as $element){
+		foreach ($list_links as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-		include('./Views/show.php');
+		include('./Views/links.php');
 			
 	}else if($action_server=="editMessage"){
 		/* Get infos from AJAX request */
@@ -340,13 +352,14 @@
 		$offset		= $_POST["offset"];
 		$wcetStr	= $_POST["wcetStr"];
 		$path		= $_POST["path"];
+		$color		= $_POST["color"];
 		
 		/* Verify network path */
 		$newpath = $manager->verrifyPath($path);	
 		
 		
 		if ($newpath != ""){
-			$manager->updateMessage($id,$newpath,$period,$offset);	
+			$manager->updateMessage($id,$newpath,$period,$offset,$color);	
 			echo "::".$id;
 			
 			$msg = new Message();
@@ -370,7 +383,7 @@
 		/* Reload page content */
 		$donnees1= $manager->displayListNode($simuKey);	
 		$donnees2= $manager->displayListLink($simuKey);	
-		$donnees3= $manager->displayListMessage();
+		$donnees3= $manager->displayListMessage_();
 		$tabNames =[];
 		
 		foreach ($donnees2 as $element){

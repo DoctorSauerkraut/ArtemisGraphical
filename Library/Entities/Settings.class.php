@@ -79,8 +79,6 @@ class Settings {
 			$_SESSION["simuid"] = $idSimu;
 			$simuKey = $_SESSION["simuid"];
 		}
-		// echo 'You\'re currently on the simulation n° : '.$simuKey;
-		// $_SESSION['id_sel']=null;
 		return $result;
 	}
 

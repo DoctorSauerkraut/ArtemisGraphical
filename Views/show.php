@@ -44,26 +44,29 @@
 	
 	<!---------- Nodes Table ---------->
 	<?php
+
 		/* Load computation */
 		$loadArray = array();
-		
+		$donnees3= $manager->displayListMessage_();
+
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			
 			/* Dynamic load computation */
 			foreach($path as $machineName) {
+
 				$machineName = trim($machineName);
 				/* Computing speed */
 				$machine = $manager->displayNodeByName($machineName);
 				
 				$tempPeriod = $message->period();
-				
+
 				if($tempPeriod == 0) {
 					$tempPeriod = Settings::getParameter("timelimit", $simuKey);
 				}
 				
 				$currentLoad = $message->wcet() / $tempPeriod;
-				
+
 				if($loadArray[$machineName] == "") {
 					$loadArray[$machineName] = ($currentLoad/$machine->getSpeed());
 				}
@@ -73,6 +76,8 @@
 			}
 			 
 		}
+		
+
 	?>
 	<div class="tabledetailsdiv">
 		<table class="tableShow">
@@ -91,8 +96,8 @@
 						$load = $loadArray[$name];?>
 					<td <?php if($loadArray[$name] > 1.0) {echo "class=\"redcase\"";}?>><?php echo number_format($loadArray[$name], 4); ?></td>
 					<td><?php echo $element->getSpeed()."x"; ?> </td>
-					<td style="text-align:center;"><a href="#" class="button green" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')">Edit</a></td>
-					<td style="text-align:center;"><a href="#" class="button red" onclick="deleteNode('<?php echo $element->id(); ?>')">Delete</a></td>
+					<td style="text-align:center;"><a class="button green" onclick="popupNode('<?php echo $element->id(); ?>','<?php echo $element->name(); ?>','<?php echo $element->ipAddress(); ?>','<?php echo $element->scheduling(); ?>','<?php echo $element->criticality(); ?>')">Edit</a></td>
+					<td style="text-align:center;"><a class="button red" onclick="deleteNode('<?php echo $element->id(); ?>')">Delete</a></td>
 				</tr>		
 			<?php } ?>	 
 		</table>	

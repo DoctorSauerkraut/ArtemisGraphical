@@ -3,7 +3,7 @@
 	// 	header("Location: installer/index.php"); 
 	// }
 	if(!file_exists("config.php")){
-		header("Location: installer/formDBcreation.php");
+		header("Location: installer/formDBCreation.php");
 	}
 	session_start();
 ?>

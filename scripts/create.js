@@ -19,6 +19,7 @@ var graph = null;
                 while (countNode < infoNode.length){
                     var currentGroup;
                     var name = infoNode[countNode+1];
+                    name=name.trim();
                     if(name.indexOf("S") == 0) {
                         currentGroup = 'switches';
                     }

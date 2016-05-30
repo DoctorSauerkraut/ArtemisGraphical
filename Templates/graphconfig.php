@@ -34,16 +34,18 @@ foreach($list_nodes as $node) {
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);
 
-$colorTag=$dom->createElement("color");
+$messageColor=$dom->createElement("message-color");
+
 $messages=$manager->displayListMessage($simuKey);
 
-foreach ($messages as $element) {
-	echo'okokok<pre>'.print_r($element).'</pre>';
-	echo 'color : '.$element->color().'</br>';
-	$colorTag->appendChild($dom->createTextNode($element->color()));
-	
+foreach ($messages as $element){
+	$messageTag=$dom->createElement("message");
+	$messageTag->setAttribute("id",$element->id());
+	$messageTag->setAttribute("color",$element->color());
+	$messageColor->appendChild($messageTag);
+		
 }
-$graphConfig->appendChild($colorTag);
+$graphConfig->appendChild($messageColor);
 
 if(!file_exists("ressources/".$simuKey."/input/")){
     $oldmask = umask(0);

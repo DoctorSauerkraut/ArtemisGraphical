@@ -39,6 +39,7 @@ session_start();
 
 				$loadArray[$machineName] += $currentLoad;
 
+
 			}
 		}
 		if($action_server == "messages") 	
@@ -46,9 +47,11 @@ session_start();
 			
 		if($action_server == "links") 	
 			include("./Views/links.php");
+		if($action_server == "details"){
+			include("./Views/show.php");
+		} 
 			
-		if($action_server == "details") 
-			include("./Views/show.php");	
+				
 	} 	else if($action_server=="settings") {
 		include("./Views/settings.php");
 	}	else if($action_server=="mixedc"){
