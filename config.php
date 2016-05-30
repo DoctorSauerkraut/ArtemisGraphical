@@ -1,6 +1,7 @@
 <?php 
 	$db_name="artemis";
-	$db_user="root";
-	$db_pass="toto1234"; 
+	$db_user="artemisuser";
+	$db_pass="artemispass"; 
 	$db_host="localhost"; 
 ?>
+

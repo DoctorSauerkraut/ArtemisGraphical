@@ -59,17 +59,18 @@ function saveEditedMessage(id, wcetIdTable) {
 }
 
 function saveSettings() {	
-	var time 	= $("#timelimit")[0].value;
-	var latency = $("#elatency")[0].value;
-    var wcttmodel = $("#wcttmodel")[0].value;
-    var wcttrate = $("#wcttrate")[0].value;
-    var switchs = $("#switch")[0].value;
-    var protocol = $("#protocol")[0].value;
-    
+	var time 	    = $("#timelimit")[0].value;
+	var latency     = $("#elatency")[0].value;
+    var wcttmodel   = $("#wcttmodel")[0].value;
+    var wcttrate    = $("#wcttrate")[0].value;
+    var switchs     = $("#switch")[0].value;
+    var protocol    = $("#protocol")[0].value;
+    var wcanalysis  = $("#wcanalysis")[0].value;
+
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'saveSettings&time='+time+'&elatency='+latency+"&wcttmodel="+wcttmodel+"&wcttrate="+wcttrate+"&switch="+switchs+"&protocol="+protocol,
+		data:'action='+'saveSettings&time='+time+'&wcanalysis='+wcanalysis+'&elatency='+latency+"&wcttmodel="+wcttmodel+"&wcttrate="+wcttrate+"&switch="+switchs+"&protocol="+protocol,
 		success:function(data){
 			loadContent('messages');
 		},

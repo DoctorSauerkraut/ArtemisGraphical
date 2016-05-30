@@ -104,18 +104,20 @@
 		/* Getting general settings */
 		$timeLimit	= (isset($_POST["time"]) && $_POST["time"] != "") ? $_POST["time"]:0;
 		$eLatency 	= (isset($_POST["elatency"]) && $_POST["elatency"] != "") ? $_POST["elatency"]:0;
-        $wcttmodel = (isset($_POST["wcttmodel"]) && $_POST["wcttmodel"] != "") ? $_POST["wcttmodel"]:"STR";
-        $wcttrate = (isset($_POST["wcttrate"]) && $_POST["wcttrate"] != "") ? $_POST["wcttrate"]:10;
-        $switch = (isset($_POST["switch"]) && $_POST["switch"] != "") ? $_POST["switch"]:"STR";
-        $protocol = (isset($_POST["protocol"]) && $_POST["protocol"] != "") ? $_POST["protocol"]:10;
-
+        $wcttmodel  = (isset($_POST["wcttmodel"]) && $_POST["wcttmodel"] != "") ? $_POST["wcttmodel"]:"STR";
+        $wcttrate   = (isset($_POST["wcttrate"]) && $_POST["wcttrate"] != "") ? $_POST["wcttrate"]:10;
+        $switch     = (isset($_POST["switch"]) && $_POST["switch"] != "") ? $_POST["switch"]:"STR";
+        $protocol   = (isset($_POST["protocol"]) && $_POST["protocol"] != "") ? $_POST["protocol"]:10;
+        $wcanalysis = (isset($_POST["wcanalysis"]) && $_POST["wcanalysis"] != "") ? $_POST["wcanalysis"]:"true";
+        
 		Settings::save("timelimit", $timeLimit, $simuKey);
 		Settings::save("elatency", $eLatency, $simuKey);
         Settings::save("wcttmodel", $wcttmodel, $simuKey);
         Settings::save("wcttrate", $wcttrate, $simuKey);
         Settings::save("switch", $switch, $simuKey);
         Settings::save("protocol", $protocol, $simuKey);
-
+        Settings::save("wcanalysis", $wcanalysis, $simuKey);
+        
 	}else if ($action_server=="results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -285,7 +287,7 @@
 		$wcttrate     = Settings::getParameter("wcttrate", $simuKey);
 		$switch 	  = Settings::getParameter("switch", $simuKey);
         $protocol	  = Settings::getParameter("protocol", $simuKey);
-
+        $wcAnalysis     = Settings::getParameter("wcanalysis", $simuKey);
 
 		if($autogen == 0) {
 			$highestwcet	= Settings::getParameter("highestwcet", $simuKey);
@@ -297,12 +299,11 @@
 		Settings::save("endgraphtime", $timeLimit, $simuKey);
 
 		echo '<script language="javascript">';
-		
 		include('./Templates/graphconfig.php');
 		include('./Templates/network.php');
         
         $command = "java -jar artemis_launcher.jar ".$simuKey;
-	    var_dump(exec($command, $output));
+	    exec($command, $output);
 	    
 
 	   include_once('./Views/results.php'); 
@@ -455,9 +456,9 @@
         if(Settings::getParameter("endgraphtime") == "") {Settings::save("endgraphtime", 100, $simuKey);}
         if(Settings::getParameter("startgraphtime") == "") {Settings::save("startgraphtime", 0, $simuKey);} 
         
-        $timeLimit 	= Settings::getParameter("timelimit", $simuKey);
-		$eLatency 	= Settings::getParameter("elatency", $simuKey);
-		$autogen 	= Settings::getParameter("autogen", $simuKey);	
+        $timeLimit  	= Settings::getParameter("timelimit", $simuKey);
+		$eLatency 	    = Settings::getParameter("elatency", $simuKey);
+		$autogen 	    = Settings::getParameter("autogen", $simuKey);	
         $highestwcet	= Settings::getParameter("highestwcet", $simuKey);
         $autotasks 		= Settings::getParameter("autotasks", $simuKey);
         $autoload		= Settings::getParameter("autoload", $simuKey);
@@ -465,6 +466,7 @@
         $wcttmodel		= Settings::getParameter("wcttmodel", $simuKey);
         $switch 		= Settings::getParameter("switch", $simuKey);
         $protocol		= Settings::getParameter("protocol", $simuKey);
+        $wcAnalysis     = Settings::getParameter("wcanalysis", $simuKey);
         
         include("./Templates/globalconfig.php");
         include('./Templates/network.php');
