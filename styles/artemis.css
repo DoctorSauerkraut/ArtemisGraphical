@@ -260,8 +260,9 @@ div.table_description {
 	text-align: center;
 }
 
-.tableShow td select{
-	max-width:105px;
+.tableShow td input[type="text"]{
+	min-width: 15px;
+	max-width:90px;
 	text-align: center;
 }
 

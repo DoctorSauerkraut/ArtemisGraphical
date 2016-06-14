@@ -209,7 +209,7 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 			
 				echo "<tr>";
 				echo "<td>";
-					echo '<input style="display: none;" type="text" value="" id="path" ></input>';
+					echo '<input style="display: none; min-width:90px;" type="text" value="" id="path" ></input>';
 					echo '<select id="newMess" onclick="getMessage();" />';
 					foreach ($nodes as $node) {
 						echo '<option  value="'.$node.'">'.$node.'</option>';
