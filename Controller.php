@@ -81,25 +81,37 @@
 	}
 	elseif($action_server=='getMessage'){
 		$nodeSel=$_POST['nodeSel'];
-		$topo=$_SESSION['topo'];;
+		$path=$_POST['path'];
+		$topo=$_SESSION['topo'];
 		$idNode='';
 		$donnees1= $manager->displayListNode($simuKey);
 		$donnees2= $manager->displayListLink($simuKey);
 
+		$paths=explode(',',$path);
 		foreach ($donnees1 as $node) {
 			if($nodeSel==$node->name()){
 				$idNode=$node->id();
 			}
 		}
-		foreach ($topo as $node) {
-			if($idNode==$node['parent']){
-				$listNodePossible[]=$node['name'];
+		foreach ($donnees2 as $link) {
+			if($idNode==$link->node1()){
+				$listNodePossible[]=$topo[$link->node2()]['name'];
+			}
+			if($idNode==$link->node2()){
+				$listNodePossible[]=$topo[$link->node1()]['name'];
 			}
 		}
-		print_r($listNodePossible);
+
 		foreach ($listNodePossible as $nodeDisp) {
-			// echo $nodeDisp;
-			echo '<option value="'.$nodeDisp.'">'.$nodeDisp.'</option>';
+			$ok=0;
+			foreach ($paths as $nodeIndisp) {
+				if($nodeDisp==$nodeIndisp){
+					$ok++;
+				}
+			}
+			if($ok==0){
+				echo '<option value="'.$nodeDisp.'">'.$nodeDisp.'</option>';
+			}
 		}
 	}
 	else if($action_server=="select_simu"){

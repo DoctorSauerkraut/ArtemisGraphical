@@ -427,9 +427,8 @@ function getMessage(){
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'getMessage'+'&nodeSel='+newMess,
+		data:'action='+'getMessage'+'&nodeSel='+newMess+'&path='+path,
 		success: function(data){
-			alert(data);
 			document.getElementById('path').value=path;
 			document.getElementById('path').style.display='block';
 			document.getElementById('newMess').innerHTML=data;
