@@ -24,16 +24,50 @@ function loadContent(action) {
 	});
 }
 
-function loadCreate() {
+function loadCreate(topo) {
 	$.ajax({
 		url:"./Views/create.php",
 		type:"post",
 		data:"",
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
-			recupDatabase();	
+			document.getElementById("mygraph").innerHTML = topo;
+			getTopo();
+			getLinks();	
 			updateMenuStyle("link-create");
 			
+		}
+	});
+}
+function getLinks(){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=getLinks",
+		success:function(data){
+			drawLinks(data);		
+		}
+	});
+}
+function getTopo(){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=getTopo",
+		success:function(data){
+			drawTopo(data);		
+		}
+	});
+}
+
+function createSchema(){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=createSchema",
+		success:function(data){
+			loadCreate(data);
+			// document.getElementById("canvas").innerHTML = data;		
 		}
 	});
 }
@@ -158,6 +192,13 @@ function popupNode($id, $name, $ip, $sched, $crit) {
 	
 	crit.value=$crit;
 	
+	div.style.display = 'block';
+}
+
+function popupNewNode(){
+	var name = document.getElementById('newNodeName');
+	var div = document.getElementById('newNodePopup');
+	name.value='NodeX';
 	div.style.display = 'block';
 }
 
@@ -310,6 +351,21 @@ function addNode(name, ip, sched, crit){
 	});
 }
 
+function addNodeToTopo(){
+	var newNodeName=document.getElementById('newNodeName').value;
+	var nodeToLink=document.getElementById('nodeToLink').value;
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'addNodeTopo'+'&name='+newNodeName+'&ip=0'+'&sched=FIFO'+'&crit=0'+'&id1='+newNodeName+'&id2='+nodeToLink,
+		success:function(data){
+			// alert("on");
+			createSchema();
+		}
+	});
+	
+}
+
 function updateNode(id,name, ip, sched){
 	$.ajax({
 		url:"./Controller.php",
@@ -352,6 +408,33 @@ function saveMessage() {
 	
 	var divAdd = document.getElementById('graph-popUp-adds');
 	divAdd.style.display = 'none';
+}
+
+
+function getMessage(){
+	if(document.getElementById('path').value!=null){
+		var path = document.getElementById('path').value;
+	}else{
+		var path='';
+	}
+	var newMess = document.getElementById('newMess').value;
+	if(path!=''){
+		path=path+','+newMess;
+	}else{
+		path=newMess;
+	}
+	
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'getMessage'+'&nodeSel='+newMess,
+		success: function(data){
+			alert(data);
+			document.getElementById('path').value=path;
+			document.getElementById('path').style.display='block';
+			document.getElementById('newMess').innerHTML=data;
+		}
+	});	
 }
 
 function addMessageTable(idArray) {

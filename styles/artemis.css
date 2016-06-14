@@ -98,8 +98,8 @@ a{
 
 #mygraph {
     width: 100%;
-    margin: 0 auto;
     height: 100%;
+    position: relative;
 }
 	  
 table.legend_table {
@@ -125,11 +125,11 @@ div.table_description {
     width:1200px;
 }
 
-#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title {
+#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title, #newNode {
 	font-size:28px;
 }
 
-#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit {
+#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit, #newNodePopup  {
 	display:none;
 	position:absolute;
 	top:40%;
@@ -159,6 +159,10 @@ div.table_description {
 #popup-message-edit{
 	height:215px;
 }
+
+#newNodePopup{
+	height: 140px;
+}
 	
 #graph-popUp-adds {
 	display:none;
@@ -179,12 +183,12 @@ div.table_description {
 	box-shadow: 1px 1px 20px #202030;	
 }
 	
-#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message{
+#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message, #tableNewNode{
 	margin:auto;
 	font-family: Verdana, Georgia, sans-serif;
 }
 
-#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td {
+#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td ,#tableNewNode td{
 	padding-top: 5px;
 	border:none;
 	text-align: right;
@@ -363,7 +367,9 @@ caption {
 }
 
 #popupBody {
-		padding:20px;
+	padding:20px;
+	display: inline-block;
+	text-align: center;
 }
 
 #popupBodyText {
@@ -371,7 +377,10 @@ caption {
 	height:100px;
 }
 
-
+#popupBody .button{
+	margin-left:10px;
+	margin-right: 10px;
+}
 
 #buttonAddCriticality {
 	margin-top: 25px;
@@ -429,6 +438,11 @@ caption {
 	box-shadow: -1px 3px 5px 1px rgba(0, 0, 0, 0.7); 
 /*	opacity:0.9;*/
 	cursor: pointer;
+}
+
+.addNodeToTopo{
+	width: 75px;
+	margin: auto;
 }
 
 .exportSimu{

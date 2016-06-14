@@ -25,6 +25,7 @@
 		  require 'Library/Entities/CriticalityLevel.class.php';
 		  require 'Library/Entities/Settings.class.php';
 		  require 'Library/Entities/Simulation.class.php';
+		  require 'Library/Entities/NodeGraph.class.php';
 		  }
 		}
 		
@@ -102,7 +103,7 @@
 		} else {
 		    echo 'Files extraction failed. ';
 		}
-		// echo '<meta http-equiv="refresh" content="0">';
+		echo '<meta http-equiv="refresh" content="0">';
 		////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		/////////////////////////////// enregistrement dans la BDD /////////////////////////////////////////////
@@ -234,4 +235,227 @@
 	echo'</div>';
 	$id='';
 	}
+
+function prepareTopo($donnees2,$donnees1){
+		foreach ($donnees2 as $link) { 						// pour chaque lien
+			$nodes[$link->node1()]=$nodes[$link->node1()]+1;// on crée un tableau du nombre de 
+			$nodes[$link->node2()]=$nodes[$link->node2()]+1;// liens par noeud
+		}
+		arsort($nodes); // on tri les noeuds pas ordre décroissants
+		// print_r($donnees1);
+		foreach ($nodes as $id => $nblinks) { 					// pour chaque noeud
+		foreach ($donnees1 as $nodeName) {
+			if($nodeName->id()==$id){
+				$tabNodeSchema['name']=$nodeName->name();
+			}
+		}
+			$nodeSchema= new nodeGraph();						// on crée une instance de noeud
+
+			$nodeSchema->setId($id);							// on récupère l'id du noeud
+			$tabNodeSchema['id']=$nodeSchema->id();				// on le met dans un tableau
+
+			$nodeSchema->setNblinks($nblinks);					// on récupère le nombre de liens du noeud
+			$tabNodeSchema['nblinks']=$nodeSchema->nbLinks();	// on le met dans un tableau
+			$tabNodeSchema['nblinksleft']=$nodeSchema->nbLinks();
+
+			$nodeSchema->setParent('');							// on attribue le parent du noeud
+			$tabNodeSchema['parent']=$nodeSchema->parent();		// on le met dans un tableau
+
+			$nodeSchema->setRank(0);							// on attribue le rang (la profondeur) du noeud
+			$tabNodeSchema['rank']=$nodeSchema->rank();			// on le met dans un tableau
+ 
+			if($nblinks>1){
+				$nodeSchema->setShape('square');				// on attribue la forme du noeud
+			}else{
+				$nodeSchema->setShape('round');
+				$nodeSchema->setTaille(1);
+			}
+			$tabNodeSchema['shape']=$nodeSchema->shape();		// on le met dans un tableau
+			$tabNodeSchema['taille']=$nodeSchema->taille();
+			$tabNodeSchema['posX']=$nodeSchema->posX();
+			$tabNodeSchema['posY']=$nodeSchema->posY();
+
+			$nodeSchemas[$nodeSchema->id()]= $tabNodeSchema;	// on crée un tableau de tableau de noeuds
+		}
+		$i=0;
+
+		$count=0;
+		$rankmax=0;
+		foreach ($nodeSchemas as $node) {
+			if($count==0){										// si c'est le premier noeud traité
+				$nodeSchemas[$node['id']]['parent']='none';		// alors il n'a pas de parent
+					$tabNodeI[$node['id']]=$i;
+					$i++;
+				$count=1;
+			}
+			$notfinish=1;
+		}
+
+		while($notfinish!=0){
+			$count=0;
+			foreach ($nodeSchemas as $node) {
+				if($nodeSchemas[$node['id']]['parent']!=''){
+					$count=$count;
+				}
+				else{
+					$count++;
+				}
+				$notfinish=$count;
+				
+			}
+			foreach ($nodeSchemas as $node) {
+				foreach ($donnees2 as $link) {
+					if($nodeSchemas[$node['id']]['parent']!=''){
+						if($node['id']==$link->node1() AND $nodeSchemas[$link->node2()]['parent']==''){
+							$nodeSchemas[$link->node2()]['parent']=$node['id'];
+							$tabNodeI[$link->node2()]=$i;
+							$i++;
+					}
+						if($node['id']==$link->node2() AND $nodeSchemas[$link->node1()]['parent']==''){
+							$nodeSchemas[$link->node1()]['parent']=$node['id'];
+							$tabNodeI[$link->node1()]=$i;
+							$i++;
+						}
+					}
+				}
+			}
+		}		
+		
+		$i=0;
+		
+		foreach ($nodeSchemas as $node) {
+			if($tabNodeI[$node['id']]<$tabNodeI[$node['parent']]){
+				$temp=$tabNodeI[$node['id']];
+				$tabNodeI[$node['id']]=$tabNodeI[$node['parent']];
+				$tabNodeI[$node['parent']]=$temp;
+			}
+		}
+		foreach ($nodeSchemas as $node) {
+			$nodeSchemas[$node['id']]['i']=$tabNodeI[$node['id']];
+		}
+		$nodeSchemas=array_sort($nodeSchemas,'i',SORT_ASC);
+		foreach ($nodeSchemas as $node) {
+			if($node['parent']!='none'){
+					$nodeSchemas[$node['id']]['rank']=$nodeSchemas[$node['parent']]['rank']+1;
+					if($nodeSchemas[$node['id']]['rank']>$rankmax){
+						$rankmax=$nodeSchemas[$node['id']]['rank'];
+					}
+				}
+		}
+		for ($i=$rankmax;$i>0;$i--){
+			foreach ($nodeSchemas as $node) {
+				if($node['rank']==$i AND $node['taille']!=0){
+					$nodeSchemas[$node['parent']]['taille']=$nodeSchemas[$node['parent']]['taille']+$node['taille'];
+				}
+			}
+		}
+		return $nodeSchemas;
+	}
+
+	function array_sort($array, $on, $order=SORT_ASC){
+		
+	    $new_array = array();
+	    $sortable_array = array();		
+	    if (count($array) > 0) {		
+	        foreach ($array as $key=>$value) {
+	            if (is_array($value)) {
+	            	
+	                foreach ($value as $k2 => $v2) {
+	                    if ($k2 == $on) {
+	                        $sortable_array[$key] = $v2;
+	                    }
+	                }
+	            } else {
+	                $sortable_array[$key] = $v;
+	            }
+	        }
+	        switch ($order) {
+	            case SORT_ASC:
+	                asort($sortable_array);
+	            break;
+	            case SORT_DESC:
+	                arsort($sortable_array);
+	            break;
+	        }
+
+	        foreach ($sortable_array as $key => $value) {
+	            $new_array[$key] = $array[$key];
+	        }
+	    }
+	    return $new_array;
+	}
+
+	function drawTopo($topologie){
+		$topo=array_sort($topologie,'rank',SORT_ASC);
+		$taillemax=0;
+		$rankmax=0;
+		foreach ($topo as $node) {
+			if($node['taille']>$taillemax){
+				$taillemax=$node['taille'];
+			}	
+			if($node['rank']>$rankmax){
+				$rankmax=$node['rank'];
+			}
+		}
+		if($topo!=array()){
+			echo '<a id="zoomplus" onclick="zoomplus();">+</a>';
+			echo '<a id="zoomminus" onclick="zoomminus();">-</a>';
+		}
+		if(($taillemax*50)>1250){
+			$scroll='overflow: scroll;';
+		}
+		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;'.$scroll.'">';
+		echo '<canvas id="canvas" style="transform: scale(1); width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;"></canvas>';
+		foreach($topo as $node){
+			if ($node['parent']=='none'){
+				$topo=placement($node,$topo);
+			}
+			foreach ($topo as $child) {
+				if($child['parent']==$node['id'] AND $child['rank']==$node['rank']+1){
+					$topo=placement($child,$topo);
+				}
+			}
+		}
+		echo'</div>';
+
+		return $topo;
+	}
+
+	function placement($node,$topo){
+		if ($node['parent']=='none'){
+			$node['posX']=($node['taille']*50)/2 - 25;
+			$node['posY']=$node['rank']*50;
+			$topo[$node['id']]['posX']=$node['posX'];
+			$topo[$node['id']]['posY']=$node['posY'];
+			echo '</br>';
+			echo '<div class="'.$node['shape'].'" id="'.$node['id'].'" style="display: none; left:'.$node['posX'].'px; top:'.$node['posY'].'px;">'.$node['name'].'</div>';
+		}
+		else if($node['parent']!='none'){
+			$tailleParent=$topo[$node['parent']]['taille'];
+			$posXParent=$topo[$node['parent']]['posX'];
+			if($_SESSION['pos']==0){
+				$depart=($posXParent+25)-(($tailleParent/2)*50);
+			}else{
+				$depart=$_SESSION['pos'];
+			}
+			
+			$node['posX']=$depart+(($node['taille']*50)/2) - 25;
+			$node['posY']=$node['rank']*80;
+			echo '<div class="'.$node['shape'].'" id="'.$node['id'].'" style="display: none;  left:'.$node['posX'].'px; top:'.$node['posY'].'px;">'.$node['name'].'</div>';
+			$_SESSION['pos']=$depart+($node['taille']*50);
+			$topo[$node['id']]['posX']=$node['posX'];
+			$topo[$node['id']]['posY']=$node['posY'];
+			$topo[$node['parent']]['nblinksleft']=$topo[$node['parent']]['nblinksleft']-1;
+			if($topo[$node['parent']]['nblinksleft']==0 AND $topo[$node['parent']]['rank']==0){
+				$_SESSION['pos']=0;
+			}elseif ($topo[$node['parent']]['nblinksleft']==1 AND $topo[$node['parent']]['rank']!=0) {
+				$_SESSION['pos']=0;
+			}
+
+		}
+		return $topo;
+	}
+
+
+
 ?>

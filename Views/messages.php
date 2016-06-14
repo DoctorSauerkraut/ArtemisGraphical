@@ -165,7 +165,12 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 				<th>Color</th><th>Edit</th><th>Add</th><th>Delete</th>
 			</tr>
 			<?php 
+			foreach ($donnees1 as $node) {
+				$nodes[]=$node->name();
+			}
+			asort($nodes);
 			$codeStr = "";
+			$newMessage='';
 			foreach($donnees3 as $element){ 	
 				echo "<tr>";
 					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
@@ -203,7 +208,13 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 			 } 
 			
 				echo "<tr>";
-				echo "<td><input type=\"text\" id=\"path\" /></td>";
+				echo "<td>";
+					echo '<input style="display: none;" type="text" value="" id="path" ></input>';
+					echo '<select id="newMess" onclick="getMessage();" />';
+					foreach ($nodes as $node) {
+						echo '<option  value="'.$node.'">'.$node.'</option>';
+					}
+					echo "</select></td>";
 				echo "<td><input type=\"text\" id=\"period\" /></td>";
 				echo "<td><input type=\"text\" id=\"offset\" /></td>";
 				

@@ -15,6 +15,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF8" />
 		<link type="text/css" href="styles/artemis.css" rel="stylesheet"/>
 		<link type="text/css" href="styles/menu.css" rel="stylesheet"/>
+		<link type="text/css" href="styles/topology.css" rel="stylesheet"/>
 		<link type="text/css" rel="stylesheet" href="./vis/dist/vis.css"/>
 		
 		<script type="text/javascript" src="./scripts/jquery.js" ></script>
@@ -39,7 +40,7 @@
 						<li id="link-simus" class="menuitem" onclick="loadContent('simus')">
 							Simulations
 						</li>
-						<li id="link-create" class="menuitem" onclick="loadCreate()">
+						<li id="link-create" class="menuitem" onclick="createSchema()">
 							Network
 						</li>
 						<li id="link-details" class="menuitem" onclick="loadContent('details')">

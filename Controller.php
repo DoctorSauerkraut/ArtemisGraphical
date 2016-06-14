@@ -38,7 +38,68 @@
 			}
 			$info=substr($info,0,-1);
 			$info=$info.";";
-			echo($info);			
+			// echo($info);			
+		}
+	}
+	else if($action_server=='createSchema'){
+		$donnees1= $manager->displayListNode($simuKey); 	// récupération de tous les noeuds
+		$donnees2= $manager->displayListLink($simuKey); 	// récupération de tous les liens
+
+		$topologie=prepareTopo($donnees2,$donnees1);
+		$topo=drawTopo($topologie);
+		$_SESSION['topo']=$topo;
+	}
+	else if($action_server=='getTopo'){
+		$topo=$_SESSION['topo'];
+		$i=0;
+		foreach ($topo as $node) {
+			$topoToDraw['topo'][$i]['id']=$node['id'];
+			$topoToDraw['topo'][$i]['name']=$node['name'];
+			$topoToDraw['topo'][$i]['shape']=$node['shape'];
+			$topoToDraw['topo'][$i]['posX']=$node['posX'];
+			$topoToDraw['topo'][$i]['posY']=$node['posY'];
+			$topoToDraw['topo'][$i]['parent']=$node['parent'];
+			$topoToDraw['topo'][$i]['rank']=$node['rank'];
+			$i++;
+		}
+		$topoToDraw=json_encode($topoToDraw);
+		print_r($topoToDraw);
+	}
+	elseif ($action_server=='getLinks') {
+		$donnees2= $manager->displayListLink($simuKey); 	// récupération de tous les liens
+		$links.='{"links":[
+		';
+		foreach ($donnees2 as $values) {
+		$links.='
+		{"node1":"'.$values->node1().'", "node2":"'.$values->node2().'"},';
+		}
+		$links=substr($links, 0,-1);
+		$links.='
+		]}';
+		echo $links;
+		
+	}
+	elseif($action_server=='getMessage'){
+		$nodeSel=$_POST['nodeSel'];
+		$topo=$_SESSION['topo'];;
+		$idNode='';
+		$donnees1= $manager->displayListNode($simuKey);
+		$donnees2= $manager->displayListLink($simuKey);
+
+		foreach ($donnees1 as $node) {
+			if($nodeSel==$node->name()){
+				$idNode=$node->id();
+			}
+		}
+		foreach ($topo as $node) {
+			if($idNode==$node['parent']){
+				$listNodePossible[]=$node['name'];
+			}
+		}
+		print_r($listNodePossible);
+		foreach ($listNodePossible as $nodeDisp) {
+			// echo $nodeDisp;
+			echo '<option value="'.$nodeDisp.'">'.$nodeDisp.'</option>';
 		}
 	}
 	else if($action_server=="select_simu"){
@@ -149,7 +210,33 @@
 		
 		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
 			
-	}else if ($action_server=="updateNode"){
+	}else if ($action_server=="addNodeTopo"){
+		$donnees1= $manager->displayListNode($simuKey);
+		foreach ($donnees1 as $node) {
+			if($node->name()==$_POST["name"]){
+				echo 'There is already a node with this name in this simulation';
+				return;
+			}
+		}
+		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
+		$donnees1= $manager->displayListNode($simuKey);
+		// print_r($donnees1);
+		foreach ($donnees1 as $node) {
+			if($node->name()==$_POST["id1"]){
+				$node1=$node->id();
+				echo 'node1 :'.$node1.' fin';
+			}
+			elseif($node->name()==$_POST["id2"]){
+				$node2=$node->id();
+				echo '   node2 : '.$node2;
+			}else{}
+		}
+
+		$manager->addLink($node1,$node2);
+		// echo '  oui  ';
+			
+	}
+	else if ($action_server=="updateNode"){
 		
 		$manager->updateNode($_POST["id"],$_POST["name"],$_POST["ip"],$_POST["sched"]);
 			
@@ -526,7 +613,7 @@
 		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";  
         
         $command = "java -jar artemis_topology.jar ".$simuKey." ".$depth;
-		exec($command, $output);     
+		exec($command, $output);   
         
         $file = simplexml_load_file("ressources/".$simuKey."/input/network.xml");
          
