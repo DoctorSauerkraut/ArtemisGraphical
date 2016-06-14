@@ -34,14 +34,14 @@ foreach($list_nodes as $node) {
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);
 
-$messageColor=$dom->createElement("message-color");
+$messageColor=$dom->createElement("colors");
 
 $messages=$manager->displayListMessage($simuKey);
 
 foreach ($messages as $element){
-	$messageTag=$dom->createElement("message");
-	$messageTag->setAttribute("id",$element->id());
-	$messageTag->setAttribute("color",$element->color());
+	$messageTag=$dom->createElement("color");
+	$messageTag->setAttribute("msg",$element->id());
+	$messageTag->setAttribute("code",$element->color());
 	$messageColor->appendChild($messageTag);
 		
 }
