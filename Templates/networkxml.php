@@ -38,5 +38,5 @@
 		
 	$networkDom->appendChild($network);
 
-	$networkDom->save("ressources/".$simuKey.'/input/network.xml');
+	$networkDom->save($pathToCore."ressources/".$simuKey.'/input/network.xml');
 ?>
