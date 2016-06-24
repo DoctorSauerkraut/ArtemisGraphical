@@ -13,6 +13,7 @@
 		private $_links;
 		private $_displayed;
 		private $_speed;
+		private $_shape;
 		
 		const SCHEDULING_FIFO = 'FIFO';
 		const SCHEDULING_FP = 'FP';
@@ -107,6 +108,14 @@
 		
 		public function getSpeed() {
 			return $this->_speed;
+		}
+
+		public function setShape($shape) {
+			$this->_shape = $shape;
+		}
+
+		public function shape() {
+			return $this->_shape;
 		}
 	}
 

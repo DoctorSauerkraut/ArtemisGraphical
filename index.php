@@ -27,7 +27,7 @@
 		<script type="text/javascript" src="./scripts/create.js"></script>
 		<script type="text/javascript" src="./scripts/edit.js"></script>
 		<script type="text/javascript" src="./scripts/settings.js"></script>
-		<link rel="icon" href="./Templates/artemisicon.png" />
+		<link rel="icon" href="./Templates/icon2.png" />
     </head>
     <body onload="loadContent('simus')"> 
 		<div id="header">
@@ -46,18 +46,15 @@
 						<li id="link-details" class="menuitem" onclick="loadContent('details')">
 							Nodes
 						</li>
-						<li id="link-links" class="menuitem" onclick="loadContent('links')">
+					<!-- 	<li id="link-links" class="menuitem" onclick="loadContent('links')">
 							Links
-						</li>
+						</li> -->
 						<li id="link-messages" class="menuitem" onclick="loadContent('messages')">
 							Messages
 						</li>
 						<li id="link-mixedc" class="menuitem" onclick="loadContent('mixedc')">
 							Criticality
 						</li>
-					<!-- <li id="link-settings" class="menuitem" onclick="loadContent('settings')">
-							Settings
-						</li> -->
 						<li id="link-results" class="menuitem" onclick="popup('popupConfirmSimu')">
 							Run
 						</li>
@@ -70,6 +67,7 @@
 		<?php  
 		include('functions.php');
 		if($_FILES['import']['name']!=''){
+			print_r($_FILES);
 			import();
 		}else{}
 		$_FILES=array();

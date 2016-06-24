@@ -15,6 +15,10 @@
 	$donnees1= $manager->displayListNode($simuKey);
 	// print_r($donnees1);
 ?>
+
+
+
+
 	<!------------------ GRAPH POP UP  -------------->
 	<table class="tableShow">
         <tr>
@@ -23,6 +27,21 @@
         <td><a class="button blue" onclick="generateTopology()">Generate</a></td>
         <td><a class="button red" onclick="clearGraph()">Delete all nodes</a></td></tr>
     </table>
+
+    <?php
+	if($donnees1!=array()){
+		echo '<div class="buttons">';
+		echo '<a class="button myst addNodeToTopo" onclick="popupNewNode()">Add node</a>';
+		echo '<div class="removeNodeFromTopo">';
+            echo '<label>';
+                    echo '<input type="checkbox" id="removeNodeFromTopo" class="removeNodeFromTopo" /><span>Delete node</span>';
+        	echo '</label>';
+		echo '</div>';
+		echo '<a class="button myst saveCanvas" id="saveCanvas" onclick="saveTopo('.$simuKey.')">Save topology</a>';
+		echo '</div>';
+
+	}
+	?>
 
 	<div id="mygraph" style="width:100%;height:auto;">
 	</div>
@@ -46,26 +65,14 @@
 			?>
 			</select></td>
 		</tr>
-		<!--<tr>
-			<td>IP Address:</td><td><input id="node-ip" value="0"> </td>
-		</tr>
-		<tr>
-			<td>Scheduling:</td><td id="liste"><select id="node-sched">
-			<option value="FIFO" selected >FIFO</option>
-			<option value="FP">FP</option>
-			<option value="EDF">EDF</option>
-			<option value="RM">RM</option></select></td>
-		</tr>-->
 	</table>
 		<input type="button" onclick="addNodeToTopo()" value="SAVE" id="saveButton"></button>
-		<input type="button" onclick="hideNode();" value="CANCEL" id="cancelButton"></button>
+		<input type="button" onclick="hidePopupNewNode();" value="CANCEL" id="cancelButton"></button>
 </div>
-<?php
-	if($donnees1!=array()){
-		echo '<a class="button myst addNodeToTopo" onclick="popupNewNode()">Add node</a>';
-	}
-?>
+
 </br></br></br></br></br></br></br></br></br>
+
+
 
 
 

@@ -37,8 +37,7 @@
 				$info=$info.$element2->node1().','.$element2->node2().','.$element2->id().',';
 			}
 			$info=substr($info,0,-1);
-			$info=$info.";";
-			// echo($info);			
+			$info=$info.";";			
 		}
 	}
 	else if($action_server=='createSchema'){
@@ -58,8 +57,12 @@
 			$topoToDraw['topo'][$i]['shape']=$node['shape'];
 			$topoToDraw['topo'][$i]['posX']=$node['posX'];
 			$topoToDraw['topo'][$i]['posY']=$node['posY'];
-			$topoToDraw['topo'][$i]['parent']=$node['parent'];
-			$topoToDraw['topo'][$i]['rank']=$node['rank'];
+			if(!isset($node['disp'])){
+				$topoToDraw['topo'][$i]['disp']='true';
+			}else{
+				$topoToDraw['topo'][$i]['disp']=$node['disp'];
+			}
+			
 			$i++;
 		}
 		$topoToDraw=json_encode($topoToDraw);
@@ -83,36 +86,49 @@
 		$nodeSel=$_POST['nodeSel'];
 		$path=$_POST['path'];
 		$topo=$_SESSION['topo'];
+		// print_r($topo);
 		$idNode='';
 		$donnees1= $manager->displayListNode($simuKey);
 		$donnees2= $manager->displayListLink($simuKey);
+		$paths=explode(',',$path); // on separe les noeud du path
 
-		$paths=explode(',',$path);
-		foreach ($donnees1 as $node) {
-			if($nodeSel==$node->name()){
-				$idNode=$node->id();
+		foreach ($donnees1 as $node) { // pour chaque noeud
+			if($topo[$node->id()]['disp']!='sel'){
+				$topo[$node->id()]['disp']='false';
+			}
+			if($nodeSel==$node->name()){// si le noeud correspond au noeud selectionné
+				$idNode=$node->id();// on recupère l'id
+				$topo[$node->id()]['disp']='sel';
 			}
 		}
-		foreach ($donnees2 as $link) {
-			if($idNode==$link->node1()){
-				$listNodePossible[]=$topo[$link->node2()]['name'];
+		foreach ($donnees2 as $link) { //pour chaque lien
+			if($idNode==$link->node1()){ // si le noeud selectionné est lié à un autre noeud
+				$listNodePossible[$link->node2()]['name']=$topo[$link->node2()]['name']; //on recupere le nom du noeud auquel il est lié
+				$listNodePossible[$link->node2()]['id']=$topo[$link->node2()]['id']; //on recupere l'id du noeud auquel il est lié
+				$topo[$link->node2()]['disp']='true';
 			}
 			if($idNode==$link->node2()){
-				$listNodePossible[]=$topo[$link->node1()]['name'];
+				$listNodePossible[$link->node1()]['name']=$topo[$link->node1()]['name'];
+				$listNodePossible[$link->node1()]['id']=$topo[$link->node1()]['id'];
+				$topo[$link->node1()]['disp']='true';
 			}
 		}
-
-		foreach ($listNodePossible as $nodeDisp) {
+		// print_r($listNodePossible);
+		foreach ($listNodePossible as $nodeDisp) {//pour tous les noeuds disponibles
 			$ok=0;
-			foreach ($paths as $nodeIndisp) {
-				if($nodeDisp==$nodeIndisp){
+			foreach ($paths as $nodeIndisp) {// pour tous les noeuds déjà dans le path
+				if($nodeDisp['name']==$nodeIndisp){ // si les noeuds disponibles sont déja dans le path, on ne les prends pas
 					$ok++;
+					$topo[$nodeDisp['id']]['disp']='sel';
 				}
 			}
-			if($ok==0){
-				echo '<option value="'.$nodeDisp.'">'.$nodeDisp.'</option>';
+			if($ok==0){// on ecrit les options pour chauque noeud retenu
+				echo '<option value="'.$nodeDisp['name'].'">'.$nodeDisp['name'].'</option>';
 			}
 		}
+		print_r($topo);
+		$_SESSION['topo']=$topo;
+		$_POST['path']=null;
 	}
 	else if($action_server=="select_simu"){
 		$_SESSION['id_sel']=$_POST["id_sel"];
@@ -285,12 +301,10 @@
 
 			
 	}else if ($action_server=="deleteNode"){
-	
 		$donnees=$manager->displayNode($_POST['id']); // recupération du noeud à supprimer
 		$messages=$manager->displayListMessage_(); // récupération des messages
 		foreach ($messages as $message) { //pour chaque message 
 			$path=$message->path(); // on récupère le path
-			$path=explode(",",$path); // on en fait un tableau 
 			foreach ($path as $node) { // pour chaque noeud du path
 				if($donnees->name()==$node){  // on regarde si le noeud à supprimer est dans le path
 					$manager->deleteMessage($message->id()); // si le noeud fait parti du path du message on supprime le message
@@ -299,9 +313,31 @@
 		}
 		$manager->deleteNode($_POST['id']); // suppression du noeud
 		$manager->verifyNodeDeletion($_POST['id'],$donnees->name());
-
-
-	}else if($action_server=="deleteLink"){
+	}
+	else if ($action_server=="deleteNodeByName"){
+	
+		$nodeSel=$_POST['name'];
+		$donnees1=$manager->displayListNode($simuKey);
+		foreach ($donnees1 as $node) {
+			if($node->name()==$nodeSel){
+				$nodeID=$node->id();
+				$messages=$manager->displayListMessage_(); // récupération des messages
+				foreach ($messages as $message) { //pour chaque message 
+					$path=$message->path(); // on récupère le path
+					$path=explode(",",$path); // on en fait un tableau 
+					print_r($path);
+					foreach ($path as $nodepath) { // pour chaque noeud du path
+						if($node->name()==$nodepath){  // on regarde si le noeud à supprimer est dans le path
+							$manager->deleteMessage($message->id()); // si le noeud fait parti du path du message on supprime le message
+						}					// ca n'a aucun sens de garder un message si l'un de ses noeuds n'existe plus
+					}
+				}
+				$manager->deleteNode($nodeID); // suppression du noeud
+				$manager->verifyNodeDeletion($nodeID,$nodeSel);
+			}
+		}
+	}
+	else if($action_server=="deleteLink"){
 	
 		$manager->deleteLink($_POST['id']);	
 		$manager->verifyLinkDeletion($_POST['source'],$_POST['destination']);
@@ -344,7 +380,6 @@
 		$list_nodes= $manager->displayListNode($simuKey);	
 		$donnees2= $manager->displayListLink($simuKey);	
 		$listMessages= $manager->displayListMessage($simuKey);	
-		
 		
 		/* Parsing the path string */
 		foreach ($listMessages as $singleMessage) {
@@ -403,7 +438,6 @@
         
         $command = "java -jar artemis_launcher.jar ".$simuKey;
 	    exec($command, $output);
-	    
 
 	   include_once('./Views/results.php'); 
 	
@@ -676,6 +710,17 @@
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
+			$nodes[$element->node1()]=$nodes[$element->node1()]+1;// on crée un tableau du nombre de 
+			$nodes[$element->node2()]=$nodes[$element->node2()]+1;// liens par noeud
+		}
+		print_r($nodes);
+		foreach ($nodes as $id=>$nblinks) {
+			echo $id;
+			if($nblinks>1){
+				$manager->insertShape($id,'S');
+			}else{
+				$manager->insertShape($id,'ES');
+			}
 		}
         include('./Templates/networkxml.php');
 	}

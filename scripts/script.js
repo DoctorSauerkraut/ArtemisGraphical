@@ -20,6 +20,18 @@ function loadContent(action) {
 		success:function(data){
 			document.getElementById("corps").innerHTML = data;
 			updateMenuStyle("link-"+action);
+			if(action=='messages'){
+				$.ajax({
+					url:"./Controller.php",
+					type:"post",
+					data:"action=createSchema",
+					success:function(data){
+					document.getElementById("mygraph2").innerHTML = data;
+					getTopo();
+					getLinks();		
+					}
+				});
+			}
 		}
 	});
 }
@@ -173,6 +185,10 @@ function hideNode(){
 	var div = document.getElementById('popup-node-edit');
 	div.style.display = 'none';
 }
+function hidePopupNewNode(){
+	var popupNewNode = document.getElementById('newNodePopup');
+	popupNewNode.style.display = 'none';
+}
 
 function popupNode($id, $name, $ip, $sched, $crit) {
 	var span = document.getElementById('edit-node-title');
@@ -206,9 +222,37 @@ function deleteNode($id) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'deleteNode'+'&id='+$id,
+		data:"action=getTopo",
 		success:function(data){
-			loadContent("details");
+			obj=JSON.parse(data);	
+			for(node in obj.topo){
+				var idnode = obj.topo[node].id;
+				var shape = obj.topo[node].shape;
+				if($id==idnode){
+					if(shape=='square'){
+						alert('You can\'t delete a switch point, if you really want to delete it, you\'ll have to delete all the endpoints which are linked to this switch.');
+					}else{
+						$.ajax({
+						url:"./Controller.php",
+						type:"post",
+						data:'action='+'deleteNode'+'&id='+$id,
+							success:function(data){
+								loadContent("details");
+							}
+						});
+					}
+				}
+			}
+		}
+	});
+}
+function deleteNodeByName($name) {
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'deleteNodeByName'+'&name='+$name,
+		success:function(data){
+			createSchema();
 		}
 	});
 }
@@ -346,7 +390,7 @@ function addNode(name, ip, sched, crit){
 		type:"post",
 		data:'action='+'addNode'+'&name='+name+'&ip='+ip+'&sched='+sched+'&crit='+crit,
 		success:function(data){
-			recupDatabase();
+			createSchema();
 		}
 	});
 }
@@ -362,8 +406,7 @@ function addNodeToTopo(){
 			// alert("on");
 			createSchema();
 		}
-	});
-	
+	});	
 }
 
 function updateNode(id,name, ip, sched){
@@ -380,7 +423,6 @@ function getInformationAndDeleteLink(id){
 		type:"post",
 		data:'action='+'recupInfoAndDeleteLink'+'&id='+id
 	});
-
 }
 
 function getInformationAndDeleteNode(id){
@@ -389,7 +431,6 @@ function getInformationAndDeleteNode(id){
 		type:"post",
 		data:'action='+'recupInfoAndDeleteNode'+'&id='+id
 	});
-
 }
 
 function clearGraph(name){
@@ -398,7 +439,7 @@ function clearGraph(name){
 		type:"post",
 		data:'action='+'clearGraph',
 				success:function(data){
-				recupDatabase();
+				createSchema();
 				}
 	});
 }
@@ -410,30 +451,41 @@ function saveMessage() {
 	divAdd.style.display = 'none';
 }
 
-
-function getMessage(){
+function getMessage(sel){
 	if(document.getElementById('path').value!=null){
 		var path = document.getElementById('path').value;
 	}else{
 		var path='';
 	}
-	var newMess = document.getElementById('newMess').value;
+	// var newMess = document.getElementById('newMess').value;
 	if(path!=''){
-		path=path+','+newMess;
+		path=path+','+sel;
 	}else{
-		path=newMess;
+		path=sel;
 	}
-	
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'getMessage'+'&nodeSel='+newMess+'&path='+path,
+		data:'action='+'getMessage'+'&nodeSel='+sel+'&path='+path,
 		success: function(data){
 			document.getElementById('path').value=path;
 			document.getElementById('path').style.display='block';
-			document.getElementById('newMess').innerHTML=data;
+			// document.getElementById('newMess').innerHTML=data;
+			getTopo();
+			getLinks();		
 		}
 	});	
+}
+function reloadgraph(event){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:"action=getTopo",
+		success:function(data){
+			clickoncanvas(data,event);		
+		}
+	});
+	
 }
 
 function addMessageTable(idArray) {
@@ -552,7 +604,7 @@ function generateTopology() {
 	var depth = document.getElementById("topodepth").value;
 	
     openPopup();
-    document.getElementById("popup").innerHTML = "Generating topology...";
+    document.getElementById("popup").innerHTML = '<div id="popuBodyText">Generating topology...</div>';
     
 	$.ajax({
 		url:"./Controller.php",
@@ -560,7 +612,7 @@ function generateTopology() {
 		data:"action=generateTopology"+"&topoDepth="+depth, 
 		success:function(data){
             closePopup();
-            loadCreate();
+            createSchema();
 		}
 	});	
 }
@@ -686,7 +738,7 @@ function verifyFile(){
 function notAllowed(){
 	if(document.getElementById('protocol').value=='Decentralized' && document.getElementById('switch').value=='S') {
 		(document.getElementById('switch').value='D');
-		alert('You can\'t choose both \"Switch: Static\" and \"Protocole: Decentralized\"');
+		alert('You can\'t choose both \"Switch: Static\" and \"Protocol: Decentralized\"');
 	}
 }
 
@@ -701,6 +753,7 @@ function activeColorBox(curColor,id){
 	var color=document.getElementById('colorChoice'+id);
 	if(color.style.display=="none"){
 		color.style.display='block';
+		color.classList.add('chooseColor');
 		if(document.getElementById('thecolor'+id).value==''){
 			if(document.getElementById('inputColor'+id).value.substr(0,1)!="#"){
 				document.getElementById('inputColor'+id).value="#"+document.getElementById('inputColor'+id).value;
@@ -749,4 +802,31 @@ function valideColor(id){
 		document.getElementById('activeColorBox'+id).style.backgroundColor=color;
 		document.getElementById('thecolor'+id).value='';
 	}
+}
+
+function displayGraph(){
+	var band = document.getElementById('band');
+	document.getElementById('topology').style.maxWidth='100%';
+	band.classList.add('onscreen');
+}
+function hideGraph(){
+	var band = document.getElementById('band');
+	document.getElementById('topology').style.maxWidth='100%';
+	band.classList.remove('onscreen');
+}
+
+function saveTopo(simukey){
+	var link =document.getElementById('saveCanvas');
+	var canvas = document.getElementById('canvas');
+    var context1 = canvas.getContext('2d');
+    context1.globalCompositeOperation = "destination-over";
+    var rect = canvas.getBoundingClientRect();
+	context1.beginPath();
+	context1.fillStyle = "#EEEEEE";
+	context1.rect(0,0,rect.right,rect.bottom);
+	context1.fill();
+
+	link.href = document.getElementById('canvas').toDataURL();
+
+    link.download = 'Simulation_'+simukey+'_'+Date.now();
 }

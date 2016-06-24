@@ -1,11 +1,12 @@
 #topology{
 	margin-top: 30px;
-	margin-bottom: 30px;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
 	max-width: 1250px;
+	max-height: 1000px;
 	text-align: left;
+	opacity: 1;
 }
 
 #canvas{
@@ -20,7 +21,6 @@
 	position: absolute;
 	background: linear-gradient(#DDDDFF,#EEEEFF);
 	font-family: Arial;
-	font-size: 15px;
 	text-align: center;
 	min-width: 25px;
 	top: 5px;
@@ -28,29 +28,38 @@
 	border: 1px solid;
 	border-radius: 5px;
 	z-index: 998;
+	font-size: 16px;
+    font-weight: bold;
 }
 #zoomplus:hover{
 	position: absolute;
 	background: linear-gradient(#BBBBFF,#DDDDFF);
 	cursor: pointer;
 }
+#zoomplus:before{
+    content: "+";
+}
 #zoomminus{
 	position: absolute;
 	background: linear-gradient(#DDDDFF,#EEEEFF);
 	font-family: Arial;
-	font-size: 15px;
 	text-align: center;
 	min-width: 25px;
-	top: 23px;
+	top: 24px;
 	left: 3px;
 	border: 1px solid;
 	border-radius: 5px;
 	z-index: 998;
+	font-size: 16px;
+    font-weight: bold;
 }
 #zoomminus:hover{
 	position: absolute;
 	background: linear-gradient(#BBBBFF,#DDDDFF);
 	cursor: pointer;
+}
+#zoomminus:before{
+    content: "-";
 }
 
 .square{

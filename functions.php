@@ -137,8 +137,9 @@
 					$liens=array();
 					foreach ($xml as $key=>$value){ // pour chaque infos
 						$nodeName=$value->attributes()['name']; // on recupere le nom du noeud
+						$shape=$value->attributes()['shape'];
 						$bdd = connectBDD();
-						$sql = "INSERT INTO node (id_simu,name,ip_address,scheduling,displayed,speed) VALUES (\"$simuKey\",\"$nodeName\",'0','FIFO','0','1')"; // on insere en BDD les noeuds sous de nouveaux id
+						$sql = "INSERT INTO node (id_simu,name,ip_address,scheduling,displayed,speed,shape) VALUES (\"$simuKey\",\"$nodeName\",'0','FIFO','0','1',\"$shape\")"; // on insere en BDD les noeuds sous de nouveaux id
 						$insertNode = $bdd->query($sql);	// on execute
 						$sql2 = "SELECT id FROM node WHERE name = \"$nodeName\" AND id_simu=\"$simuKey\""; // on recupere le nouvel id du noeuds inseré
 						$recupNewId= $bdd->query($sql2); // on execute la requete
@@ -323,13 +324,13 @@ function prepareTopo($donnees2,$donnees1){
 		
 		$i=0;
 		
-		foreach ($nodeSchemas as $node) {
-			if($tabNodeI[$node['id']]<$tabNodeI[$node['parent']]){
-				$temp=$tabNodeI[$node['id']];
-				$tabNodeI[$node['id']]=$tabNodeI[$node['parent']];
-				$tabNodeI[$node['parent']]=$temp;
-			}
-		}
+		// foreach ($nodeSchemas as $node) {
+		// 	if($tabNodeI[$node['id']]<$tabNodeI[$node['parent']]){
+		// 		$temp=$tabNodeI[$node['id']];
+		// 		$tabNodeI[$node['id']]=$tabNodeI[$node['parent']];
+		// 		$tabNodeI[$node['parent']]=$temp;
+		// 	}
+		// }
 		foreach ($nodeSchemas as $node) {
 			$nodeSchemas[$node['id']]['i']=$tabNodeI[$node['id']];
 		}
@@ -398,14 +399,14 @@ function prepareTopo($donnees2,$donnees1){
 			}
 		}
 		if($topo!=array()){
-			echo '<a id="zoomplus" onclick="zoomplus();">+</a>';
-			echo '<a id="zoomminus" onclick="zoomminus();">-</a>';
+			echo '<a id="zoomplus" onclick="zoomplus();"></a>';
+			echo '<a id="zoomminus" onclick="zoomminus();"></a>';
 		}
 		if(($taillemax*50)>1250){
 			$scroll='overflow: scroll;';
 		}
-		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;'.$scroll.'">';
-		echo '<canvas id="canvas" style="transform: scale(1); width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;"></canvas>';
+		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax+1.2)*80).'px;'.$scroll.'">';
+		echo '<canvas id="canvas" onclick="reloadgraph(event);"style="transform: scale(1); width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;"></canvas>';
 		foreach($topo as $node){
 			if ($node['parent']=='none'){
 				$topo=placement($node,$topo);
@@ -455,7 +456,4 @@ function prepareTopo($donnees2,$donnees1){
 		}
 		return $topo;
 	}
-
-
-
 ?>
