@@ -12,7 +12,6 @@ $graphConfig->appendChild($startTimeTag);
 $endTimeTag = $dom->createElement("endtime");
 $endTimeTag->appendChild($dom->createTextNode(Settings::getParameter("endgraphtime", $simuKey)));
 $graphConfig->appendChild($endTimeTag);
-echo "::$simuKey";
 
 /* Graph name */
 $date = new DateTime();
@@ -34,20 +33,20 @@ foreach($list_nodes as $node) {
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
 $graphConfig->appendChild($nodesTag);
 
-$messageColor=$dom->createElement("message-color");
+$messageColor=$dom->createElement("colors");
 
 $messages=$manager->displayListMessage($simuKey);
 
 foreach ($messages as $element){
-	$messageTag=$dom->createElement("message");
-	$messageTag->setAttribute("id",$element->id());
-	$messageTag->setAttribute("color",$element->color());
+	$messageTag=$dom->createElement("color");
+	$messageTag->setAttribute("msg",$element->id());
+	$messageTag->setAttribute("code",$element->color());
 	$messageColor->appendChild($messageTag);
 		
 }
 $graphConfig->appendChild($messageColor);
 
-if(!file_exists("ressources/".$simuKey."/input/")){
+if(!file_exists($pathToCore."ressources/".$simuKey."/input/")){
     $oldmask = umask(0);
     if(!mkdir("ressources/".$simuKey."/input/", 0777, true)) {
            die("Les permissions sont insuffisantes pour lancer la simulation");
@@ -56,6 +55,6 @@ if(!file_exists("ressources/".$simuKey."/input/")){
 }
 
 
-$dom->save("ressources/".$simuKey.'/input/graphconfig.xml');
+$dom->save($pathToCore."ressources/".$simuKey.'/input/graphconfig.xml');
 
 ?>

@@ -183,6 +183,9 @@ function editNode() {
 
 function hideNode(){
 	var div = document.getElementById('popup-node-edit');
+    if(div == null) {
+        div = document.getElementById('newNodePopup');
+    }
 	div.style.display = 'none';
 }
 function hidePopupNewNode(){

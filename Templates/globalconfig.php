@@ -55,7 +55,7 @@
 	$simuConfig->appendChild($critswitchs);
 	
 	$req = CriticalitySwitch::load($simuKey);
-	
+
 	while($switchs = $req->fetch()) {
 		$critSwitch = $simuConfigDom->createElement("critswitch");
 		$critSwitch->setAttribute("time", $switchs["time"]);
@@ -64,5 +64,5 @@
 		$critswitchs->appendChild($critSwitch);
 	}
 	$simuConfigDom->appendChild($simuConfig);
-    $simuConfigDom->save("ressources/".$simuKey.'/input/config.xml');
+    $simuConfigDom->save($pathToCore."ressources/".$simuKey.'/input/config.xml');
 ?>

@@ -275,6 +275,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	$messages = array();
 	$sql  = 'SELECT id, path, period, offset, color FROM message ';
 	$sql .= 'WHERE id_simu = "'.$this->simulationId.'"';
+      
 	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
 		
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){

@@ -26,6 +26,9 @@
 		  require 'Library/Entities/Settings.class.php';
 		  require 'Library/Entities/Simulation.class.php';
 		  require 'Library/Entities/NodeGraph.class.php';
+          require 'Library/Actions/ElementsEditor.class.php';
+          require 'Library/Actions/SimulationManager.class.php';
+          require 'Library/Actions/SimuIdManager.class.php';
 		  }
 		}
 		

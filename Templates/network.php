@@ -65,5 +65,5 @@
  	}
 	$messagesDom->appendChild($messages);
 
-    $messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
+    $messagesDom->save($pathToCore."ressources/".$simuKey.'/input/messages.xml');
 ?>

@@ -15,11 +15,12 @@ session_start();
  
 	/* content load */
 	if($action_server=="messages" || $action_server=="links" || $action_server=="details") {
-		
 		$donnees1= $manager->displayListNode($simuKey);	
 		$list_links= $manager->displayListLink($simuKey);	
 		$donnees3= $manager->displayListMessage($simuKey);
+
 		$tabNames =[];
+
 		foreach ($list_links as $element){
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
