@@ -22,6 +22,7 @@ body {
 }
 
 #header {
+	display: block;
 	width: auto;
 	padding:0px;
 	margin: 0px 0px 0px 0px;
@@ -31,9 +32,11 @@ body {
 	height: 30px;
 	/* background: #FFF; */
 	border-bottom: 3px solid #202030;
+	margin-bottom: 50px;
 }
 
 h3{
+	display: block;
 	font-style:italic;
 	font-family: times, Verdana, Georgia, sans-serif;
 	font-size: 19px;
@@ -125,11 +128,11 @@ div.table_description {
     width:1200px;
 }
 
-#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title, #newNode {
+#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title, #newNode, #edit-nodeSchema-title {
 	font-size:28px;
 }
 
-#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit, #newNodePopup {
+#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit, #newNodePopup, #popup-nodeSchema-edit {
 	display:none;
 	position:absolute;
 	top:40%;
@@ -149,8 +152,12 @@ div.table_description {
 }
 	
 #popup-node-edit{
-	height:215px;
+	height:180px;
 }
+#popup-nodeSchema-edit{
+	height:100px;
+}
+
 	
 #popup-link-edit{
 	height:140px;
@@ -183,12 +190,12 @@ div.table_description {
 	box-shadow: 1px 1px 20px #202030;	
 }
 	
-#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message, #tableNewNode{
+#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message, #tableNewNode, #table-edit-nodeSchema{
 	margin:auto;
 	font-family: Verdana, Georgia, sans-serif;
 }
 
-#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td,#tableNewNode td {
+#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td,#tableNewNode td, #table-edit-nodeSchema td{
 	padding-top: 5px;
 	border:none;
 	text-align: right;
@@ -204,7 +211,7 @@ div.table_description {
 	padding-left:25px;
 }
 	
-#tableEdit #liste, #table-edit-node  #liste{
+#tableEdit #liste, #table-edit-node,  #liste, #table-edit-nodeSchema{
 	text-align:left;
 }
 
@@ -507,7 +514,6 @@ caption {
 	border: 1px solid;
 	border-radius: 12px;
 	background: linear-gradient(#DDDDDD,#EEEEEE);
-	opacity: 0;
 	transition: opacity 2s;
 	/*-webkit-transition: 5000ms;*/
 }
@@ -584,11 +590,6 @@ caption {
 	background: radial-gradient(circle, #FFFFFF , #33CC33);
 	border-radius:15px;
 	border: 1px solid;
-}
-.colorChoice.chooseColor{
-	opacity:1; 
-	transition: opacity 2s;
-
 }
 
 .valideColor:hover{
@@ -667,7 +668,7 @@ caption {
 	height: 15px;
 }
 
-.removeNodeFromTopo{
+.RadioForTopo{
 	margin-left: 10px;
 	margin-right: 10px;
 	float: left;
@@ -684,23 +685,23 @@ caption {
 	font-weight: bold;
 }
 
-.removeNodeFromTopo label span{
+.RadioForTopo label span{
 	display: block;
 	padding:5px 10px 5px 10px;
 	font-weight: bold;
 	cursor: pointer;
 }
 
-.removeNodeFromTopo label input{
+.RadioForTopo label input{
 	position: absolute;
 	left:-2000px;
 }
-.removeNodeFromTopo input:checked + span{
+.RadioForTopo input:checked + span{
 	background: linear-gradient(#A88200,#BCA504 ); 
 }
 
 .buttons{
-	width: 350px; 
+	width: 450px; 
 	height:30px; 
 	margin-left:auto; 
 	margin-right: auto;

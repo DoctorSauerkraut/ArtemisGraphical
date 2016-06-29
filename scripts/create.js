@@ -242,6 +242,7 @@ function clickoncanvas(json,event){
 		var disp = obj.topo[node].disp;
 
 		elements.push({
+			id: id,
 		    name: name,
 		    shape: shape,
 		    posX: posX,
@@ -252,7 +253,7 @@ function clickoncanvas(json,event){
 	// alert(document.getElementById('removeNodeFromTopo'));
 	 elements.forEach(function(element) {
 
-	 	if(document.getElementById('removeNodeFromTopo')!=null){
+	 	if(document.getElementById('removeNodeFromTopo')!=null && document.getElementById('editNodeFromTopo')!=null){
 	 		if(document.getElementById('removeNodeFromTopo').checked==true){
 	 			if(y > element.posY + 5 && y < element.posY + 45 && x > element.posX + 5 && x < element.posX + 45){
 	 				if(element.shape=='round'){
@@ -261,10 +262,13 @@ function clickoncanvas(json,event){
 	 					alert('You can\'t delete a switch point, if you really want to delete it, you\'ll have to delete all the endpoints which are linked to this switch.');
 	 				}
 	    		}
+	 		}else if(document.getElementById('editNodeFromTopo').checked==true){
+	 			if(y > element.posY + 5 && y < element.posY + 45 && x > element.posX + 5 && x < element.posX + 45){
+	 				popupNodeSchema(element.id,element.name);
+	 			}
 	 		}
 	 	}
 	 	else{
-	 		
 	 		if(y > element.posY + 5 && y < element.posY + 45 && x > element.posX + 5 && x < element.posX + 45){
 	    		// alert('on a cliqué sur le noeud'+ element.name+' qui a la dispo : '+element.disp);
 	    		 if (element.disp=='false' || element.disp=='sel') {

@@ -41,19 +41,17 @@ class Manager{
  
  
  public function addNode($name, $ip, $sched){
-	 if($name == ''){
-	 $name = "Unnamed ".$counter;
-		 $counter++;
-	 }
-	 $sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
-	 $q = $this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
-	 
-	 $q->bindValue(':name',$name);
-	 $q->bindValue(':id_simu',$this->simulationId);
-	  $q->bindValue(':ip_address',$ip);
-	 $q->bindValue(':scheduling', $sched);
-	 
-	 $q->execute();
+	if($name == ''){
+	$name = "Unnamed ".$counter;
+		$counter++;
+	}
+	$sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
+	$q = $this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
+	$q->bindValue(':name',$name);
+	$q->bindValue(':id_simu',$this->simulationId);
+	$q->bindValue(':ip_address',$ip);
+	$q->bindValue(':scheduling', $sched);
+	$q->execute();
  }
  
  public function deleteNode($id){
@@ -130,7 +128,9 @@ public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
 public function updateNodeS($id, $name, $ip, $sched, $speed){
 	$this->updateNodeC($id, $name, $ip, $sched, 0, $speed);
 }
-
+public function updateNodeSchema($id, $name){
+	$this->updateNodeC($id, $name, 0, 'FIFO', 0, 1);
+}
  public function updateNode($id, $name, $ip, $sched){
 	$this->updateNodeC($id, $name, $ip, $sched, 0, 1);
  }
@@ -172,7 +172,8 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 ////////////////////////////////////////////////////////     PART LINK    /////////////////////////////////////////////////////////
 
  public function addLink($node1, $node2){
-	 echo ($node1.$node2);
+	 echo '</br>'.$node1;
+	 	echo '</br>'.$node2;
 	 $q = $this->_db->prepare('INSERT INTO link SET id_simu = :id_simu, node1 = :node1, node2 = :node2')or die(print_r($_db->errorInfo()));
 	 $q->bindValue(':id_simu',$this->simulationId);
 	 $q->bindValue(':node1',$node1);
@@ -275,7 +276,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	$messages = array();
 	$sql  = 'SELECT id, path, period, offset, color FROM message ';
 	$sql .= 'WHERE id_simu = "'.$this->simulationId.'"';
-      
 	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
 		
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){

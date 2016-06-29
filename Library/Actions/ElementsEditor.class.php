@@ -13,10 +13,10 @@ class ElementsEditor {
     
     public function editNode($id, $label, $ip, $sched, $speed) {
         $this->manager->updateNodeS($id,$label,$ip,$sched,$speed);
-        
-		$donnees1= $this->manager->displayListNode_();
-		$donnees2= $this->manager->displayListLink_();	
-		$donnees3= $this->manager->displayListMessage_();
+        $manager=$this->manager;
+		$donnees1= $this->manager->displayListNode($this->simuKey);
+		$donnees2= $this->manager->displayListLink($this->simuKey);	
+		$donnees3= $this->manager->displayListMessage($this->simuKey);
 		$tabNames =[];
         
 		foreach ($donnees2 as $element){
@@ -25,6 +25,21 @@ class ElementsEditor {
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
 		include('./Views/show.php');
+    }
+    public function editNodeSchema($id, $label) {
+        $this->manager->updateNodeSchema($id,$label);
+        $manager=$this->manager;
+		$donnees1= $this->manager->displayListNode($this->simuKey);
+		$donnees2= $this->manager->displayListLink($this->simuKey);	
+		$donnees3= $this->manager->displayListMessage($this->simuKey);
+		$tabNames =[];
+        
+		foreach ($donnees2 as $element){
+			$name1 = $this->manager->displayNode($element->node1());
+			$name2 = $this->manager->displayNode($element->node2());				
+			array_push($tabNames,$name1->name(),$name2->name());
+		}
+		include('./Views/create.php');
     }
     
     public function deleteNode($id) {
@@ -142,9 +157,9 @@ class ElementsEditor {
 		}
 		
 		/* Reload page content */
-		$donnees1=  $this->manager->displayListNode($simuKey);	
-		$donnees2=  $this->manager->displayListLink($simuKey);	
-		$donnees3=  $this->manager->displayListMessage_();
+		$donnees1=  $this->manager->displayListNode($this->simuKey);	
+		$donnees2=  $this->manager->displayListLink($this->simuKey);	
+		$donnees3=  $this->manager->displayListMessage($this->simuKey);
 		$tabNames =[];
 		
 		foreach ($donnees2 as $element){
@@ -152,7 +167,7 @@ class ElementsEditor {
 			$name2 =  $this->manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-		include('./Views/show.php');	
+		include('./Views/messages.php');	
     }
     
     public function deleteMessage($idMsg) {
@@ -168,7 +183,7 @@ class ElementsEditor {
 			$name2 = $this->manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
 		}
-		include('./Views/show.php');
+		include('./Views/messages.php');
     }
 }
 

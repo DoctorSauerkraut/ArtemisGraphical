@@ -180,12 +180,24 @@ function editNode() {
 		}
 	});
 }
+function editNodeSchema(){
+	$.ajax({
+		url:"./Controller.php",
+		type:"post",
+		data:'action='+'editNodeSchema'+'&id='+document.getElementById('nodeSchema-id').value+'&label='+document.getElementById('nodeSchema-label').value,
+		success:function(data){
+			document.getElementById("corps").innerHTML = data;
+			createSchema();
+		}
+	});
+}
 
 function hideNode(){
 	var div = document.getElementById('popup-node-edit');
-    if(div == null) {
-        div = document.getElementById('newNodePopup');
-    }
+	div.style.display = 'none';
+}
+function hideNodeSchema(){
+	var div = document.getElementById('popup-nodeSchema-edit');
 	div.style.display = 'none';
 }
 function hidePopupNewNode(){
@@ -210,6 +222,18 @@ function popupNode($id, $name, $ip, $sched, $crit) {
 	
 	
 	crit.value=$crit;
+	
+	div.style.display = 'block';
+}
+function popupNodeSchema($id, $name) {
+	var span = document.getElementById('edit-nodeSchema-title');
+	var id = document.getElementById('nodeSchema-id');
+	var name = document.getElementById('nodeSchema-label');
+	var div = document.getElementById('popup-nodeSchema-edit');
+	span.innerHTML = "Edit Node n."+$id;
+	
+	id.value = $id;
+	name.value=$name;
 	
 	div.style.display = 'block';
 }
@@ -753,31 +777,40 @@ function correction(){
 }
 
 function activeColorBox(curColor,id){
+	// alert('color: '+curColor+'\n id : '+id);
+	// alert(document.getElementById('thecolor').value.substr(0,1));
 	var color=document.getElementById('colorChoice'+id);
 	if(color.style.display=="none"){
 		color.style.display='block';
-		color.classList.add('chooseColor');
+		// color.classList.add('chooseColor');
 		if(document.getElementById('thecolor'+id).value==''){
 			if(document.getElementById('inputColor'+id).value.substr(0,1)!="#"){
+				// alert('c\'est la');
 				document.getElementById('inputColor'+id).value="#"+document.getElementById('inputColor'+id).value;
 			}else{
+				// document.getElementById('inputColor'+id).value=document.getElementById('inputColor'+id).value;
 				document.getElementById('inputColor'+id).value=document.getElementById('inputColor'+id).value;
 			}
 		}else{
-			if(document.getElementById('thecolor').value.substr(0,1)!="#"){
-				document.getElementById('inputColor').value="#"+document.getElementById('thecolor'+id).value;
+			if(document.getElementById('thecolor'+id).value.substr(0,1)!="#"){
+				// alert('on passe');
+				document.getElementById('inputColor'+id).value="#"+document.getElementById('thecolor'+id).value;
 			}else{
 				document.getElementById('inputColor'+id).value=document.getElementById('thecolor'+id).value;
 			}
 			
 		}
+		document.getElementById('activeColorBox'+id).style.disabled=true;
+		// alert('the color: '+document.getElementById('thecolor').value+'\ninput : '+document.getElementById('inputColor').value+'\n'+id);
 		// document.getElementById('thecolor'+id).value=0;	
 	}
 	else{
 		color.style.display='none';
+		// alert(curColor);
 		document.getElementById('activeColorBox'+id).style.backgroundColor='#'+curColor;
 		document.getElementById('inputColor'+id).value='#'+curColor;
-		document.getElementById('thecolor'+id).value='';
+		document.getElementById('thecolor'+id).value='#'+curColor;
+		// alert('c\'est maintenant');
 	}
 }
 
@@ -787,6 +820,14 @@ function deactivateRadio(id){
 	document.getElementById('thecolor'+id).value='';
 	document.getElementById('thecolor'+id).checked='false';
 }
+
+function deactivateRemove(){
+	document.getElementById('removeNodeFromTopo').checked=false;
+}
+function deactivateEdit(){
+	document.getElementById('editNodeFromTopo').checked=false;
+}
+
 
 function valideColor(id){
 	var color = document.getElementById('inputColor'+id).value;

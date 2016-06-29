@@ -44,27 +44,21 @@
 	
 	<!---------- Nodes Table ---------->
 	<?php
-
 		/* Load computation */
 		$loadArray = array();
-		$donnees3= $manager->displayListMessage_();
-
+		
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			
 			/* Dynamic load computation */
 			foreach($path as $machineName) {
-
 				$machineName = trim($machineName);
 				/* Computing speed */
 				$machine = $manager->displayNodeByName($machineName);
-				
 				$tempPeriod = $message->period();
-
 				if($tempPeriod == 0) {
 					$tempPeriod = Settings::getParameter("timelimit", $simuKey);
 				}
-				
 				$currentLoad = $message->wcet() / $tempPeriod;
 
 				if($loadArray[$machineName] == "") {
@@ -76,7 +70,6 @@
 			}
 			 
 		}
-		
 
 	?>
 	<div class="tabledetailsdiv">

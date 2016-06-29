@@ -44,10 +44,10 @@
 	else if ($action_server == "createSchema"){
 		$donnees1= $manager->displayListNode($simuKey); 	// récupération de tous les noeuds
 		$donnees2= $manager->displayListLink($simuKey); 	// récupération de tous les liens
-
 		$topologie=prepareTopo($donnees2,$donnees1);
 		$topo=drawTopo($topologie);
 		$_SESSION['topo']=$topo;
+		// print_r($donnees1);
 	}
 	else if ($action_server == "getTopo"){
 		$topo=$_SESSION['topo'];
@@ -231,9 +231,10 @@
 				return;
 			}
 		}
-		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
+		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"],'ES');
 		$donnees1= $manager->displayListNode($simuKey);
 		// print_r($donnees1);
+		echo $_POST['id1'];
 		foreach ($donnees1 as $node) {
 			if($node->name()==$_POST["id1"]){
 				$node1=$node->id();
@@ -244,9 +245,16 @@
 				echo '   node2 : '.$node2;
 			}else{}
 		}
+		$sql = "SELECT shape FROM node WHERE id = \"$node2\" AND id_simu=\"$simuKey\"";
+		$bdd = connectBDD();
+		$result = $bdd->query($sql);
+		$shape=$result->fetch();
+		if($shape['shape']=='ES'){
+			$sql="UPDATE node SET shape='S' WHERE id=\"$node2\"" ;
+			$result = $bdd->query($sql);
+		}
 
 		$manager->addLink($node1,$node2);
-		// echo '  oui  ';
 			
 	}
 	else if ($action_server == "updateNode"){
@@ -286,12 +294,13 @@
         $elements = new ElementsEditor($manager, $simuKey);
         $elements->editNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['speed']);
 	}
+	else if ($action_server == "editNodeSchema"){
+        $elements = new ElementsEditor($manager, $simuKey);
+        $elements->editNodeSchema($_POST['id'],$_POST['label']);
+	}
     else if ($action_server == "addNode"){
         $elements = new ElementsEditor($manager, $simuKey);
 		$elements->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
-			
-
-			
 	}
     else if ($action_server == "deleteLink"){
         $elements = new ElementsEditor($manager, $simuKey);
@@ -307,7 +316,7 @@
 	}
     else if ($action_server == "editMessage"){
         $elements = new ElementsEditor($manager, $simuKey);
-        $elements->editMessage($_POST["id"], $_POST["period"], $_POST["offset"], $_POST["wcetStr"], $_POST["path"], $_POST["color"]);	
+        $elements->editMessage($_POST["id"], $_POST["period"], $_POST["offset"], $_POST["wcetStr"], $_POST["path"], $_POST["color"]);
 	}
     else if ($action_server == "deleteMessage"){
         $elements = new ElementsEditor($manager, $simuKey);
@@ -465,6 +474,7 @@
             return;
         }
         else {
+
             /* We create a list to store the pre-generated node ids */
             $idArray = array();
             
@@ -474,7 +484,7 @@
                 $idArray["".$id] = $name;
                 $manager->addNode($name, 0, 'FIFO');
             }
-            
+
              foreach($file->children() as $machine) {
                 $idFirstMachine = $machine->attributes()["id"];
                  
@@ -519,6 +529,7 @@
 				$manager->insertShape($id,'ES');
 			}
 		}
+		echo 'on a fini';
         include('./Templates/networkxml.php');
 	}
 		
