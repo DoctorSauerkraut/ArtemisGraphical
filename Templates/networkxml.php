@@ -10,6 +10,7 @@
 		$machine->setAttribute("id", $currentNode->id());
 		$machine->setAttribute("name", $currentNode->name());
 		$machine->setAttribute("speed", $currentNode->getSpeed());
+        $machine->setAttribute("shape", $currentNode->shape());
 		
         $config = $networkDom->createElement("Config");
         $name = $networkDom->createElement("name");

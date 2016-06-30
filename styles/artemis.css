@@ -17,11 +17,12 @@ body {
 	background-attachment:fixed;
 	padding-top:20px;
 	top: 0;
-
+	overflow-x: hidden;
 	background-color:#EEEEEE;
 }
 
 #header {
+	display: block;
 	width: auto;
 	padding:0px;
 	margin: 0px 0px 0px 0px;
@@ -31,9 +32,11 @@ body {
 	height: 30px;
 	/* background: #FFF; */
 	border-bottom: 3px solid #202030;
+	margin-bottom: 50px;
 }
 
 h3{
+	display: block;
 	font-style:italic;
 	font-family: times, Verdana, Georgia, sans-serif;
 	font-size: 19px;
@@ -125,11 +128,11 @@ div.table_description {
     width:1200px;
 }
 
-#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title, #newNode {
+#operation, #popUp-adds-title, #edit-node-title, #edit-link-title, #edit-message-title, #newNode, #edit-nodeSchema-title {
 	font-size:28px;
 }
 
-#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit, #newNodePopup  {
+#graph-popUp, #popup-node-edit, #popup-link-edit, #popup-message-edit, #newNodePopup, #popup-nodeSchema-edit {
 	display:none;
 	position:absolute;
 	top:40%;
@@ -149,8 +152,12 @@ div.table_description {
 }
 	
 #popup-node-edit{
-	height:215px;
+	height:180px;
 }
+#popup-nodeSchema-edit{
+	height:100px;
+}
+
 	
 #popup-link-edit{
 	height:140px;
@@ -183,12 +190,12 @@ div.table_description {
 	box-shadow: 1px 1px 20px #202030;	
 }
 	
-#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message, #tableNewNode{
+#tableEdit, #popUp-adds-table , #table-edit-node, #table-edit-link, #table-edit-message, #tableNewNode, #table-edit-nodeSchema{
 	margin:auto;
 	font-family: Verdana, Georgia, sans-serif;
 }
 
-#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td ,#tableNewNode td{
+#tableEdit td,#table-edit-node td,#table-edit-link td,#table-edit-message td,#tableNewNode td, #table-edit-nodeSchema td{
 	padding-top: 5px;
 	border:none;
 	text-align: right;
@@ -204,7 +211,7 @@ div.table_description {
 	padding-left:25px;
 }
 	
-#tableEdit #liste, #table-edit-node  #liste{
+#tableEdit #liste, #table-edit-node,  #liste, #table-edit-nodeSchema{
 	text-align:left;
 }
 
@@ -248,28 +255,23 @@ div.table_description {
 	text-align: center;
 	border: 2px solid white;
 	background: lightgray;
-	max-width: 150px;
+	/*max-width: 150px;*/
 	word-wrap : break-word;
 	padding: 15px;
 	/* min-height: 71px; */
 }
 
-.tableShow td input{
-	min-width: 15px;
-	max-width:30px;
-	text-align: center;
-}
-
 .tableShow td input[type="text"]{
 	min-width: 15px;
-	max-width:90px;
+	max-width:70px;
 	text-align: center;
 }
 
-.tableShow td a{
-	margin-left: 0;
+#path{
+	min-width: 70px;
+	max-width: 150px;
+	overflow: auto;
 }
-
 .redcase {
 	background: red !important;	
 }
@@ -300,7 +302,7 @@ caption {
     z-index:110;
 	width:100%;
 	/*max-width: 1200px;*/
-	min-height: 300px;
+	min-height: 100px;
 	height: auto;
 	margin-bottom:50px;
 	/*padding-top: 50px;*/
@@ -317,7 +319,7 @@ caption {
 	position:absolute;
 	width:100%;
 	height:100%;
-	z-index:899;
+	z-index:999;
 	background-color:#101010;
 	opacity:0.6;
 	top:0;
@@ -336,7 +338,7 @@ caption {
 	border:1px solid black;
 	min-height:150px;
 	visibility:hidden;
-	z-index:900;
+	z-index:1000;
 	border-radius:2em;
 }
 
@@ -368,9 +370,7 @@ caption {
 }
 
 #popupBody {
-	padding:20px;
-	display: inline-block;
-	text-align: center;
+		padding:20px;
 }
 
 #popupBodyText {
@@ -378,10 +378,7 @@ caption {
 	height:100px;
 }
 
-#popupBody .button{
-	margin-left:10px;
-	margin-right: 10px;
-}
+
 
 #buttonAddCriticality {
 	margin-top: 25px;
@@ -392,7 +389,7 @@ caption {
 	padding:5px 10px 5px 10px;
 	box-shadow: -1px 2px 3px 1px rgba(0, 0, 0, 0.7); 
 	font-weight:bold;
-	margin-left:10px;
+	margin-left:5px;
 }
 
 .blue {
@@ -437,16 +434,12 @@ caption {
 
 .button:hover {
 	box-shadow: -1px 3px 5px 1px rgba(0, 0, 0, 0.7); 
-/*	opacity:0.9;*/
+	opacity:0.9;
 	cursor: pointer;
 }
 
-.addNodeToTopo{
-	width: 75px;
-	margin: auto;
-}
-
 .exportSimu{
+	/*margin-top: 30px;*/
 	display: block;
 	width:43px;
 	margin:30px auto 0 auto;
@@ -511,7 +504,6 @@ caption {
 }
 
 .colorChoice{
-
 	padding-top: 60px;
 	position: absolute;
 	top:50%;
@@ -522,6 +514,8 @@ caption {
 	border: 1px solid;
 	border-radius: 12px;
 	background: linear-gradient(#DDDDDD,#EEEEEE);
+	transition: opacity 2s;
+	/*-webkit-transition: 5000ms;*/
 }
 
 .colorChoice table{
@@ -573,7 +567,7 @@ caption {
 	border-radius: 8px;
 	max-width: 80px;
 	height: 20px;
-	padding-left: 20px;
+	/*padding-left: 20px;*/
 	text-align: left;
 	position: absolute;
 	top:0;
@@ -598,9 +592,119 @@ caption {
 	border: 1px solid;
 }
 
-.colorChoice .valideColor:hover{
+.valideColor:hover{
 	background: radial-gradient(circle, #FFFFFF , #11AA00);
 }
-.colorChoice .valideColor:active{
+.valideColor:active{
 	background: radial-gradient(circle, #DDDDDD , #11AA00);
 }
+
+.band{
+	/*display: none;*/
+	padding-left:3px;
+	padding-bottom: 3px; 
+	position: fixed;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	background-color: rgba(121, 181, 231, 0.8);
+	top: 50%;
+	left: 100%;
+	max-width: 89.1%;
+	transition: 1000ms ease-in-out;
+  	transform: translate(0, -50%);
+
+}
+.band.onscreen{
+  	/*transform: translate(-100%, 0);*/
+  	box-shadow: -8px 8px 5px #888888;
+  	transition: 1000ms ease-in-out;
+	transform: translate(-100%,-50%);
+}
+
+.hideGraph{
+	position: absolute;
+    float:right;
+    top: 5px;
+    left: 6px;
+    /*margin-right:-30px;*/
+    cursor:pointer;
+    color: #fff;
+    border: 1px solid #AEAEAE;
+    border-radius: 30px;
+    background: #605F61;
+    font-size: 31px;
+    font-weight: bold;
+    display: inline-block;
+    line-height: 0px;
+    padding: 11px 3px;  
+    z-index: 998;     
+}
+
+.hideGraph:before {
+    content: "×";
+}
+.hideGraph:hover{
+	cursor: pointer;
+}
+
+.addNodeToTopo{
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+    text-align: center;
+    text-decoration: none;
+	display: inline-block;
+	height: 15px;
+
+}
+
+.saveCanvas{
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+    text-align: center;
+    text-decoration: none;
+	display: inline-block;
+	height: 15px;
+}
+
+.RadioForTopo{
+	margin-left: 10px;
+	margin-right: 10px;
+	float: left;
+	box-shadow: -1px 2px 3px 1px rgba(0, 0, 0, 0.7); 
+	background: linear-gradient(#DAA520,#EFD807 );
+	line-height: 15px;
+	border: 1px solid;
+	text-align:center;
+	display: inline-block;
+	text-decoration: none;
+	vertical-align: middle;
+	float: left;
+	border:1px solid;
+	font-weight: bold;
+}
+
+.RadioForTopo label span{
+	display: block;
+	padding:5px 10px 5px 10px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.RadioForTopo label input{
+	position: absolute;
+	left:-2000px;
+}
+.RadioForTopo input:checked + span{
+	background: linear-gradient(#A88200,#BCA504 ); 
+}
+
+.buttons{
+	width: 450px; 
+	height:30px; 
+	margin-left:auto; 
+	margin-right: auto;
+}
+
+

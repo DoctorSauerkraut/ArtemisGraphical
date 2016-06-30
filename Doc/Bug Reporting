@@ -1,0 +1,50 @@
+Bug reporting
+
+1/ Edition des liens:
+La popup d'édition des liens n'était pas codée, le bouton "edit" sur l'onglet "Links" était donc inutilisable. 
+ETAT: Réglé
+-> popup rédigée, js mis à jour, base de données remplie
+EDIT: plus d'intéret car l'onglet 'link' a été désactivé
+
+2/ Edition des noeuds: 
+Les méthodes de récupération des informations n'étaient pas les bonnes: displayListNode() au lieu de displayListNode_()
+ETAT: réglé
+-> méthodes remplacées
+
+3/ Suppression des noeuds: 
+La suppression des noeuds qui apparaissaient dans un message faisait planter le programme, car lors du réaffichage des noeuds, les messages sont chargés, et le noeuds supprimer n'était pas trouvé lors du chargement du path.
+ETAT: réglé
+-> suppression des messages comportant le noeud supprimé
+
+4/ ClearGraph
+La suppression de la topologie entière ne permettait pas de recréer une topology directement, il fallait recharger la page.
+ETAT: réglé
+-> appelle de la fonction createSchema après la creation d'une nouvelle topologie, pour la chargée en session
+
+5/ Suppression des noeuds
+La suppression d'un switch faisait planté l'affichage de la topologie, car les noeuds 'enfants' n'avaient plus de liens
+ETAT: réglé
+->sur le schema on ne peut pas supprimer un noeud s'il n'est pas un endpoint
+->dans l'onglet 'node', on fait d'abord un test sur la nature du noeud(enpoint ou switch) dans script.js/deleteNode
+
+6/ Edition et suppression des messages
+Après l'édition et la suppression des messages, la page 'show.php' était incluse ce qui produisait une erreur, sans altérer le fonctionnement des requètes, alors que cela aurait du être 'messages.php'.
+ETAT: réglé
+-> changement de l'include en 'include('../Views/messages.php')'.
+-> changement de $simukey par $this->simukey dans editMessage
+
+7/ Edition des noeuds
+Suite au changement de 'controller.php' et du passage de $manager à $this->manager, la fonction edtiNode plantait car on appellait '$manager->displayNodeByName($machineName)', or comme le fichier 'show.php' était appelé depuis 'ElementsEditor', $manager n'était pas défini.
+ETAT: réglé
+-> attribution d'une variable $manager=$this->manager dans ElementsEditor/editNode, pour pouvoir utiliser la variable manager dans 'show.php'
+-> changement de $simukey par $this->simukey dans editNode
+
+8/ Mise à jour des 'shape'
+Suite à l'ajout en base de la nature des noeuds(switchs ou endpoints) il fallait actualiser ces natures lors de l'ajout de noeuds. En effet les shapes sont mise en base à la création d'une topologie, ou bien par un import grace au fichier 'network.XML'
+ETAT: réglé
+-> Test à l'ajout d'un noeud(noeud1) de la nature du noeud auquel il est rettaché(noeud2, si le noeud2 a une nature 'ES', on update en attribuant 'S'.
+
+9/ Masquage du tableau de création de topologie
+Le tableau proposant la génération automatique de topologie était présent en permanence sur la page "network" en cas de demande de création de topologie alors qu'une topologie existait déjà pour la simulation en cours, le programme plantait. 
+ETAT: réglé
+-> le tableau est dorénavent masqué lorsqu'une simulation possède déjà une topologie, ainsi on ne peut pas demander deux fois de créer une topologie pour une même simulation.

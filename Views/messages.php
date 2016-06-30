@@ -210,12 +210,9 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 				echo "<tr>";
                 echo "<td></td>";
 				echo "<td>";
-					echo '<input style="display: none; min-width:90px;" type="text" value="" id="path" ></input>';
-					echo '<select id="newMess" onclick="getMessage();" />';
-					foreach ($nodes as $node) {
-						echo '<option  value="'.$node.'">'.$node.'</option>';
-					}
-					echo "</select></td>";
+
+					echo '<input style="display: none; text-align: center; min-width:90px; margin-bottom: 5px;" type="text" value="" id="path" readonly="true"></input>';
+					echo '<a class="button blue" onclick="displayGraph();"/>View</a></td>';
 				echo "<td><input type=\"text\" id=\"period\" /></td>";
 				echo "<td><input type=\"text\" id=\"offset\" /></td>";
 				
@@ -243,6 +240,15 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 			?> 
 				
 		
-	<br />	<!-- <a class="button blue" id="buttonAddCriticality" onclick="popup('critButton')">Add a criticality level</a> -->
+		<br />	<!-- <a class="button blue" id="buttonAddCriticality" onclick="popup('critButton')">Add a criticality level</a> -->
 		
-		</div>
+	</div>
+
+	<div id="band" class="band">
+		<a class="hideGraph" onclick="hideGraph();"/></a>
+		<div id="mygraph2" style="position: relative; width:100%;height:auto;"></div>
+	</div>
+	<div id="box" class="box"></div>
+
+	</br></br></br></br></br></br></br></br>
+	<div>   </div>

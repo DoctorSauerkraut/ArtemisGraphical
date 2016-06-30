@@ -21,6 +21,7 @@ class Manager{
   	}
  	
   public function clearAll(){
+  	$this->_db->exec("DELETE FROM config WHERE id_simu = ".$this->simulationId);
    $this->_db->exec("DELETE FROM message WHERE id_simu = ".$this->simulationId);
    $this->_db->exec("DELETE FROM link WHERE id_simu = ".$this->simulationId);
    $this->_db->exec("DELETE FROM node WHERE id_simu = ".$this->simulationId);
@@ -40,19 +41,17 @@ class Manager{
  
  
  public function addNode($name, $ip, $sched){
-	 if($name == ''){
-	 $name = "Unnamed ".$counter;
-		 $counter++;
-	 }
-	 $sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
-	 $q = $this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
-	 
-	 $q->bindValue(':name',$name);
-	 $q->bindValue(':id_simu',$this->simulationId);
-	  $q->bindValue(':ip_address',$ip);
-	 $q->bindValue(':scheduling', $sched);
-	 
-	 $q->execute();
+	if($name == ''){
+	$name = "Unnamed ".$counter;
+		$counter++;
+	}
+	$sql = 'INSERT INTO node SET name = :name, id_simu = :id_simu, ip_address = :ip_address, scheduling = :scheduling';
+	$q = $this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
+	$q->bindValue(':name',$name);
+	$q->bindValue(':id_simu',$this->simulationId);
+	$q->bindValue(':ip_address',$ip);
+	$q->bindValue(':scheduling', $sched);
+	$q->execute();
  }
  
  public function deleteNode($id){
@@ -62,7 +61,7 @@ class Manager{
  public function displayNode($id){
 	 $id = (int) $id; 
 	 
-	 $request='SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE id = '.$id;
+	 $request='SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node WHERE id = '.$id;
 
 	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
@@ -73,7 +72,7 @@ class Manager{
  }
  
   public function displayNodeByName($name){
-	$sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node WHERE name = "'.$name.'"';
+	$sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node WHERE name = "'.$name.'"';
 	$sql .= " AND id_simu = \"".$this->simulationId."\""; 
 	 $q= $this->_db->query($sql)or die (print_r($_db->errorInfo()));
 	 	 
@@ -97,7 +96,7 @@ class Manager{
  
  public function displayListNode_(){
 	 $nodes = array();
-	 $sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed FROM node ';
+	 $sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node ';
 	 $sql .= "WHERE id_simu = \"".$this->simulationId."\""; 
 
 	 $q = $this->_db->query($sql) or die(print_r($_db->errorInfo()));
@@ -129,10 +128,25 @@ public function updateNodeC($id, $name, $ip, $sched, $disp, $speed) {
 public function updateNodeS($id, $name, $ip, $sched, $speed){
 	$this->updateNodeC($id, $name, $ip, $sched, 0, $speed);
 }
-
+public function updateNodeSchema($id, $name){
+	$this->updateNodeC($id, $name, 0, 'FIFO', 0, 1);
+}
  public function updateNode($id, $name, $ip, $sched){
 	$this->updateNodeC($id, $name, $ip, $sched, 0, 1);
  }
+
+ public function insertShape($id, $shape) {
+ 	echo $shape.'   ';
+	$sql  = 'UPDATE node SET shape = :shape';
+	$sql .= ' WHERE id = :id';
+			
+	$q=$this->_db->prepare($sql)or die(print_r($_db->errorInfo()));
+	
+	$q->bindValue(':id', $id, PDO::PARAM_INT);
+	$q->bindValue(':shape', $shape);
+
+	$q->execute();
+}
  
  public function verifyNodeDeletion($idnode,$name){
  // We check in the link database if we need to delete some links 
@@ -158,7 +172,8 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 ////////////////////////////////////////////////////////     PART LINK    /////////////////////////////////////////////////////////
 
  public function addLink($node1, $node2){
-	 echo ($node1.$node2);
+	 echo '</br>'.$node1;
+	 	echo '</br>'.$node2;
 	 $q = $this->_db->prepare('INSERT INTO link SET id_simu = :id_simu, node1 = :node1, node2 = :node2')or die(print_r($_db->errorInfo()));
 	 $q->bindValue(':id_simu',$this->simulationId);
 	 $q->bindValue(':node1',$node1);
@@ -238,7 +253,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 }
 
   public function deleteMessage($id){
-  	echo'del mess   ';
  	$this->_db->exec('DELETE FROM message WHERE id = '.$id);
   }
  
@@ -262,7 +276,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	$messages = array();
 	$sql  = 'SELECT id, path, period, offset, color FROM message ';
 	$sql .= 'WHERE id_simu = "'.$this->simulationId.'"';
-      
 	$q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
 		
 		 while ($donnees = $q->fetch(PDO::FETCH_ASSOC)){
@@ -270,7 +283,6 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 			 $tmp->hydrate($donnees);
 			 $messages[]=$tmp;
 		 }
-
 	return $messages;
  }
     
@@ -300,17 +312,10 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
   public function updateMessage($id, $path, $period, $offset, $color){
   
    $nodes = explode(",",$path);
-   // echo'<pre>'.print_r($nodes).'</pre>';
-   // echo 'id: '.$id.'</br>';
-   // echo 'path: '.$path.'</br>';
-   // echo 'period: '.$period.'</br>';
-   // echo 'offset: '.$offset.'</br>';
-   // echo 'color: '.$color.'</br>';
 		$newpath="";
 	foreach ($nodes as $element){
 		 $newpath = $newpath.trim($element).",";  
 	}
-
 	$newpath=substr($newpath,0,-1);
 	 $sql 	= "UPDATE message ";
 	 $sql 	.= "SET path=\"$newpath\",";
@@ -318,9 +323,7 @@ public function updateNodeS($id, $name, $ip, $sched, $speed){
 	 $sql 	.= "offset = \"$offset\",";
 	 $sql 	.= "color = \"$color\" ";
 	 $sql	.= "WHERE id=\"$id\"";
-	 echo $sql;
 	 $q = $this->_db->query($sql)or die(print_r($_db->errorInfo()));
-	 echo 'ok';
 }
  
 /* Check if path is correct */

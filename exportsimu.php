@@ -11,10 +11,9 @@
 	<body>
 <?php 
 			$id_sel=$_GET['id_sel'];
-				$filename = './export/export_simu_'.$id_sel.'.zip';		
-				$targetDir='./ressources/'.$id_sel.'/input/';
-				if(file_exists($targetDir)){
-				
+			$filename = './export/export_simu_'.$id_sel.'.zip';		
+			$targetDir='./ressources/'.$id_sel.'/input/';
+			if(file_exists($targetDir)){
 				$zip = new ZipArchive;
 				$files = array('messages.xml','network.xml','config.xml','graphconfig.xml');			
 				if ($zip->open($filename, ZipArchive::OVERWRITE)===TRUE) {
@@ -23,18 +22,18 @@
 							// echo $file." existe \n";
 							var_dump($zip->addFile($targetDir.$file,$file));
 							var_dump($zip);
-						}else{echo $file." n'existe PAS";}
+						}else{
+							echo $file." n'existe PAS";
+						}
 				    }
 				    var_dump($zip->close());
 				    var_dump($zip);
 				    chmod($filename, 0777);
-				} else {
-				    echo 'échec';
+				}else{
+				   	echo 'échec';
 				}		
-
 				$filetest='export_simu_'.$id_sel.'.zip';
 				$filepath='./export/';
-
 				ob_start();
 				header("Pragma: public");
 				header("Expires: 0");
@@ -49,7 +48,6 @@
 				ob_clean();
 				var_dump(readfile($filepath.$filetest));
 			}else{
-				
 				echo '<div id="grayer" style="visibility:visible;" onclick="closePopup()"></div>';
 				echo '<div id="popup" style="visibility:visible;">';
 				$popupHead = "<div id=\"popupHead\">";

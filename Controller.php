@@ -38,17 +38,16 @@
 				$info=$info.$element2->node1().','.$element2->node2().','.$element2->id().',';
 			}
 			$info=substr($info,0,-1);
-			$info=$info.";";
-			// echo($info);			
+			$info=$info.";";			
 		}
 	}
 	else if ($action_server == "createSchema"){
 		$donnees1= $manager->displayListNode($simuKey); 	// récupération de tous les noeuds
 		$donnees2= $manager->displayListLink($simuKey); 	// récupération de tous les liens
-
 		$topologie=prepareTopo($donnees2,$donnees1);
 		$topo=drawTopo($topologie);
 		$_SESSION['topo']=$topo;
+		// print_r($donnees1);
 	}
 	else if ($action_server == "getTopo"){
 		$topo=$_SESSION['topo'];
@@ -59,8 +58,12 @@
 			$topoToDraw['topo'][$i]['shape']=$node['shape'];
 			$topoToDraw['topo'][$i]['posX']=$node['posX'];
 			$topoToDraw['topo'][$i]['posY']=$node['posY'];
-			$topoToDraw['topo'][$i]['parent']=$node['parent'];
-			$topoToDraw['topo'][$i]['rank']=$node['rank'];
+			if(!isset($node['disp'])){
+				$topoToDraw['topo'][$i]['disp']='true';
+			}else{
+				$topoToDraw['topo'][$i]['disp']=$node['disp'];
+			}
+			
 			$i++;
 		}
 		$topoToDraw=json_encode($topoToDraw);
@@ -84,36 +87,49 @@
 		$nodeSel=$_POST['nodeSel'];
 		$path=$_POST['path'];
 		$topo=$_SESSION['topo'];
+		// print_r($topo);
 		$idNode='';
 		$donnees1= $manager->displayListNode($simuKey);
 		$donnees2= $manager->displayListLink($simuKey);
+		$paths=explode(',',$path); // on separe les noeud du path
 
-		$paths=explode(',',$path);
-		foreach ($donnees1 as $node) {
-			if($nodeSel==$node->name()){
-				$idNode=$node->id();
+		foreach ($donnees1 as $node) { // pour chaque noeud
+			if($topo[$node->id()]['disp']!='sel'){
+				$topo[$node->id()]['disp']='false';
+			}
+			if($nodeSel==$node->name()){// si le noeud correspond au noeud selectionné
+				$idNode=$node->id();// on recupère l'id
+				$topo[$node->id()]['disp']='sel';
 			}
 		}
-		foreach ($donnees2 as $link) {
-			if($idNode==$link->node1()){
-				$listNodePossible[]=$topo[$link->node2()]['name'];
+		foreach ($donnees2 as $link) { //pour chaque lien
+			if($idNode==$link->node1()){ // si le noeud selectionné est lié à un autre noeud
+				$listNodePossible[$link->node2()]['name']=$topo[$link->node2()]['name']; //on recupere le nom du noeud auquel il est lié
+				$listNodePossible[$link->node2()]['id']=$topo[$link->node2()]['id']; //on recupere l'id du noeud auquel il est lié
+				$topo[$link->node2()]['disp']='true';
 			}
 			if($idNode==$link->node2()){
-				$listNodePossible[]=$topo[$link->node1()]['name'];
+				$listNodePossible[$link->node1()]['name']=$topo[$link->node1()]['name'];
+				$listNodePossible[$link->node1()]['id']=$topo[$link->node1()]['id'];
+				$topo[$link->node1()]['disp']='true';
 			}
 		}
-
-		foreach ($listNodePossible as $nodeDisp) {
+		// print_r($listNodePossible);
+		foreach ($listNodePossible as $nodeDisp) {//pour tous les noeuds disponibles
 			$ok=0;
-			foreach ($paths as $nodeIndisp) {
-				if($nodeDisp==$nodeIndisp){
+			foreach ($paths as $nodeIndisp) {// pour tous les noeuds déjà dans le path
+				if($nodeDisp['name']==$nodeIndisp){ // si les noeuds disponibles sont déja dans le path, on ne les prends pas
 					$ok++;
+					$topo[$nodeDisp['id']]['disp']='sel';
 				}
 			}
-			if($ok==0){
-				echo '<option value="'.$nodeDisp.'">'.$nodeDisp.'</option>';
+			if($ok==0){// on ecrit les options pour chauque noeud retenu
+				echo '<option value="'.$nodeDisp['name'].'">'.$nodeDisp['name'].'</option>';
 			}
 		}
+		print_r($topo);
+		$_SESSION['topo']=$topo;
+		$_POST['path']=null;
 	}
 	else if ($action_server == "displayCritTable"){
 		include("./Views/criticalityTable.php");
@@ -220,9 +236,10 @@
 				return;
 			}
 		}
-		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
+		$manager->addNode($_POST["name"],$_POST["ip"],$_POST["sched"],'ES');
 		$donnees1= $manager->displayListNode($simuKey);
 		// print_r($donnees1);
+		echo $_POST['id1'];
 		foreach ($donnees1 as $node) {
 			if($node->name()==$_POST["id1"]){
 				$node1=$node->id();
@@ -233,30 +250,62 @@
 				echo '   node2 : '.$node2;
 			}else{}
 		}
+		$sql = "SELECT shape FROM node WHERE id = \"$node2\" AND id_simu=\"$simuKey\"";
+		$bdd = connectBDD();
+		$result = $bdd->query($sql);
+		$shape=$result->fetch();
+		if($shape['shape']=='ES'){
+			$sql="UPDATE node SET shape='S' WHERE id=\"$node2\"" ;
+			$result = $bdd->query($sql);
+		}
 
 		$manager->addLink($node1,$node2);
-		// echo '  oui  ';
 			
 	}
 	else if ($action_server == "updateNode"){
 		
 		$manager->updateNode($_POST["id"],$_POST["name"],$_POST["ip"],$_POST["sched"]);
-			
-	}
+		}
 
     /* Edit network components */
     else if ($action_server == "deleteNode"){
 	    $elements = new ElementsEditor($manager, $simuKey);
         $elements->deleteNode($_POST['id']);
 	}
+	else if ($action_server=="deleteNodeByName"){
+	
+		$nodeSel=$_POST['name'];
+		$donnees1=$manager->displayListNode($simuKey);
+		foreach ($donnees1 as $node) {
+			if($node->name()==$nodeSel){
+				$nodeID=$node->id();
+				$messages=$manager->displayListMessage_(); // récupération des messages
+				foreach ($messages as $message) { //pour chaque message 
+					$path=$message->path(); // on récupère le path
+					$path=explode(",",$path); // on en fait un tableau 
+					print_r($path);
+					foreach ($path as $nodepath) { // pour chaque noeud du path
+						if($node->name()==$nodepath){  // on regarde si le noeud à supprimer est dans le path
+							$manager->deleteMessage($message->id()); // si le noeud fait parti du path du message on supprime le message
+						}					// ca n'a aucun sens de garder un message si l'un de ses noeuds n'existe plus
+					}
+				}
+				$manager->deleteNode($nodeID); // suppression du noeud
+				$manager->verifyNodeDeletion($nodeID,$nodeSel);
+			}
+		}
+	}
     else if ($action_server == "editNode"){
         $elements = new ElementsEditor($manager, $simuKey);
         $elements->editNode($_POST['id'],$_POST['label'],$_POST['ipAddress'],$_POST['scheduling'],$_POST['speed']);
 	}
+	else if ($action_server == "editNodeSchema"){
+        $elements = new ElementsEditor($manager, $simuKey);
+        $elements->editNodeSchema($_POST['id'],$_POST['label']);
+	}
     else if ($action_server == "addNode"){
         $elements = new ElementsEditor($manager, $simuKey);
 		$elements->addNode($_POST["name"],$_POST["ip"],$_POST["sched"]);
-			
 	}
     else if ($action_server == "deleteLink"){
         $elements = new ElementsEditor($manager, $simuKey);
@@ -272,7 +321,7 @@
 	}
     else if ($action_server == "editMessage"){
         $elements = new ElementsEditor($manager, $simuKey);
-        $elements->editMessage($_POST["id"], $_POST["period"], $_POST["offset"], $_POST["wcetStr"], $_POST["path"], $_POST["color"]);	
+        $elements->editMessage($_POST["id"], $_POST["period"], $_POST["offset"], $_POST["wcetStr"], $_POST["path"], $_POST["color"]);
 	}
     else if ($action_server == "deleteMessage"){
         $elements = new ElementsEditor($manager, $simuKey);
@@ -280,10 +329,11 @@
 	}
     else if ($action_server == "addMessage"){
         $wcetStr = (isset($_POST["wcetStr"]) && $_POST["wcetStr"] != "NC=:") ? $_POST["wcetStr"]:"NC=0:";
-        
         $elements = new ElementsEditor($manager, $simuKey);
         $elements->addMessage($_POST["path"], $_POST["offset"], $_POST["period"], $_POST["color"], $wcetStr);		
 	}
+        
+
 
     else if ($action_server == "clearGraph"){
 		$manager->clearAll();
@@ -430,6 +480,7 @@
             return;
         }
         else {
+
             /* We create a list to store the pre-generated node ids */
             $idArray = array();
             
@@ -439,7 +490,7 @@
                 $idArray["".$id] = $name;
                 $manager->addNode($name, 0, 'FIFO');
             }
-            
+
              foreach($file->children() as $machine) {
                 $idFirstMachine = $machine->attributes()["id"];
                  
@@ -472,7 +523,20 @@
 			$name1 = $manager->displayNode($element->node1());
 			$name2 = $manager->displayNode($element->node2());				
 			array_push($tabNames,$name1->name(),$name2->name());
+			$nodes[$element->node1()]=$nodes[$element->node1()]+1;// on crée un tableau du nombre de 
+			$nodes[$element->node2()]=$nodes[$element->node2()]+1;// liens par noeud
 		}
+		print_r($nodes);
+		foreach ($nodes as $id=>$nblinks) {
+			echo $id;
+			if($nblinks>1){
+				$manager->insertShape($id,'S');
+			}else{
+				$manager->insertShape($id,'ES');
+			}
+		}
+		echo 'on a fini';
         include('./Templates/networkxml.php');
 	}
-?>		
+		
+?>
