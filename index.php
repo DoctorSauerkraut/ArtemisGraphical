@@ -72,7 +72,8 @@
 		if($_FILES['import']['name']!=''){
 			import();
 		}else{}
-		$_FILES=array();
+
+        $_FILES=array();
 		$_FILES['import']['name']='';
 	
 		include_once('./Templates/footer.php'); 
