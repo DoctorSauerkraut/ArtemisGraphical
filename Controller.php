@@ -416,14 +416,13 @@
         
         $command = "java -jar ".$pathToCore."artemis_messages.jar ".$simuKey;
 		exec($command, $output);  
-        echo "..".$command;
         
         $file = simplexml_load_file($pathToCore."ressources/".$simuKey."/input/messages.xml");
         if($file === FALSE) {
-            echo "->".$command;
             return;
         }
         else {
+            
              foreach($file->children() as $message) {
                  $id = $message->attributes()["id"];
                  $path      = "";
@@ -458,11 +457,12 @@
                        }
                   }
                  
-                 $manager->addMessage($finalPath, $period, $offset, "#0000FF");
+                 
+                $manager->addMessage($finalPath, $period, $offset, "#0000FF");
                  /* We get the message generated id */
                  $idCreatedMessage = $manager->getMessageID($finalPath, $period, $offset);
                  $message = new Message();
-                 $message->setId($idCreatedMessage);
+                $message->setId($idCreatedMessage);
                  $message->_setWcet($wcet, $lvl);
              }
         }

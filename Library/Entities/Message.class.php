@@ -92,12 +92,11 @@
 			return $req;
 		}
 		
-		public function _setWcet($wcet, $critLvl){       
+		public function _setWcet($wcet, $critLvl){      
 			/* Selecting existing message */
 			$wcetBDD = $this->wcet_($critLvl);
 			
 			$critLvl = CriticalityLevel::getIdFromLevel($critLvl);		
-			
 			
 			if($wcet == -1 && $wcetBDD == -1) {
 				// No message previously created, and no message to create;

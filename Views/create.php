@@ -1,5 +1,6 @@
 <?php
 	session_start();
+
 	include('../functions.php');
 	
 	spl_autoload_register('chargerClasse');
@@ -13,6 +14,7 @@
 	$manager->setSimuId($_SESSION["simuid"]);
 	$simuKey = $_SESSION["simuid"];
 	$donnees1= $manager->displayListNode($simuKey);
+
 	// print_r($donnees1);
 
 

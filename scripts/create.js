@@ -114,24 +114,25 @@ function drawTopo(json){
 
 	obj=JSON.parse(json);
 	// alert(obj.topo[1][disp]);
-	for(node in obj.topo){
-		var name = obj.topo[node].name;
-		var id = obj.topo[node].id;
-		var shape = obj.topo[node].shape;
-		var posX = obj.topo[node].posX;
-		var posY = obj.topo[node].posY;
-		var disp = obj.topo[node].disp;
-		// alert(disp);
+    if(obj != null) {
+        for(node in obj.topo){
+            var name = obj.topo[node].name;
+            var id = obj.topo[node].id;
+            var shape = obj.topo[node].shape;
+            var posX = obj.topo[node].posX;
+            var posY = obj.topo[node].posY;
+            var disp = obj.topo[node].disp;
+            // alert(disp);
 
-		elements.push({
-		    name: name,
-		    shape: shape,
-		    posX: posX,
-		    posY: posY,
-		    disp: disp
-		});
-	}
-
+            elements.push({
+                name: name,
+                shape: shape,
+                posX: posX,
+                posY: posY,
+                disp: disp
+            });
+        }
+    }
 	// alert(elements[0].disp);
 	elements.forEach(function(element) {
 		// alert(element.disp);
