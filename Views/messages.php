@@ -181,7 +181,8 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 					$codeStr ="";
 					for($cptTd=0;$cptTd<$cptLevels;$cptTd++) {	
 						$code = $levelsTab[$cptTd]->getCode();
-						$wcet = ($element->wcet_($code) != "") ? $element->wcet_($code):"0";
+						$wcet = ($element->wcet_($code) != "") ? $element->wcet_($code):"-1";
+						echo 'wcet : '.$code;  
 						
 						echo "<td id=\"wcet_".$code."_".$element->id()."\" onclick=\"editWcet(this, '$code')\" >".$wcet."</td>";
 						

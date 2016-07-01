@@ -211,7 +211,8 @@
 	}
 
 	function activeColorBox($id,$color){
-		echo '<a class="activeColorBox button" style="background-color:'.$color.'" id="activeColorBox'.$id.'" onclick="activeColorBox(0,\''.$id.'\')" >Color</a>';
+		$col=substr($color, 1);
+		echo '<a class="activeColorBox button" style="background-color:'.$color.'" id="activeColorBox'.$id.'" onclick="activeColorBox(\''.$col.'\',\''.$id.'\')" >Color</a>';
 		echo '<div class="colorChoice" id="colorChoice'.$id.'" style="display:none">';
 		$colors = array("#0000FF", "#00FF00", "#FF0000", "#CC00FF",
   			"#FF66FF", "#FFFF00", "#99FFFF", "#990066",
@@ -281,6 +282,7 @@ function prepareTopo($donnees2,$donnees1){
 
 			$nodeSchemas[$nodeSchema->id()]= $tabNodeSchema;	// on crée un tableau de tableau de noeuds
 		}
+		// print_r($nodeSchemas);
 		$i=0;
 
 		$count=0;
@@ -406,7 +408,7 @@ function prepareTopo($donnees2,$donnees1){
 			echo '<a id="zoomminus" onclick="zoomminus();"></a>';
 		}
 		if(($taillemax*50)>1250){
-			$scroll='overflow: scroll;';
+			$scroll='overflow-x: scroll;';
 		}
 		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax+1.2)*80).'px;'.$scroll.'">';
 		echo '<canvas id="canvas" onclick="reloadgraph(event);"style="transform: scale(1); width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;"></canvas>';

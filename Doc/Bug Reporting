@@ -34,7 +34,7 @@ ETAT: réglé
 -> changement de $simukey par $this->simukey dans editMessage
 
 7/ Edition des noeuds
-Suite au changement de 'controller.php' et du passage de $manager à $this->manager, la fonction edtiNode plantait car on appellait '$manager->displayNodeByName($machineName)', or comme le fichier 'show.php' était appelé depuis 'ElementsEditor', $manager n'était pas défini.
+Suite au changement de 'controller.php' et du passage de $manager à $this->manager, la fonction editNode plantait car on appellait '$manager->displayNodeByName($machineName)', or comme le fichier 'show.php' était appelé depuis 'ElementsEditor', $manager n'était pas défini.
 ETAT: réglé
 -> attribution d'une variable $manager=$this->manager dans ElementsEditor/editNode, pour pouvoir utiliser la variable manager dans 'show.php'
 -> changement de $simukey par $this->simukey dans editNode
@@ -48,3 +48,9 @@ ETAT: réglé
 Le tableau proposant la génération automatique de topologie était présent en permanence sur la page "network" en cas de demande de création de topologie alors qu'une topologie existait déjà pour la simulation en cours, le programme plantait. 
 ETAT: réglé
 -> le tableau est dorénavent masqué lorsqu'une simulation possède déjà une topologie, ainsi on ne peut pas demander deux fois de créer une topologie pour une même simulation.
+
+10/ Choix du nom des nodes
+Il ne doit pas y avoir deux nodes avec le même nom, sinon cela peut corrompre le déroulement du simulateur, pour la création des messages par exemple.
+ETAT: réglé
+-> aucun changement si le nom sélectionné est déjà présent lors d'un ajout de noeud sur le schéma
+-> aucun changement si le nom sélectionné est déja présent d'un edit node sur le schéma

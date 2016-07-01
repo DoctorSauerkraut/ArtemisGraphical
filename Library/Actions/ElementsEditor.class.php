@@ -27,13 +27,17 @@ class ElementsEditor {
 		include('./Views/show.php');
     }
     public function editNodeSchema($id, $label) {
-        $this->manager->updateNodeSchema($id,$label);
         $manager=$this->manager;
 		$donnees1= $this->manager->displayListNode($this->simuKey);
 		$donnees2= $this->manager->displayListLink($this->simuKey);	
 		$donnees3= $this->manager->displayListMessage($this->simuKey);
 		$tabNames =[];
-        
+		foreach ($donnees1 as $node) {
+			if($node->name()==$label){
+				return;
+			}
+		}
+        $this->manager->updateNodeSchema($id,$label);
 		foreach ($donnees2 as $element){
 			$name1 = $this->manager->displayNode($element->node1());
 			$name2 = $this->manager->displayNode($element->node2());				
