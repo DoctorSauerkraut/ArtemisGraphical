@@ -1,4 +1,6 @@
 <?php		
+    include("colors.php");
+
 	 function connectBDD() {
 	 	try
 		{
@@ -65,6 +67,7 @@
 		/////////////////////// création d'une nouvelle simulation ///////////////////////////////////////////////
 		$id=getSessionId(); 	// on recupère l'id de session actuel
 		$bdd = connectBDD();
+        
 		$sql 	= "SELECT id_simu FROM simulations"; // on selectionne toutes les simulations
 		$result = $bdd->query($sql);		// on execute la requete
 		$idSimu = 0;						// on initialise un compteur à 0
@@ -73,13 +76,16 @@
 				$idSimu = $data["id_simu"];	// tant qu'il y a des simulations le compteurs prend l'id le plus grand
 			}
 		}
+        
 		$idSimu++;		// le compteur prend l'id le plus grand +1
+        
 		$sql  = "INSERT INTO simulations (`id_simu`, `id_session`)"; // requete pour inserer la simulation 
 		$sql .= " VALUES (\"$idSimu\", \"$id\")";		
 		$result = $bdd->query($sql);	
 		$_SESSION["simuid"] = $idSimu;   // on attribue l'id de simu à la session en cours
 		$_SESSION["id_sel"] = $idSimu;
 		$simuKey = $_SESSION["simuid"];
+        
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		///////////////////////// enregistrement de l'archive ///////////////////////////////////////////////////
@@ -210,6 +216,7 @@
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
+
 	function activeColorBox($id,$color){
 		$col=substr($color, 1);
 		echo '<a class="activeColorBox button" style="background-color:'.$color.'" id="activeColorBox'.$id.'" onclick="activeColorBox(\''.$col.'\',\''.$id.'\')" >Color</a>';
@@ -240,6 +247,7 @@
 	echo'</div>';
 	$id='';
 	}
+
 
 function prepareTopo($donnees2,$donnees1){
 		foreach ($donnees2 as $link) { 						// pour chaque lien

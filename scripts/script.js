@@ -736,6 +736,7 @@ function activeInputFiles(){
 function import_simu(){
 	closePopup();
 	var monImport = document.getElementById('importSimu');
+    
 	if(monImport.value != ""){
 		document.getElementById('submitImport').click();
 	}else{

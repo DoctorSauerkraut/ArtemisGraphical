@@ -131,14 +131,6 @@
 		$_SESSION['topo']=$topo;
 		$_POST['path']=null;
 	}
-	else if ($action_server == "select_simu"){
-        $simuIdMgr = new SimuIdManager($manager, $simuKey);
-        $manager->setSimuId( $simuIdMgr->selectSimu($_POST["id_sel"]));
-	}	
-	else if ($action_server == "delete_simu"){
-        $simuIdMgr = new SimuIdManager($manager, $simuKey, $pathToCore);
-        $simuIdMgr->deleteSimu($_POST["id_sel"]);
-	}
 	else if ($action_server == "displayCritTable"){
 		include("./Views/criticalityTable.php");
 	}		
@@ -182,6 +174,16 @@
 	}
 
 
+    /* Simulation identification management */
+	else if ($action_server == "select_simu"){
+        $simuIdMgr = new SimuIdManager($manager, $simuKey);
+        $manager->setSimuId( $simuIdMgr->selectSimu($_POST["id_sel"]));
+	}	
+	else if ($action_server == "delete_simu"){
+        $simuIdMgr = new SimuIdManager($manager, $simuKey, $pathToCore);
+        $simuIdMgr->deleteSimu($_POST["id_sel"]);
+	}
+
     else if ($action_server == "results"){
 		$donnees1= $manager->displayListNode();	
 		include('./Views/results.php');
@@ -194,6 +196,9 @@
         $command = "java -jar ".$pathToCore."artemis_launcher.jar ".$simuKey;  
 	    exec($command, $output);
 	    
+        $command = "java -jar ".$pathToCore."artemis_grapher.jar ".$simuKey;
+		exec($command, $output);
+        
         include_once('./Views/results.php');
 	}
     else if ($action_server == "generateSimu"){
@@ -407,10 +412,11 @@
         $wcAnalysis     = Settings::getParameter("wcanalysis", $simuKey);
         
         include("./Templates/globalconfig.php");
-        include('./Templates/network.php');
+     //   include('./Templates/network.php');
         
         $command = "java -jar ".$pathToCore."artemis_messages.jar ".$simuKey;
 		exec($command, $output);  
+        echo "..".$command;
         
         $file = simplexml_load_file($pathToCore."ressources/".$simuKey."/input/messages.xml");
         if($file === FALSE) {
@@ -452,7 +458,7 @@
                        }
                   }
                  
-                 $manager->addMessage($finalPath, $period, $offset);
+                 $manager->addMessage($finalPath, $period, $offset, "#0000FF");
                  /* We get the message generated id */
                  $idCreatedMessage = $manager->getMessageID($finalPath, $period, $offset);
                  $message = new Message();

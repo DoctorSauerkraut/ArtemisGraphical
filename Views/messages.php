@@ -123,7 +123,7 @@ echo "</select>";
 
 echo "<td><a class=\"button blue\" onclick=\"saveSettings()\">Save</a></td></tr></table>";
 
-/*
+
 // Automatic task generation table
 echo "<table class=\"tableShow\"><tr>";
 echo "<td>Automatic task generation</td>";
@@ -149,14 +149,13 @@ echo "<td>Generate</td></tr>";
     
 echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a></td></tr>";
     echo "</table>";
-    */
 ?>
 	   
 		<div class="tabledetailsdiv" id="tabledetailsmessages">
 		<table class="tableShow">
 			<caption> Messages Table </caption>
 			<tr>
-				<th>Path</th><th>Period</th><th>Offset</th>
+                <th>ID</th></th><th>Path</th><th>Period</th><th>Offset</th>
 				<?php
 					for($cptTd=0;$cptTd<$cptLevels;$cptTd++) {	
 						echo "<th>WCTT ".$levelsTab[$cptTd]->getName()."</th>";
@@ -173,6 +172,7 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 			$newMessage='';
 			foreach($donnees3 as $element){ 	
 				echo "<tr>";
+                    echo "<td>".$element->id()."</td>";
 					echo "<td id=\"path_".$element->id()."\" >".$element->path()."</td>";
 					echo "<td id=\"peri_".$element->id()."\" onclick=\"editValue(this)\" >".$element->period()."</td>";
 					echo "<td id=\"offs_".$element->id()."\" onclick=\"editValue(this)\" >".$element->offset()."</td>";
@@ -209,6 +209,7 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 			 } 
 			
 				echo "<tr>";
+                echo "<td></td>";
 				echo "<td>";
 
 					echo '<input style="display: none; text-align: center; min-width:90px; margin-bottom: 5px;" type="text" value="" id="path" readonly="true"></input>';
