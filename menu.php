@@ -39,21 +39,20 @@ session_start();
 				$machineName = trim($machineName);
 
 				$loadArray[$machineName] += $currentLoad;
-
-
 			}
 		}
-		if($action_server == "messages") 	
-			include("./Views/messages.php");
-			
-		if($action_server == "links") 	
-			include("./Views/links.php");
-		if($action_server == "details"){
-			include("./Views/show.php");
-		} 
-			
-				
-	} 	else if($action_server=="settings") {
+
+        if($action_server == "messages") 	 {
+            include("./Views/messages.php");
+        }
+        if($action_server == "links") {
+            include("./Views/links.php");
+        }
+        if($action_server == "details"){
+            include("./Views/show.php");
+        } 
+    }
+ 	else if($action_server=="settings") {
 		include("./Views/settings.php");
 	}	else if($action_server=="mixedc"){
 		include("./Views/criticality.php");	
