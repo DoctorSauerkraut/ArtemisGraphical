@@ -46,7 +46,7 @@
 	<?php
 		/* Load computation */
 		$loadArray = array();
-		
+		// $donnees3= $manager->displayListMessage_();
 		foreach($donnees3 as $message) {
 			$path = explode(",", $message->path());
 			

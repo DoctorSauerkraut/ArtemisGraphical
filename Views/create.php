@@ -23,7 +23,7 @@
 			echo '<table class="tableShow">';
 		    echo '	<tr>';
 		    echo '		<td>Automatic topology generation</td>';
-		    echo '  	<td><input id="topodepth" type="text" value="0" />entry points</td>';
+		    echo '  	<td><input id="topodepth" type="text" value="0" /> entry points</td>';
 			            if($donnees1!=array()){
 			            	echo '<td><a class="button blue">Generate</a></td>';
 			            }else{

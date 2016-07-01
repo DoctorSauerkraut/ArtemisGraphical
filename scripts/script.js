@@ -78,8 +78,7 @@ function createSchema(){
 		type:"post",
 		data:"action=createSchema",
 		success:function(data){
-			loadCreate(data);
-			// document.getElementById("canvas").innerHTML = data;		
+			loadCreate(data);	
 		}
 	});
 }
@@ -535,7 +534,7 @@ function addMessageTable(idArray) {
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('thecolor').value+document.getElementById('inputColor').value,
+		data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('inputColor').value,
 		success:function(data){
 			data=data.trim();
 
@@ -631,7 +630,7 @@ function generateTopology() {
 	var depth = document.getElementById("topodepth").value;
 	
     openPopup();
-    document.getElementById("popup").innerHTML = '<div id="popuBodyText">Generating topology...</div>';
+    document.getElementById("popup").innerHTML = '<div id="popupBodyText">Generating topology...</div>';
     
 	$.ajax({
 		url:"./Controller.php",
@@ -778,23 +777,17 @@ function correction(){
 }
 
 function activeColorBox(curColor,id){
-	// alert('color: '+curColor+'\n id : '+id);
-	// alert(document.getElementById('thecolor').value.substr(0,1));
 	var color=document.getElementById('colorChoice'+id);
 	if(color.style.display=="none"){
 		color.style.display='block';
-		// color.classList.add('chooseColor');
 		if(document.getElementById('thecolor'+id).value==''){
 			if(document.getElementById('inputColor'+id).value.substr(0,1)!="#"){
-				// alert('c\'est la');
 				document.getElementById('inputColor'+id).value="#"+document.getElementById('inputColor'+id).value;
 			}else{
-				// document.getElementById('inputColor'+id).value=document.getElementById('inputColor'+id).value;
 				document.getElementById('inputColor'+id).value=document.getElementById('inputColor'+id).value;
 			}
 		}else{
 			if(document.getElementById('thecolor'+id).value.substr(0,1)!="#"){
-				// alert('on passe');
 				document.getElementById('inputColor'+id).value="#"+document.getElementById('thecolor'+id).value;
 			}else{
 				document.getElementById('inputColor'+id).value=document.getElementById('thecolor'+id).value;
@@ -802,16 +795,13 @@ function activeColorBox(curColor,id){
 			
 		}
 		document.getElementById('activeColorBox'+id).style.disabled=true;
-		// alert('the color: '+document.getElementById('thecolor').value+'\ninput : '+document.getElementById('inputColor').value+'\n'+id);
-		// document.getElementById('thecolor'+id).value=0;	
+	
 	}
 	else{
 		color.style.display='none';
-		// alert(curColor);
 		document.getElementById('activeColorBox'+id).style.backgroundColor='#'+curColor;
 		document.getElementById('inputColor'+id).value='#'+curColor;
 		document.getElementById('thecolor'+id).value='#'+curColor;
-		// alert('c\'est maintenant');
 	}
 }
 
