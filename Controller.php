@@ -323,7 +323,7 @@
         $elements->deleteMessage($_POST["id"]);	
 	}
     else if ($action_server == "addMessage"){
-        $wcetStr = (isset($_POST["wcetStr"]) && $_POST["wcetStr"] != "NC=:") ? $_POST["wcetStr"]:"NC=0:";
+        $wcetStr = (isset($_POST["wcetStr"]) && $_POST["wcetStr"] != "NC=:") ? $_POST["wcetStr"]:"NC=-1:";
         $elements = new ElementsEditor($manager, $simuKey);
         $elements->addMessage($_POST["path"], $_POST["offset"], $_POST["period"], $_POST["color"], $wcetStr);		
 	}
@@ -529,7 +529,6 @@
 				$manager->insertShape($id,'ES');
 			}
 		}
-		echo 'on a fini';
         include('./Templates/networkxml.php');
 	}
 		
