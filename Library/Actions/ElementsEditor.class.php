@@ -109,10 +109,15 @@ class ElementsEditor {
     
     public function addMessage($path, $offset, $period, $color, $wcetStr) {
 		$message = new Message();
-		
+        /* Add a default color */
+        if($color == "") {
+            $color = "#202030";
+        }
+        
 		$newpath = $this->manager->verrifyPath($path);
+  
 		if ($newpath != ""){
-			$insertedId = $this->manager->addMessage($newpath,$period,$offset,$color);
+			$insertedId = $this->manager->addMessage($newpath, $period, $offset, $color);
 			if($insertedId != "") {
 				$msg = new Message();
 				$msg->setId($insertedId);
@@ -127,7 +132,6 @@ class ElementsEditor {
 					$msg->_setWcet($wcet, $critLvl);
 					$cptStr++;
 				}
-
 			}
 			}else {
 				echo "/!\ Impossible Path, you need to create the corresponding links or nodes. /!\ ";

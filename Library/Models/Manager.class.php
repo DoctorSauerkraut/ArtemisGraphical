@@ -60,17 +60,28 @@ class Manager{
  
  public function displayNode($id){
 	 $id = (int) $id; 
-	 
 	 $request='SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node WHERE id = '.$id;
 
 	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
 	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
      
 	 $tmp =new node();
-	 $tmp->hydrate($donnees);
+
+     $tmp->hydrate($donnees);
 	 return $tmp;
  }
  
+    public function displayNodeByIp($ip, $keySimu) {
+	 $request='SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node WHERE ip_address = '.$ip.' AND id_simu = '.$keySimu;
+
+	 $q= $this->_db->query($request)or die(print_r($_db->errorInfo()));
+	 $donnees = $q->fetch(PDO::FETCH_ASSOC);
+     
+	 $tmp =new node();
+
+     $tmp->hydrate($donnees);
+	 return $tmp;
+    }
   public function displayNodeByName($name){
 	$sql  = 'SELECT id, name, ip_address, scheduling, displayed, speed, shape FROM node WHERE name = "'.$name.'"';
 	$sql .= " AND id_simu = \"".$this->simulationId."\""; 
@@ -267,7 +278,6 @@ public function updateNodeSchema($id, $name){
  }
  
  public function displayListMessage($simuId){
- 	
  	$this->simulationId = $simuId;
  	return $this->displayListMessage_();
  }
@@ -337,9 +347,11 @@ public function updateNodeSchema($id, $name){
 		 $newpath = $newpath.trim($element).",";  
 		}
 	$newpath=substr($newpath,0,-1);
+     
 	  $nodes = explode(",",$newpath);
 	  $nodesid=[];
-	  
+	  $nodesip=[];
+     
 	  foreach ($nodes as $element ){
 	  	$tmp=$this->displayNodeByName($element);
 	  	
@@ -349,11 +361,12 @@ public function updateNodeSchema($id, $name){
 	  
 	  	array_push($nodesid,$tmp->id());
 	  }
+
 	$donnees = $this->displayListLink_();
 
 	$counter = 0;
 
-	foreach ( $donnees as $element ){
+	foreach ( $donnees as $element ){    
 		for($i = 0, $size = count($nodesid)-1;$i<$size; $i++){
 			if ($nodesid[$i] == $element->node1() && $nodesid[$i+1] == $element->node2() ||
 					 $nodesid[$i] == $element->node2() && $nodesid[$i+1] == $element->node1()){

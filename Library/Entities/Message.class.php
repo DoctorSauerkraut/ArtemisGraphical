@@ -12,7 +12,8 @@
 		private $_offset;
 		private $_wcet;
 		private $_color;
-
+        private $_idKernel;
+        
 		private static $_idnb=0;
 
 		// Methodes
@@ -37,6 +38,9 @@
 		}
 
 		//accesseur 
+        public function idKernel() {
+            return $this->_idKernel;
+        }
 		public function id(){
 			return $this->_id;
 		}
@@ -82,6 +86,10 @@
 			$this->_color = $colorP;
 		}
 		
+        public function setIdKernel($idK) {
+            $this->_idKernel = $idK;
+        }
+        
 		public function getAllWcet() {
 			$sql 	= "SELECT wcets.value, critlevels.code FROM wcets, critlevels ";
 			$sql   .= "WHERE id_msg=\"".$this->_id."\" AND critlevels.id = wcets.id_clvl";

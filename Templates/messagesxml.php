@@ -9,13 +9,10 @@
 		$cptLevelsLimit++;
 	}
 
-	include("./Templates/globalconfig.php");
-	include("./Templates/networkxml.php");
-
 	/* Messages file */
 	$messagesDom = new DomDocument();
 	$messages=$messagesDom->createElement("Messages");
-	
+
  	foreach($list_nodes as $currentNode){
 		foreach ($listMessages as $singleMessage) {
  			$arr=explode(",", $singleMessage->path(), 2);
@@ -65,5 +62,5 @@
  	}
 	$messagesDom->appendChild($messages);
 
-    $messagesDom->save($pathToCore."ressources/".$simuKey.'/input/messages.xml');
+    $messagesDom->save("ressources/".$simuKey.'/input/messages.xml');
 ?>

@@ -27,7 +27,7 @@ $dom->appendChild($graphConfig);
 $nodesTag=$dom->createElement("nodes");
 foreach($list_nodes as $node) {
 	if($node->isDisplayed() == 0) {
-		$string .= trim($node->id()).",";
+		$string .= trim($node->ipAddress()).",";
 	}
 }
 $nodesTag->appendChild($dom->createTextNode(substr($string, 0, strlen($string)-1)));
@@ -46,7 +46,7 @@ foreach ($messages as $element){
 }
 $graphConfig->appendChild($messageColor);
 
-if(!file_exists($pathToCore."ressources/".$simuKey."/input/")){
+if(!file_exists("ressources/".$simuKey."/input/")){
     $oldmask = umask(0);
     if(!mkdir("ressources/".$simuKey."/input/", 0777, true)) {
            die("Les permissions sont insuffisantes pour lancer la simulation");
@@ -55,6 +55,6 @@ if(!file_exists($pathToCore."ressources/".$simuKey."/input/")){
 }
 
 
-$dom->save($pathToCore."ressources/".$simuKey.'/input/graphconfig.xml');
+$dom->save("ressources/".$simuKey.'/input/graphconfig.xml');
 
 ?>

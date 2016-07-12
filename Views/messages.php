@@ -61,7 +61,7 @@ echo "<td><input type=\"text\" id=\"elatency\" value=\"".Settings::getParameter(
 echo "<td>";
 echo "<select id=\"wcttmodel\">";
 
-$wcttModels = array("STR", "LIN", "GAU", "GCO", "GAP");
+$wcttModels = array("LIN", "GAU", "GCO", "GAP");
 
 foreach($wcttModels as $model) {
     echo "<option value=\"$model\" ";   
@@ -125,6 +125,7 @@ echo "<td><a class=\"button blue\" onclick=\"saveSettings()\">Save</a></td></tr>
 
 
 // Automatic task generation table
+/*
 echo "<table class=\"tableShow\"><tr>";
 echo "<td>Automatic task generation</td>";
 echo "<td>Number of tasks</td>";
@@ -148,9 +149,10 @@ echo "<td>Generate</td></tr>";
     echo "<td><input type=\"text\" class=\"autogenTextField\" id=\"autoload\" value=\"".Settings::getParameter("autoload", $_SESSION["simuid"])."\"/> load < 1.0</td></td>";
     
 echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a></td></tr>";
-    echo "</table>";
+    echo "</table>";*/
 ?>
-	   
+	
+
 		<div class="tabledetailsdiv" id="tabledetailsmessages">
 		<table class="tableShow">
 			<caption> Messages Table </caption>
@@ -228,7 +230,7 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 				}
 				
 				echo '<td>';
-				    activeColorBox('');
+				    activeColorBox('333333');
 				    
 				echo '</td>';
 

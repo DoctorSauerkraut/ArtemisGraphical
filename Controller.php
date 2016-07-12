@@ -1,7 +1,7 @@
  <?php		
  	session_start();
  
-    $pathToCore = "./";
+    $pathToCore = "./core/";
 
 	/* We get the action sent by the client */
 	$action_server = isset($_POST["action"]) ? $_POST["action"]	: "";
@@ -212,14 +212,12 @@
 		$donnees= $manager->displayLink($_POST["id"]);
 		$manager->deleteLink($_POST['id']);
 		$manager->verifyLinkDeletion($donnees->node1(),$donnees->node2());
-			
 	}
     else if ($action_server == "recupInfoAndDeleteNode"){
 	
 		$donnees=$manager->displayNode($_POST['id']);
 		$manager->deleteNode($_POST['id']);
 		$manager->verifyNodeDeletion($_POST["id"],$donnees->name());
-			
 	}
     else if ($action_server == "fillPopUp"){
 	
@@ -260,7 +258,6 @@
 		}
 
 		$manager->addLink($node1,$node2);
-			
 	}
 	else if ($action_server == "updateNode"){
 		
@@ -317,7 +314,7 @@
 	}
     else if ($action_server == "editLink"){
         $elements = new ElementsEditor($manager, $simuKey);
-        $elements->editLink($_POST['node1'], $_POST['node2']);			
+        $elements->editLink($_POST['node1'], $_POST['node2']);	
 	}
     else if ($action_server == "editMessage"){
         $elements = new ElementsEditor($manager, $simuKey);
@@ -330,7 +327,7 @@
     else if ($action_server == "addMessage"){
         $wcetStr = (isset($_POST["wcetStr"]) && $_POST["wcetStr"] != "NC=:") ? $_POST["wcetStr"]:"NC=-1:";
         $elements = new ElementsEditor($manager, $simuKey);
-        $elements->addMessage($_POST["path"], $_POST["offset"], $_POST["period"], $_POST["color"], $wcetStr);		
+        $elements->addMessage($_POST["path"], $_POST["offset"], $_POST["period"], $_POST["color"], $wcetStr, 0);		
 	}
         
 
@@ -412,23 +409,26 @@
         $wcAnalysis     = Settings::getParameter("wcanalysis", $simuKey);
         
         include("./Templates/globalconfig.php");
-     //   include('./Templates/network.php');
+        include('./Templates/networkxml.php');
+        include('./Templates/messagesxml.php');
         
         $command = "java -jar ".$pathToCore."artemis_messages.jar ".$simuKey;
-		exec($command, $output);  
+        exec($command, $output);  
         
-        $file = simplexml_load_file($pathToCore."ressources/".$simuKey."/input/messages.xml");
+        
+        $file = simplexml_load_file("ressources/".$simuKey."/input/messages.xml");
         if($file === FALSE) {
             return;
         }
         else {
-            
              foreach($file->children() as $message) {
-                 $id = $message->attributes()["id"];
+                 $idKernel = $message->attributes()["id"];
                  $path      = "";
                  $period    = "";
                  $offset    = "";
-
+                 $wcetStr   = "";
+                 $elementsEditor = new ElementsEditor($manager, $simuKey);
+                 
                   foreach($message->children() as $critLvl) {
                        $lvl = $critLvl->attributes()["level"];
                       
@@ -439,7 +439,7 @@
                             $finalPath = "";
                              
                             while($path[$i] != "") {
-                                $finalPath .= ($manager->displayNode($path[$i])->name().",");
+                                $finalPath .= ($manager->displayNodeByIp($path[$i], $simuKey)->name().",");
                                 $i++;
                             }
                              /* We delete the last comma */
@@ -452,15 +452,16 @@
                              $offset = $property;
                          } 
                          if($property->getName() == "wcet") {
-                             $wcet = $property;
+                             $wcetStr = $property.":";
                          } 
                        }
                   }
                  
+                $elementsEditor->addMessage($finalPath, $period, $offset, "#0000FF", $wcetStr);
                  
-                $manager->addMessage($finalPath, $period, $offset, "#0000FF");
                  /* We get the message generated id */
                  $idCreatedMessage = $manager->getMessageID($finalPath, $period, $offset);
+
                  $message = new Message();
                 $message->setId($idCreatedMessage);
                  $message->_setWcet($wcet, $lvl);
@@ -469,11 +470,12 @@
     }
     else if ($action_server == "generateTopology") {
 		$depth = isset($_POST["topoDepth"]) ? $_POST["topoDepth"] : "0";  
+        include('./Templates/networkxml.php');
         
         $command = "java -jar ".$pathToCore."artemis_topology.jar ".$simuKey." ".$depth;
 		exec($command, $output);   
         
-        $file = simplexml_load_file($pathToCore."ressources/".$simuKey."/input/network.xml");
+        $file = simplexml_load_file("ressources/".$simuKey."/input/network.xml");
          
         if($file === FALSE) {
             echo "NO";
@@ -488,7 +490,7 @@
                 $name = $machine->attributes()["name"];
                 $id = $machine->attributes()["id"];
                 $idArray["".$id] = $name;
-                $manager->addNode($name, 0, 'FIFO');
+                $manager->addNode($name, $id, 'FIFO');
             }
 
              foreach($file->children() as $machine) {
@@ -521,9 +523,11 @@
         
 		foreach ($donnees2 as $element){
 			$name1 = $manager->displayNode($element->node1());
-			$name2 = $manager->displayNode($element->node2());				
+			$name2 = $manager->displayNode($element->node2());		
+            
 			array_push($tabNames,$name1->name(),$name2->name());
-			$nodes[$element->node1()]=$nodes[$element->node1()]+1;// on crée un tableau du nombre de 
+			
+            $nodes[$element->node1()]=$nodes[$element->node1()]+1;// on crée un tableau du nombre de 
 			$nodes[$element->node2()]=$nodes[$element->node2()]+1;// liens par noeud
 		}
 		print_r($nodes);

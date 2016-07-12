@@ -28,7 +28,7 @@ class SimulationManager {
 		/* Parsing the path string */
 		foreach ($listMessages as $singleMessage) {
 			$pathId[$singleMessage->id()]=$singleMessage->path();
-			
+            
 			$path = split(",", $pathId[$singleMessage->id()]);
 			
 			foreach ($list_nodes as $element1) {				
@@ -38,7 +38,7 @@ class SimulationManager {
 				while($path[$cptPath] != "") {
 					$currentPath = trim($path[$cptPath]);
 					if($currentPath == trim($element1->name())) {
-							$path[$cptPath] = $element1->id();
+							$path[$cptPath] = $element1->ipAddress();
 					}
 					$strPath .= $path[$cptPath].",";
 					$cptPath++;
@@ -80,7 +80,9 @@ class SimulationManager {
         $manager = $this->manager;
         
 		include('./Templates/graphconfig.php');
-		include('./Templates/network.php');
+		include('./Templates/networkxml.php');
+        include('./Templates/messagesxml.php');
+        include('./Templates/globalconfig.php');
     }
 }
 

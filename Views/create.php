@@ -36,8 +36,6 @@
 
   
 	if($donnees1!=array()){
-		
-
 		echo '<div class="buttons">';
 		echo '<a class="button myst addNodeToTopo" onclick="popupNewNode()">Add node</a>';
 		echo '<div class="RadioForTopo">';

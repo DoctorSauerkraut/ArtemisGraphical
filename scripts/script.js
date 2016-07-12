@@ -536,6 +536,7 @@ function addMessageTable(idArray) {
 		type:"post",
 		data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('inputColor').value,
 		success:function(data){
+            alert(data);
 			data=data.trim();
 
 			/* Reload page */
@@ -660,6 +661,7 @@ function generateMessagesSet() {
 		type:"post",
 		data:"action=generateMessagesSet"+"&autogen="+autogen+"&highestwcet="+hwcet+"&autoload="+autoload+"&autotasks="+tasks,
 		success:function(data){
+            alert(data);
             closePopup();
             loadContent("messages");
 		}
@@ -778,6 +780,7 @@ function correction(){
 
 function activeColorBox(curColor,id){
 	var color=document.getElementById('colorChoice'+id);
+    
 	if(color.style.display=="none"){
 		color.style.display='block';
 		if(document.getElementById('thecolor'+id).value==''){

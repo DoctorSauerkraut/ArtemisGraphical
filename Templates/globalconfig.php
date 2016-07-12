@@ -64,5 +64,6 @@
 		$critswitchs->appendChild($critSwitch);
 	}
 	$simuConfigDom->appendChild($simuConfig);
-    $simuConfigDom->save($pathToCore."ressources/".$simuKey.'/input/config.xml');
+    $simuConfigDom->save("ressources/".$simuKey.'/input/config.xml');
+
 ?>
