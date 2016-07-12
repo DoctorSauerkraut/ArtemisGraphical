@@ -8,7 +8,7 @@
             4e chiffre : Correction de bugs
     -->
 
-	<p>Artemis v1.15.6.2 - Feedback : cros@ece.fr - <a onclick="loadContent('credits')">Credits</a></p>
+	<p>Artemis v1.15.6.3 - Feedback : cros@ece.fr - <a onclick="loadContent('credits')">Credits</a></p>
 	<p id="numSimu">
 	<?php 
 		if($_SESSION['simuid']!=0){
