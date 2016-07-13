@@ -383,13 +383,16 @@ function prepareTopo($donnees2,$donnees1){
 			echo '<a id="zoomplus" onclick="zoomplus();"></a>';
 			echo '<a id="zoomminus" onclick="zoomminus();"></a>';
 		}
-		if(($taillemax*50)>1250 || ($rankmax*80) > 800){
-			$scroll='overflow: scroll;';
+		if(($taillemax*50)>1250){
+			$scroll.='overflow-x: scroll;';
+		} 
+		if(($rankmax*80) > 800){
+			$scroll.='overflow-y: scroll;';
 		}
         else {
             
         }
-		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax)*50).'px;'.$scroll.'">';
+		echo '<div id="topology" style="width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;'.$scroll.'">';
 		echo '<canvas id="canvas" onclick="reloadgraph(event);"style="transform: scale(1); width:'.($taillemax*50).'px; height:'.(($rankmax+1)*80).'px;"></canvas>';
 		foreach($topo as $node){
 			if ($node['parent']=='none'){

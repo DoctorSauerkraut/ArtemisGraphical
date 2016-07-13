@@ -230,7 +230,7 @@ echo "<td><a class=\"button blue\" onclick=\"generateMessagesSet()\">Generate</a
 				}
 				
 				echo '<td>';
-				    activeColorBox('333333');
+				    activeColorBox('');
 				    
 				echo '</td>';
 

@@ -530,13 +530,12 @@ function addMessageTable(idArray) {
 		
 		cptId++;
 	}
-	
+
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
 		data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('inputColor').value,
 		success:function(data){
-            alert(data);
 			data=data.trim();
 
 			/* Reload page */
@@ -778,7 +777,7 @@ function correction(){
 	}
 }
 
-function activeColorBox(curColor,id){
+function activeColorBox(id,curColor){
 	var color=document.getElementById('colorChoice'+id);
     
 	if(color.style.display=="none"){
