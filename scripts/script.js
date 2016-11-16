@@ -777,7 +777,7 @@ function correction(){
 	}
 }
 
-function activeColorBox(curColor,id){
+function activeColorBox(id,curColor){
 	var color=document.getElementById('colorChoice'+id);
     
 	if(color.style.display=="none"){
