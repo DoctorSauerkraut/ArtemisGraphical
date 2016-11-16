@@ -424,10 +424,12 @@ function addNode(name, ip, sched, crit){
 function addNodeToTopo(){
 	var newNodeName=document.getElementById('newNodeName').value;
 	var nodeToLink=document.getElementById('nodeToLink').value;
+    var ipAddr=document.getElementById('newNodeIP').value;
+    
 	$.ajax({
 		url:"./Controller.php",
 		type:"post",
-		data:'action='+'addNodeTopo'+'&name='+newNodeName+'&ip=0'+'&sched=FIFO'+'&crit=0'+'&id1='+newNodeName+'&id2='+nodeToLink,
+		data:'action='+'addNodeTopo'+'&name='+newNodeName+'&ip='+ipAddr+'&sched=FIFO'+'&crit=0'+'&id1='+newNodeName+'&id2='+nodeToLink,
 		success:function(data){
 			// alert("on");
 			createSchema();
@@ -530,15 +532,12 @@ function addMessageTable(idArray) {
 		
 		cptId++;
 	}
-	
+
 	$.ajax({
 		url:"./Controller.php",
-		type:"post",
-		data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('inputColor').value,
+		type:"post",	data:'action='+'addMessage'+'&path='+document.getElementById('path').value.trim()+'&period='+document.getElementById('period').value+'&offset='+document.getElementById('offset').value+'&wcetStr='+wcetStr+'&color='+document.getElementById('inputColor').value,
 		success:function(data){
-            alert(data);
 			data=data.trim();
-
 			/* Reload page */
 			loadContent('messages');
 		}

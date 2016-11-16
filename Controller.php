@@ -252,6 +252,7 @@
 		$bdd = connectBDD();
 		$result = $bdd->query($sql);
 		$shape=$result->fetch();
+        
 		if($shape['shape']=='ES'){
 			$sql="UPDATE node SET shape='S' WHERE id=\"$node2\"" ;
 			$result = $bdd->query($sql);

@@ -63,6 +63,9 @@
 	<table id="tableNewNode" >
 		<tr>
 			<td>Name:</td><td><input id="newNodeName" value="new value"> </td>
+        </tr>
+        <tr>
+            <td>IP:</td><td><input id="newNodeIP" value="new value"> </td>
 		</tr>
 		<tr>
 			<td>Linked to:</td><td><select id="nodeToLink" >

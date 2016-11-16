@@ -18,17 +18,17 @@
 		
         $links = $networkDom->createElement("Links");
         foreach ($donnees2 as $element2){
-            $idNodeS = $manager->displayNode($element2->node1())->ipAddress();
-           $idNodeD = $manager->displayNode($element2->node2())->ipAddress();
+            $ipNodeS = $manager->displayNode($element2->node1())->ipAddress();
+            $ipNodeD = $manager->displayNode($element2->node2())->ipAddress();
 
-            if($idNodeD == $currentNode->ipAddress()){
+            if($ipNodeD == $currentNode->ipAddress()){
                 $machinel=$networkDom->createElement("machinel");
-                $machinel->setAttribute("id", $idNodeD);
+                $machinel->setAttribute("id", $ipNodeD);
                 $links->appendChild($machinel);
                 $machine->appendChild($links);
-            }else if($idNodeS == $currentNode->ipAddress()){	
+            }else if($ipNodeS == $currentNode->ipAddress()){	
                 $machinel=$networkDom->createElement("machinel");
-                $machinel->setAttribute("id", $idNodeS);
+                $machinel->setAttribute("id", $ipNodeS);
                 $links->appendChild($machinel);
                 $machine->appendChild($links);	
             }
